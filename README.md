@@ -1,6 +1,6 @@
 # Pendulum C++
 
-[Pendulum] is datetime library originally implemented by Python.
+[Pendulum] is datetime library implemented by Python. This library is C++ porting.
 
 ## Requirements
 
