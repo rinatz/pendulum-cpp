@@ -59,7 +59,7 @@ class Date {
     }
 
     //
-    // Additions
+    // Addition
     //
 
     Date add_years(int y) const { return add(y, 0, 0); }
