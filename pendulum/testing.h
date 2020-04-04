@@ -10,18 +10,17 @@ namespace pendulum {
 
 namespace internal {
 
-inline std::unique_ptr<DateTime>& mutable_test_now() {
-    static std::unique_ptr<DateTime> test_now;
-    return test_now;
+inline std::unique_ptr<DateTime>& test_now() {
+    static std::unique_ptr<DateTime> dt;
+    return dt;
 }
 
 }  // namespace internal
 
-inline void set_test_now(const DateTime& now) {
-    internal::mutable_test_now().reset(new DateTime(now));
-}
-
-inline void set_test_now() { internal::mutable_test_now().reset(); }
+inline bool has_test_now() { return internal::test_now() != nullptr; }
+inline DateTime get_test_now() { return *internal::test_now(); }
+inline void set_test_now(const DateTime& now) { internal::test_now().reset(new DateTime(now)); }
+inline void set_test_now() { internal::test_now().reset(); }
 
 inline void test(const DateTime& now, std::function<void()> func) {
     set_test_now(now);

@@ -30,10 +30,8 @@ inline DateTime local(int y, int m, int d, int hh, int mm = 0, int ss = 0) {
 }
 
 inline DateTime now(const std::string& tz = "local") {
-    const auto& test_now = internal::mutable_test_now();
-
-    if (test_now) {
-        return *test_now;
+    if (has_test_now()) {
+        return get_test_now();
     }
 
     const auto& tz_ = internal::timezone(tz);
