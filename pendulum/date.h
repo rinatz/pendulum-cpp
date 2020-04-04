@@ -22,6 +22,13 @@ class Date {
 
     explicit Date(const cctz::civil_day& ymd) : ymd_(ymd) {}
 
+    Date(const Date&) = default;
+    Date(Date&&) = default;
+    ~Date() = default;
+
+    Date& operator=(const Date&) = default;
+    Date& operator=(Date&&) = default;
+
     //
     // Attributes
     //
@@ -47,9 +54,7 @@ class Date {
     // String formatting
     //
 
-    std::string to_date_string() const {
-        return format("%Y-%m-%d");
-    }
+    std::string to_date_string() const { return format("%Y-%m-%d"); }
 
     std::string format(const std::string& fmt) const {
         const auto& tz = cctz::utc_time_zone();

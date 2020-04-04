@@ -58,6 +58,13 @@ class DateTime {
 
     DateTime(const cctz::civil_second& cs, const cctz::time_zone& tz) : cs_(cs), tz_(tz) {}
 
+    DateTime(const DateTime&) = default;
+    DateTime(DateTime&&) = default;
+    ~DateTime() = default;
+
+    DateTime& operator=(const DateTime&) = default;
+    DateTime& operator=(DateTime&&) = default;
+
     //
     // Attributes
     //
