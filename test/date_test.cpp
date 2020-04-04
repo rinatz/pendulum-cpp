@@ -41,7 +41,7 @@ TEST(DateTest, StringFormatting) {
     Date date(2020, 4, 17);
 
     EXPECT_THAT(date.to_date_string(), "2020-04-17");
-    EXPECT_THAT(date.format("%d/%m/%Y"), "17/04/2020");
+    EXPECT_THAT(date.format("I was born on %d/%m %Y"), "I was born on 17/04 2020");
 }
 
 TEST(DateTest, Addition) {
