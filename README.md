@@ -72,7 +72,6 @@ dt.offset_hours();  // 9
 ```cpp
 const auto& now = pendulum::now();
 
-now;                            // 2020-04-03 22:13:22
 now.year(2021);                 // 2021-04-03 22:13:22
 now.minute(14);                 // 2020-04-03 22:14:22
 now.on(2021, 5, 10);            // 2021-05-10 22:13:22
