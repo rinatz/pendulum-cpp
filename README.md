@@ -126,5 +126,25 @@ dt.previous();                      // 2020-03-27 00:00:00
 dt.previous(/* keep_time= */true);  // 2020-03-27 15:00:00
 ```
 
+### Testing
+
+```cpp
+const auto& cpp98 = pendulum::datetime(1998, 9, 1);
+
+// Set the mock
+pendulum::set_test_now(cpp98);
+pendulum::now();        // 1998-09-01T00:00:00+00:00
+
+// Clear the mock
+pendulum::set_test_now();
+pendulum::now();        // 2020-04-04T23:30:52+09:00
+
+// Scoped mock
+pendulum::test(cpp98, [&]() {
+    pendulum::now();    // 1998-09-01T00:00:00+00:00
+});
+pendulum::now();        // 2020-04-04T23:30:52+09:00
+```
+
 [Pendulum]:https://pendulum.eustace.io/
 [cctz]:https://github.com/google/cctz

@@ -5,5 +5,6 @@
 #include "pendulum/date.h"
 #include "pendulum/datetime.h"
 #include "pendulum/helpers.h"
+#include "pendulum/testing.h"
 
 #endif  // PENDULUM_H_

@@ -8,6 +8,7 @@
 #include "pendulum/constants.h"
 #include "pendulum/date.h"
 #include "pendulum/datetime.h"
+#include "pendulum/testing.h"
 
 namespace pendulum {
 
@@ -22,32 +23,35 @@ inline DateTime datetime(int y, int m, int d, int hh, int mm = 0, int ss = 0,
     return DateTime(y, m, d, hh, mm, ss, tz);
 }
 
-inline DateTime now(const std::string& tz = "local") {
-    const auto& tz_ = internal::timezone(tz);
-    const auto& cs = cctz::convert(std::chrono::system_clock::now(), tz_);
-
-    return DateTime(cs, tz_);
-}
-
 inline DateTime local(int y = 1970, int m = 1, int d = 1) { return datetime(y, m, d, "local"); }
 
 inline DateTime local(int y, int m, int d, int hh, int mm = 0, int ss = 0) {
     return datetime(y, m, d, hh, mm, ss, "local");
 }
 
+inline DateTime now(const std::string& tz = "local") {
+    const auto& test_now = internal::mutable_test_now();
+
+    if (test_now) {
+        return *test_now;
+    }
+
+    const auto& tz_ = internal::timezone(tz);
+    const auto& cs = cctz::convert(std::chrono::system_clock::now(), tz_);
+
+    return DateTime(cs, tz_);
+}
+
 inline DateTime today(const std::string& tz = "local") {
-    const auto& dt = now(tz);
-    return DateTime(dt.year(), dt.month(), dt.day(), tz);
+    return now(tz).start_of("day");
 }
 
 inline DateTime yesterday(const std::string& tz = "local") {
-    const auto& dt = now(tz);
-    return DateTime(dt.year(), dt.month(), dt.day() - 1, tz);
+    return today(tz).add_days(-1);
 }
 
 inline DateTime tomorrow(const std::string& tz = "local") {
-    const auto& dt = now(tz);
-    return DateTime(dt.year(), dt.month(), dt.day() + 1, tz);
+    return today(tz).add_days(1);
 }
 
 inline DateTime from_format(const std::string& input, const std::string& fmt,
