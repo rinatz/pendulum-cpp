@@ -3,7 +3,6 @@
 #include <limits>
 
 #include "pendulum/datetime.h"
-#include "pendulum/pendulum.h"
 
 namespace pendulum {
 
