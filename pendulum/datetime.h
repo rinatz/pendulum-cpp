@@ -44,9 +44,6 @@ class DateTime {
 
     DateTime() { *this = epoch(); }
 
-    DateTime(const Date& date, const std::string& tz = "UTC")
-            : DateTime(date.year(), date.month(), date.day(), tz) {}
-
     explicit DateTime(int y, int m = 1, int d = 1, const std::string& tz = "UTC") : cs_(y, m, d) {
         tz_ = internal::timezone(tz);
     }
@@ -55,6 +52,9 @@ class DateTime {
             : cs_(y, m, d, hh, mm, ss) {
         tz_ = internal::timezone(tz);
     }
+
+    DateTime(const Date& date, const std::string& tz = "UTC")
+            : DateTime(date.year(), date.month(), date.day(), tz) {}
 
     DateTime(const cctz::civil_second& cs, const cctz::time_zone& tz) : cs_(cs), tz_(tz) {}
 
@@ -68,8 +68,8 @@ class DateTime {
     int hour() const { return cs_.hour(); }
     int minute() const { return cs_.minute(); }
     int second() const { return cs_.second(); }
-    Date date() const { return Date(year(), month(), day()); }
 
+    Date date() const { return Date(year(), month(), day()); }
     int day_of_week() const { return date().day_of_week(); }
     int day_of_year() const { return date().day_of_year(); }
     int week_of_month() const { return date().week_of_month(); }
@@ -89,7 +89,7 @@ class DateTime {
 
     time_t timestamp() const {
         const auto& tp = cctz::convert(cs_, tz_);
-        return tp.time_since_epoch().count();
+        return std::chrono::system_clock::to_time_t(tp);
     }
 
     //
@@ -144,7 +144,7 @@ class DateTime {
     }
 
     //
-    // Additions
+    // Addition
     //
 
     DateTime add_years(int y) const { return add_date(y, 0, 0); }
@@ -244,11 +244,6 @@ class DateTime {
     //
     // Internals
     //
-
-    static const DateTime& max() {
-        static DateTime dt(9999, 12, 31, 23, 59, 59, "UTC");
-        return dt;
-    }
 
     static const DateTime& epoch() {
         static DateTime dt(1970, 1, 1, "UTC");
