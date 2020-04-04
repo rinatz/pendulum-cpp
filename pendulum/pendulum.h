@@ -2,6 +2,7 @@
 #define PENDULUM_H_
 
 #include <chrono>
+#include <ctime>
 #include <string>
 
 #include "pendulum/constants.h"
@@ -25,10 +26,7 @@ inline DateTime now(const std::string& tz = "local") {
     const auto& tz_ = internal::timezone(tz);
     const auto& cs = cctz::convert(std::chrono::system_clock::now(), tz_);
 
-    DateTime dt;
-    dt.instance(cs, tz_);
-
-    return dt;
+    return DateTime(cs, tz_);
 }
 
 inline DateTime local(int y = 1970, int m = 1, int d = 1) { return datetime(y, m, d, "local"); }
@@ -61,10 +59,15 @@ inline DateTime from_format(const std::string& input, const std::string& fmt,
 
     const auto& cs = cctz::convert(tp, timezone);
 
-    DateTime dt;
-    dt.instance(cs, timezone);
+    return DateTime(cs, timezone);
+}
 
-    return dt;
+inline DateTime from_timestamp(time_t timestamp, const std::string& tz = "UTC") {
+    const auto& timezone = internal::timezone(tz);
+    const auto& tp = std::chrono::system_clock::from_time_t(timestamp);
+    const auto& cs = cctz::convert(tp, timezone);
+
+    return DateTime(cs, timezone);
 }
 
 }  // namespace pendulum
