@@ -38,8 +38,10 @@ dt.timezone_name();
 ```
 
 ```cpp
-// current time in local timezone
-const auto& now = pendulum::now();
+const auto& now = pendulum::now();              // 2020-04-05T13:21:37+09:00
+const auto& today = pendulum::today();          // 2020-04-05T00:00:00+09:00
+const auto& yesterday = pendulum::yesterday();  // 2020-04-04T00:00:00+09:00
+const auto& tomorrow = pendulum::tomorrow();    // 2020-04-06T00:00:00+09:00
 ```
 
 ### Parsing
