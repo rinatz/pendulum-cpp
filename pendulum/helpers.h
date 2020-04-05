@@ -52,18 +52,6 @@ inline DateTime tomorrow(const std::string& tz = "local") {
     return today(tz).add_days(1);
 }
 
-inline DateTime from_format(const std::string& input, const std::string& fmt,
-                            const std::string& tz = "UTC") {
-    const auto& timezone = internal::timezone(tz);
-
-    cctz::time_point<std::chrono::seconds> tp;
-    cctz::parse(fmt, input, timezone, &tp);
-
-    const auto& cs = cctz::convert(tp, timezone);
-
-    return DateTime(cs, timezone);
-}
-
 inline DateTime from_timestamp(time_t timestamp, const std::string& tz = "UTC") {
     const auto& timezone = internal::timezone(tz);
     const auto& tp = std::chrono::system_clock::from_time_t(timestamp);

@@ -42,9 +42,32 @@ dt.timezone_name();
 const auto& now = pendulum::now();
 ```
 
+### Parsing
+
 ```cpp
-// parse string
 const auto& dt = pendulum::from_format("2020-04-03", "%Y-%m-%d", "Asia/Tokyo");
+if (dt.has_value()) {
+    *dt;                            // 2020-04-03T00:00:00+09:00
+}
+
+const auto& dt = pendulum::parse("2020-04-03", "Asia/Tokyo");
+if (dt.has_value()) {
+    dt.value();                     // 2020-04-03T00:00:00+09:00
+}
+
+const auto& dt = pendulum::parse("2020/04/03", "Asia/Tokyo");
+if (dt.has_value()) {
+    dt.value();                     // 2020-04-03T00:00:00+09:00
+}
+
+const auto& dt = pendulum::parse("20200403", "Asia/Tokyo");
+if (dt.has_value()) {
+    *dt;                            // 2020-04-03T00:00:00+09:00
+}
+
+// invalid string
+const auto& dt = pendulum::parse("10", "Asia/Tokyo");
+dt.value_or(DateTime::epoch());     // 1970-01-01T00:00:00+00:00
 ```
 
 ### Attributes
