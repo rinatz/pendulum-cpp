@@ -42,7 +42,7 @@ inline Optional<DateTime> parse(const std::string& input, const std::string& tz 
         }
     }
 
-    // cctz cannot parse "%Y%m%d"
+    // cctz cannot parse '%Y%m%d'
     int year, month, day;
     auto count = std::sscanf(input.c_str(), "%04d%02d%02d", &year, &month, &day);
     if (count == 3) {
