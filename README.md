@@ -98,14 +98,16 @@ dt.offset_hours();  // 9
 ### Fluent helpers
 
 ```cpp
-const auto& now = pendulum::now();
+const auto& dt = pendulum::datetime(2020, 4, 3, 22, 18, 26, "Asia/Tokyo");
 
-now.year(2021);                 // 2021-04-03 22:13:22
-now.minute(14);                 // 2020-04-03 22:14:22
-now.on(2021, 5, 10);            // 2021-05-10 22:13:22
-now.at(10, 25, 16);             // 2020-04-03 10:25:16
-now.in_timezone("US/Hawaii");   // 2020-04-03T03:13:22-10:00
-now.at_offset_hours(4);         // 2020-04-03T17:13:22+04:00
+now.year(2021);                 // 2021-04-03T22:18:26+09:00
+now.minute(14);                 // 2020-04-03T22:14:26+09:00
+now.on(2021, 5, 10);            // 2020-05-10T22:18:26+09:00
+now.at(10, 25, 16);             // 2020-04-03T10:25:16+09:00
+now.timezone("US/Hawaii");      // 2020-04-03T22:18:26-10:00
+now.in_timezone("US/Hawaii");   // 2020-04-03T03:18:26-10:00
+now.offset_hours(4);            // 2020-04-03T22:18:26+04:00
+now.at_offset_hours(4);         // 2020-04-03T17:18:26+04:00
 ```
 
 ### String formatting
