@@ -1,8 +1,20 @@
+CONFIG = Debug
+OUT = build/$(CONFIG)
+CMAKE_SOURCE_DIR = $(CURDIR)
+
+.PHONY: cmake
+cmake:
+	mkdir -p $(OUT)
+	cd $(OUT) && cmake -DCMAKE_BUILD_TYPE=$(CONFIG) $(CMAKE_SOURCE_DIR)
+
 .PHONY: build
-build:
-	@g++ -std=c++11 -g -O0 -Ilibs/include -I. -D_GLIBCXX_USE_CXX11_ABI=0 -Llibs/lib \
-		test/*.cpp -o pendulum_test -lgmock -lgtest -lcctz -ldl -lpthread
+build: cmake
+	cmake --build $(OUT)
 
 .PHONY: test
-test:
-	@./pendulum_test
+test: build
+	-$(OUT)/pendulum_test
+
+.PHONY: clean
+clean:
+	cmake --build $(OUT) --target clean

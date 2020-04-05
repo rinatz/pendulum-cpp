@@ -1,9 +1,9 @@
+build/
 libs/
 conan_imports_manifest.txt
 conan.lock
 conanbuildinfo.cmake
 conanbuildinfo.txt
-conanfile.py
 conaninfo.txt
 graph_info.json
 
