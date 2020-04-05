@@ -7,18 +7,18 @@ namespace pendulum {
 
 namespace internal {
 
-constexpr int kSecondsPerMinute = 60;
-constexpr int kMinutesPerHour = 60;
+static constexpr int kSecondsPerMinute = 60;
+static constexpr int kMinutesPerHour = 60;
 
 }  // namespace internal
 
-constexpr int kMonday = static_cast<int>(cctz::weekday::monday);
-constexpr int kTuesday = static_cast<int>(cctz::weekday::tuesday);
-constexpr int kWednesday = static_cast<int>(cctz::weekday::wednesday);
-constexpr int kThursday = static_cast<int>(cctz::weekday::thursday);
-constexpr int kFriday = static_cast<int>(cctz::weekday::friday);
-constexpr int kSaturday = static_cast<int>(cctz::weekday::saturday);
-constexpr int kSunday = static_cast<int>(cctz::weekday::sunday);
+static constexpr int kMonday = static_cast<int>(cctz::weekday::monday);
+static constexpr int kTuesday = static_cast<int>(cctz::weekday::tuesday);
+static constexpr int kWednesday = static_cast<int>(cctz::weekday::wednesday);
+static constexpr int kThursday = static_cast<int>(cctz::weekday::thursday);
+static constexpr int kFriday = static_cast<int>(cctz::weekday::friday);
+static constexpr int kSaturday = static_cast<int>(cctz::weekday::saturday);
+static constexpr int kSunday = static_cast<int>(cctz::weekday::sunday);
 
 }  // namespace pendulum
 
