@@ -12,9 +12,9 @@
 
 namespace pendulum {
 
-inline Date date(int y = 1970, int m = 1, int d = 1) { return Date(y, m, d); }
+inline Date date(int y, int m, int d) { return Date(y, m, d); }
 
-inline DateTime datetime(int y = 1970, int m = 1, int d = 1, const std::string& tz = "UTC") {
+inline DateTime datetime(int y, int m, int d, const std::string& tz = "UTC") {
     return DateTime(y, m, d, tz);
 }
 
@@ -23,7 +23,7 @@ inline DateTime datetime(int y, int m, int d, int hh, int mm = 0, int ss = 0,
     return DateTime(y, m, d, hh, mm, ss, tz);
 }
 
-inline DateTime local(int y = 1970, int m = 1, int d = 1) { return datetime(y, m, d, "local"); }
+inline DateTime local(int y, int m, int d) { return datetime(y, m, d, "local"); }
 
 inline DateTime local(int y, int m, int d, int hh, int mm = 0, int ss = 0) {
     return datetime(y, m, d, hh, mm, ss, "local");
@@ -40,17 +40,9 @@ inline DateTime now(const std::string& tz = "local") {
     return DateTime(cs, tz_);
 }
 
-inline DateTime today(const std::string& tz = "local") {
-    return now(tz).start_of("day");
-}
-
-inline DateTime yesterday(const std::string& tz = "local") {
-    return today(tz).add_days(-1);
-}
-
-inline DateTime tomorrow(const std::string& tz = "local") {
-    return today(tz).add_days(1);
-}
+inline DateTime today(const std::string& tz = "local") { return now(tz).start_of("day"); }
+inline DateTime yesterday(const std::string& tz = "local") { return today(tz).add_days(-1); }
+inline DateTime tomorrow(const std::string& tz = "local") { return today(tz).add_days(1); }
 
 inline DateTime from_timestamp(time_t timestamp, const std::string& tz = "UTC") {
     const auto& timezone = internal::timezone(tz);

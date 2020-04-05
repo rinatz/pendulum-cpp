@@ -16,6 +16,7 @@ TEST(DateTimeTest, Instantiation1) {
     EXPECT_THAT(dt.minute(), 0);
     EXPECT_THAT(dt.second(), 0);
     EXPECT_THAT(dt.timezone_name(), "UTC");
+    EXPECT_THAT(dt, DateTime::epoch());
 }
 
 TEST(DateTimeTest, Instantiation2) {

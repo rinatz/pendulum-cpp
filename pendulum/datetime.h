@@ -44,7 +44,7 @@ class DateTime {
 
     DateTime() { *this = epoch(); }
 
-    explicit DateTime(int y, int m = 1, int d = 1, const std::string& tz = "UTC") : cs_(y, m, d) {
+    explicit DateTime(int y, int m, int d, const std::string& tz = "UTC") : cs_(y, m, d) {
         tz_ = internal::timezone(tz);
     }
 

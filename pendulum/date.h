@@ -18,7 +18,7 @@ class Date {
 
     Date() : ymd_(1970, 1, 1) {}
 
-    explicit Date(int y, int m = 1, int d = 1) : ymd_(y, m, d) {}
+    explicit Date(int y, int m, int d) : ymd_(y, m, d) {}
 
     explicit Date(const cctz::civil_day& ymd) : ymd_(ymd) {}
 
