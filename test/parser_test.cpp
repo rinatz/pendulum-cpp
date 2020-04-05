@@ -4,7 +4,7 @@
 
 namespace pendulum {
 
-TEST(DateTimeTest, Parsing1) {
+TEST(ParserTest, ISO8601String1) {
     const auto& dt = parse("2020-04-03T15:20:30+09:00");
 
     ASSERT_THAT(dt.has_value(), true);
@@ -12,7 +12,7 @@ TEST(DateTimeTest, Parsing1) {
     EXPECT_THAT(*dt, DateTime(2020, 4, 3, 15, 20, 30, "Asia/Tokyo"));
 }
 
-TEST(DateTimeTest, Parsing2) {
+TEST(ParserTest, ISO8601String2) {
     const auto& dt = parse("2020-04-03T15:20:30+0900");
 
     ASSERT_THAT(dt.has_value(), true);
@@ -20,42 +20,42 @@ TEST(DateTimeTest, Parsing2) {
     EXPECT_THAT(*dt, DateTime(2020, 4, 3, 15, 20, 30, "Asia/Tokyo"));
 }
 
-TEST(DateTimeTest, Parsing3) {
+TEST(ParserTest, DateTimeString) {
     const auto& dt = parse("2020-04-03 15:20:30", "Asia/Tokyo");
 
     ASSERT_THAT(dt.has_value(), true);
     EXPECT_THAT(*dt, DateTime(2020, 4, 3, 15, 20, 30, "Asia/Tokyo"));
 }
 
-TEST(DateTimeTest, Parsing4) {
+TEST(ParserTest, DateString1) {
     const auto& dt = parse("2020-04-03", "Asia/Tokyo");
 
     ASSERT_THAT(dt.has_value(), true);
     EXPECT_THAT(*dt, DateTime(2020, 4, 3, "Asia/Tokyo"));
 }
 
-TEST(DateTimeTest, Parsing5) {
+TEST(ParserTest, DateString2) {
     const auto& dt = parse("20200403", "Asia/Tokyo");
 
     ASSERT_THAT(dt.has_value(), true);
     EXPECT_THAT(*dt, DateTime(2020, 4, 3, "Asia/Tokyo"));
 }
 
-TEST(DateTimeTest, Parsing6) {
+TEST(ParserTest, YearMonthString) {
     const auto& dt = parse("2020-04", "Asia/Tokyo");
 
     ASSERT_THAT(dt.has_value(), true);
     EXPECT_THAT(*dt, DateTime(2020, 4, 1, "Asia/Tokyo"));
 }
 
-TEST(DateTimeTest, Parsing7) {
+TEST(ParserTest, YearString) {
     const auto& dt = parse("2020", "Asia/Tokyo");
 
     ASSERT_THAT(dt.has_value(), true);
     EXPECT_THAT(*dt, DateTime(2020, 1, 1, "Asia/Tokyo"));
 }
 
-TEST(DateTimeTest, Parsing8) {
+TEST(ParserTest, InvalidString) {
     const auto& dt = parse("2020/12/25", "Asia/Tokyo");
 
     ASSERT_THAT(dt.has_value(), false);
