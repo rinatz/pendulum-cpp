@@ -52,7 +52,7 @@ TEST(DateTest, Addition) {
     EXPECT_THAT(date.add_days(1), Date(2021, 1, 1));
 }
 
-TEST(DateTes, Modifiers) {
+TEST(DateTest, Modifiers) {
     Date date(2020, 4, 17);
 
     EXPECT_THAT(date.next(), Date(2020, 4, 24));
