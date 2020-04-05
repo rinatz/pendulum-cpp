@@ -98,16 +98,16 @@ dt.offset_hours();  // 9
 ### Fluent helpers
 
 ```cpp
-const auto& dt = pendulum::datetime(2020, 4, 3, 22, 18, 26, "Asia/Tokyo");
+auto dt = pendulum::datetime(2020, 4, 3, 22, 18, 26, "Asia/Tokyo");
 
-now.year(2021);                 // 2021-04-03T22:18:26+09:00
-now.minute(14);                 // 2020-04-03T22:14:26+09:00
-now.on(2021, 5, 10);            // 2020-05-10T22:18:26+09:00
-now.at(10, 25, 16);             // 2020-04-03T10:25:16+09:00
-now.timezone("US/Hawaii");      // 2020-04-03T22:18:26-10:00
-now.in_timezone("US/Hawaii");   // 2020-04-03T03:18:26-10:00
-now.offset_hours(4);            // 2020-04-03T22:18:26+04:00
-now.at_offset_hours(4);         // 2020-04-03T17:18:26+04:00
+dt = dt.year(2021);                 // 2021-04-03T22:18:26+09:00
+dt = dt.minute(14);                 // 2020-04-03T22:14:26+09:00
+dt = dt.on(2021, 5, 10);            // 2020-05-10T22:18:26+09:00
+dt = dt.at(10, 25, 16);             // 2020-04-03T10:25:16+09:00
+dt = dt.timezone("US/Hawaii");      // 2020-04-03T22:18:26-10:00
+dt = dt.in_timezone("US/Hawaii");   // 2020-04-03T03:18:26-10:00
+dt = dt.offset_hours(4);            // 2020-04-03T22:18:26+04:00
+dt = dt.at_offset_hours(4);         // 2020-04-03T17:18:26+04:00
 ```
 
 ### String formatting
@@ -125,14 +125,14 @@ std::cout << dt.format("at %H:%M:%S on %d/%m, %Y");     // at 22:18:26 on 03/04,
 ### Addition
 
 ```cpp
-const auto& dt = pendulum::datetime(2020, 4, 3, 22, 18, 26, "Asia/Tokyo");
+auto dt = pendulum::datetime(2020, 4, 3, 22, 18, 26, "Asia/Tokyo");
 
-dt.add_years(3);        // 2023-04-03 22:18:26
-dt.add_months(1);       // 2020-05-03 22:18:26
-dt.add_days(30);        // 2020-05-03 22:18:26
-dt.add_hours(2);        // 2020-04-04 00:18:26
-dt.add_minutes(73);     // 2020-04-03 23:31:26
-dt.add_seconds(92);     // 2020-04-03 22:19:58
+dt = dt.add_years(3);       // 2023-04-03 22:18:26
+dt = dt.add_months(1);      // 2020-05-03 22:18:26
+dt = dt.add_days(30);       // 2020-05-03 22:18:26
+dt = dt.add_hours(2);       // 2020-04-04 00:18:26
+dt = dt.add_minutes(73);    // 2020-04-03 23:31:26
+dt = dt.add_seconds(92);    // 2020-04-03 22:19:58
 ```
 
 ### Modifiers
