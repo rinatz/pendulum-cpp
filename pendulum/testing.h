@@ -11,8 +11,8 @@ namespace pendulum {
 namespace internal {
 
 inline Optional<DateTime>& test_now() {
-    static Optional<DateTime> dt;
-    return dt;
+    static Optional<DateTime> now;
+    return now;
 }
 
 }  // namespace internal

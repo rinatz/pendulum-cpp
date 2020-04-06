@@ -201,20 +201,17 @@ class DateTime {
     }
 
     DateTime start_of(const std::string& when) const {
-        if (when == "day") {
-            return at(0, 0, 0);
-        }
-        if (when == "week") {
-            if (day_of_week() == kMonday) {
-                return at(0, 0, 0);
-            }
-            return previous(kMonday);
+        if (when == "year") {
+            return start_of_year();
         }
         if (when == "month") {
-            return on(year(), month(), 1).at(0, 0, 0);
+            return start_of_month();
         }
-        if (when == "year") {
-            return on(year(), 1, 1).at(0, 0, 0);
+        if (when == "day") {
+            return start_of_day();
+        }
+        if (when == "week") {
+            return start_of_week();
         }
         return at(0, 0, 0);
     }
@@ -262,6 +259,20 @@ class DateTime {
     }
 
    private:
+    DateTime start_of_year() const { return on(year(), 1, 1).at(0, 0, 0); }
+    DateTime start_of_month() const { return on(year(), month(), 1).at(0, 0, 0); }
+    DateTime start_of_day() const { return at(0, 0, 0); }
+
+    DateTime start_of_week() const {
+        const auto week_day = internal::week_starts_at();
+
+        if (day_of_week() == week_day) {
+            return at(0, 0, 0);
+        }
+
+        return previous(week_day);
+    }
+
     cctz::civil_second cs_;
     cctz::time_zone tz_;
 };

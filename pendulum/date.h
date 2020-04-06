@@ -101,20 +101,17 @@ class Date {
     }
 
     Date start_of(const std::string& when) const {
-        if (when == "day") {
-            return *this;
-        }
-        if (when == "week") {
-            if (day_of_week() == kMonday) {
-                return *this;
-            }
-            return previous(kMonday);
+        if (when == "year") {
+            return start_of_year();
         }
         if (when == "month") {
-            return on(year(), month(), 1);
+            return start_of_month();
         }
-        if (when == "year") {
-            return on(year(), 1, 1);
+        if (when == "day") {
+            return start_of_day();
+        }
+        if (when == "week") {
+            return start_of_week();
         }
         return *this;
     }
@@ -128,6 +125,20 @@ class Date {
     const cctz::civil_day& instance() const { return ymd_; }
 
    private:
+    Date start_of_year() const { return on(year(), 1, 1); }
+    Date start_of_month() const { return on(year(), month(), 1); }
+    Date start_of_day() const { return *this; }
+
+    Date start_of_week() const {
+        const auto week_day = internal::week_starts_at();
+
+        if (day_of_week() == week_day) {
+            return *this;
+        }
+
+        return previous(week_day);
+    }
+
     cctz::civil_day ymd_;
 };
 

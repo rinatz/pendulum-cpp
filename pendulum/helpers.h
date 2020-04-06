@@ -52,6 +52,15 @@ inline DateTime from_timestamp(time_t timestamp, const std::string& tz = "UTC") 
     return DateTime(cs, timezone);
 }
 
+inline bool week_starts_at(int week_day) {
+    if (kMonday <= week_day && week_day <= kSunday) {
+        internal::week_starts_at() = week_day;
+        return true;
+    }
+
+    return false;
+}
+
 }  // namespace pendulum
 
 #endif  // PENDULUM_HELPERS_H_

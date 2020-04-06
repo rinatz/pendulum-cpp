@@ -136,10 +136,13 @@ dt = dt.add_seconds(92);    // 2020-04-03 22:19:58
 ```cpp
 const auto& dt = pendulum::datetime(2020, 4, 3, 15, 0, 0);
 
-dt.start_of("day");     // 2020-04-03 00:00:00
-dt.start_of("week");    // 2020-03-30 00:00:00
-dt.start_of("month");   // 2020-04-01 00:00:00
 dt.start_of("year");    // 2020-01-01 00:00:00
+dt.start_of("month");   // 2020-04-01 00:00:00
+dt.start_of("day");     // 2020-04-03 00:00:00
+dt.start_of("week");    // 2020-03-30 00:00:00 (Monday)
+
+pendulum::week_starts_at(pendulum::kSunday);
+dt.start_of("week");    // 2020-03-29 00:00:00 (Sunday)
 
 dt.next(pendulum::kWednesday);  // 2020-04-08 00:00:00
 dt.next();                      // 2020-04-10 00:00:00
