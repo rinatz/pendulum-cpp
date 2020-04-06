@@ -55,7 +55,7 @@ if (dt.has_value()) {
 
 const auto& dt = pendulum::parse("2015-06-10", "Asia/Tokyo");
 if (dt.has_value()) {
-    *dt                             // 2015-06-10T00:00:00+09:00
+    *dt;                            // 2015-06-10T00:00:00+09:00
     dt.value();                     // 2015-06-10T00:00:00+09:00
 }
 
@@ -88,7 +88,7 @@ dt.week_of_month(); // 1
 dt.timestamp();     // 1585918453
 dt.timezone_name(); // Asia/Tokyo
 dt.offset();        // 32400
-dt.offset_hours();  // 9
+dt.offset_hours();  // 9.0
 ```
 
 ### Fluent helpers

@@ -30,8 +30,8 @@ inline cctz::time_zone timezone(const std::string& name) {
     return tz;
 }
 
-inline cctz::time_zone timezone(int offset) {
-    return cctz::fixed_time_zone(cctz::sys_seconds(offset));
+inline cctz::time_zone timezone(std::chrono::seconds offset) {
+    return cctz::fixed_time_zone(offset);
 }
 
 }  // namespace internal
@@ -89,7 +89,7 @@ class DateTime {
 
     int offset() const { return tz_.lookup(cctz::convert(cs_, tz_)).offset; }
 
-    int offset_hours() const {
+    double offset_hours() const {
         using namespace internal;
         return offset() / kSecondsPerMinute / kMinutesPerHour;
     }
@@ -125,16 +125,13 @@ class DateTime {
         return DateTime(cs_, tz);
     }
 
-    DateTime offset(int offs) const {
-        const auto& tz = internal::timezone(offs);
-        return DateTime(cs_, tz);
+    DateTime offset(int seconds) const {
+        return DateTime(cs_, internal::timezone(std::chrono::seconds(seconds)));
     }
 
-    DateTime offset_hours(int offs) const {
-        using namespace internal;
-        const auto& tz = internal::timezone(offs * kSecondsPerMinute * kMinutesPerHour);
-
-        return DateTime(cs_, tz);
+    DateTime offset_hours(int hours, int minutes = 0) const {
+        const auto s = std::chrono::hours(hours) + std::chrono::minutes(minutes);
+        return DateTime(cs_, internal::timezone(s));
     }
 
     //
@@ -230,19 +227,18 @@ class DateTime {
         return DateTime(cs, tz);
     }
 
-    DateTime at_offset(int offset) const {
+    DateTime at_offset(int seconds) const {
         const auto& tp = cctz::convert(cs_, tz_);
-        const auto& tz = internal::timezone(offset);
+        const auto& tz = internal::timezone(std::chrono::seconds(seconds));
         const auto& cs = cctz::convert(tp, tz);
 
         return DateTime(cs, tz);
     }
 
-    DateTime at_offset_hours(int offset) const {
-        using namespace internal;
-
+    DateTime at_offset_hours(int hours, int minutes = 0) const {
         const auto& tp = cctz::convert(cs_, tz_);
-        const auto& tz = internal::timezone(offset * kSecondsPerMinute * kMinutesPerHour);
+        const auto s = std::chrono::hours(hours) + std::chrono::minutes(minutes);
+        const auto& tz = internal::timezone(s);
         const auto& cs = cctz::convert(tp, tz);
 
         return DateTime(cs, tz);

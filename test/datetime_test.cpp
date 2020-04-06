@@ -68,7 +68,7 @@ TEST(DateTimeTest, Attributes) {
     EXPECT_FALSE(dt.is_utc());
 
     EXPECT_THAT(dt.offset(), -14400);
-    EXPECT_THAT(dt.offset_hours(), -4);
+    EXPECT_THAT(dt.offset_hours(), -4.0);
 
     EXPECT_THAT(dt.timestamp(), 1585942210);
     EXPECT_THAT(DateTime::epoch().timestamp(), 0);
@@ -92,6 +92,7 @@ TEST(DateTimeTest, FluentHelpers) {
 
     EXPECT_THAT(dt.offset(-14400), DateTime(2020, 4, 3, "US/Eastern"));
     EXPECT_THAT(dt.offset_hours(-4), DateTime(2020, 4, 3, "US/Eastern"));
+    EXPECT_THAT(dt.offset_hours(8, 45), DateTime(2020, 4, 3, "Australia/Eucla"));
 }
 
 TEST(DateTimeTest, StringFormatting) {
@@ -141,6 +142,7 @@ TEST(DateTimeTest, Modifers) {
     EXPECT_THAT(dt.in_timezone("US/Eastern"), DateTime(2020, 4, 3, 2, 0, 0, "US/Eastern"));
     EXPECT_THAT(dt.at_offset(-14400), DateTime(2020, 4, 3, 2, 0, 0, "US/Eastern"));
     EXPECT_THAT(dt.at_offset_hours(-4), DateTime(2020, 4, 3, 2, 0, 0, "US/Eastern"));
+    EXPECT_THAT(dt.at_offset_hours(8, 45), DateTime(2020, 4, 3, 14, 45, 0, "Australia/Eucla"));
 }
 
 }  // namespace pendulum
