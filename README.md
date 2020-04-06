@@ -103,7 +103,7 @@ dt = dt.at(10, 25, 16);             // 2020-04-03T10:25:16+09:00
 dt = dt.timezone("US/Hawaii");      // 2020-04-03T22:18:26-10:00
 dt = dt.in_timezone("US/Hawaii");   // 2020-04-03T03:18:26-10:00
 dt = dt.offset_hours(4);            // 2020-04-03T22:18:26+04:00
-dt = dt.at_offset_hours(4);         // 2020-04-03T17:18:26+04:00
+dt = dt.in_offset_hours(4);         // 2020-04-03T17:18:26+04:00
 ```
 
 ### String formatting

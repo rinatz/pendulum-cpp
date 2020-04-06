@@ -227,7 +227,7 @@ class DateTime {
         return DateTime(cs, tz);
     }
 
-    DateTime at_offset(int seconds) const {
+    DateTime in_offset(int seconds) const {
         const auto& tp = cctz::convert(cs_, tz_);
         const auto& tz = internal::timezone(std::chrono::seconds(seconds));
         const auto& cs = cctz::convert(tp, tz);
@@ -235,7 +235,7 @@ class DateTime {
         return DateTime(cs, tz);
     }
 
-    DateTime at_offset_hours(int hours, int minutes = 0) const {
+    DateTime in_offset_hours(int hours, int minutes = 0) const {
         const auto& tp = cctz::convert(cs_, tz_);
         const auto s = std::chrono::hours(hours) + std::chrono::minutes(minutes);
         const auto& tz = internal::timezone(s);
