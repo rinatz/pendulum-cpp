@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 3.0)
 
 project(pendulum)
 
+file(READ VERSION PROJECT_VERSION)
+configure_file(version.h.in ${PROJECT_SOURCE_DIR}/pendulum/version.h)
+
 add_definitions(
     -D_GLIBCXX_USE_CXX11_ABI=0
 )
