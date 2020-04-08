@@ -85,6 +85,9 @@ TEST(DateTimeTest, Attributes) {
     EXPECT_THAT(dt.day_of_year(), 94);
     EXPECT_THAT(dt.week_of_month(), 1);
 
+    EXPECT_THAT(dt.is_leap_year(), true);
+    EXPECT_THAT(dt.year(2021).is_leap_year(), false);
+    EXPECT_THAT(dt.year(2024).is_leap_year(), true);
     EXPECT_TRUE(dt.is_dst());
     EXPECT_FALSE(dt.is_local());
     EXPECT_FALSE(dt.is_utc());

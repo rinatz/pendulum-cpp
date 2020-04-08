@@ -48,6 +48,10 @@ TEST(DateTest, Attributes) {
     EXPECT_THAT(date.day_of_week(), pendulum::kFriday);
     EXPECT_THAT(date.day_of_year(), 108);
     EXPECT_THAT(date.week_of_month(), 3);
+
+    EXPECT_THAT(date.is_leap_year(), true);
+    EXPECT_THAT(date.year(2021).is_leap_year(), false);
+    EXPECT_THAT(date.year(2024).is_leap_year(), true);
 }
 
 TEST(DateTest, FluentHelpers) {

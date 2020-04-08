@@ -103,6 +103,7 @@ class DateTime {
     int day_of_year() const { return date().day_of_year(); }
     int week_of_month() const { return date().week_of_month(); }
 
+    bool is_leap_year() const { return date().is_leap_year(); }
     bool is_dst() const { return tz_.lookup(cctz::convert(cs_, tz_)).is_dst; }
     bool is_local() const { return tz_ == cctz::local_time_zone(); }
     bool is_utc() const { return tz_ == cctz::utc_time_zone(); }

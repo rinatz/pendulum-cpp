@@ -63,6 +63,8 @@ class Date {
     int day_of_year() const { return cctz::get_yearday(ymd_); }
     int week_of_month() const { return (day() + 6) / 7; }
 
+    bool is_leap_year() const { return on(year(), 2, 29).month() == 2; }
+
     //
     // Fluent helpers
     //
