@@ -101,25 +101,13 @@ class Date {
     Date next() const { return next(day_of_week()); }
 
     Date next(int day_of_week) const {
-        Date date = add_days(1);
-
-        while (date.day_of_week() != day_of_week) {
-            date = date.add_days(1);
-        }
-
-        return date;
+        return Date(cctz::next_weekday(ymd_, static_cast<cctz::weekday>(day_of_week)));
     }
 
     Date previous() const { return previous(day_of_week()); }
 
     Date previous(int day_of_week) const {
-        Date date = add_days(-1);
-
-        while (date.day_of_week() != day_of_week) {
-            date = date.add_days(-1);
-        }
-
-        return date;
+        return Date(cctz::prev_weekday(ymd_, static_cast<cctz::weekday>(day_of_week)));
     }
 
     Date start_of(const std::string& when) const {

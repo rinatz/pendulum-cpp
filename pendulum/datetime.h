@@ -201,10 +201,11 @@ class DateTime {
     DateTime next(bool keep_time = false) const { return next(day_of_week(), keep_time); }
 
     DateTime next(int day_of_week, bool keep_time = false) const {
-        auto dt = keep_time ? add_days(1) : add_days(1).start_of("day");
+        const auto& cs = DateTime(date().next(day_of_week)).instance();
+        auto dt = DateTime(cs, tz_);
 
-        while (dt.day_of_week() != day_of_week) {
-            dt = dt.add_days(1);
+        if (keep_time) {
+            dt = dt.at(hour(), minute(), second());
         }
 
         return dt;
@@ -213,10 +214,11 @@ class DateTime {
     DateTime previous(bool keep_time = false) const { return previous(day_of_week(), keep_time); }
 
     DateTime previous(int day_of_week, bool keep_time = false) const {
-        auto dt = keep_time ? add_days(-1) : add_days(-1).start_of("day");
+        const auto& cs = DateTime(date().previous(day_of_week)).instance();
+        auto dt = DateTime(cs, tz_);
 
-        while (dt.day_of_week() != day_of_week) {
-            dt = dt.add_days(-1);
+        if (keep_time) {
+            dt = dt.at(hour(), minute(), second());
         }
 
         return dt;
