@@ -26,3 +26,4 @@ class PendulumConan(ConanFile):
 
     def package(self):
         self.copy("*.h", dst="include/pendulum", src="pendulum")
+        self.copy("*.hpp", dst="include/pendulum", src="pendulum")
