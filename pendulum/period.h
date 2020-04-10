@@ -2,6 +2,7 @@
 #define PENDULUM_PERIOD_H_
 
 #include <functional>
+#include <iterator>
 #include <string>
 
 #include "pendulum/datetime.h"
@@ -11,6 +12,12 @@ namespace pendulum {
 
 class DateTimeIterator {
    public:
+    using difference_type = ptrdiff_t;
+    using value_type = DateTime;
+    using pointer = const DateTime*;
+    using reference = const DateTime&;
+    using iterator_category = std::input_iterator_tag;
+
     using Add = std::function<DateTime(const DateTime*)>;
     using Compare = std::function<bool(const DateTime&, const DateTime&)>;
 
