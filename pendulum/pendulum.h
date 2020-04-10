@@ -28,6 +28,7 @@
 #include "pendulum/datetime.h"
 #include "pendulum/helpers.h"
 #include "pendulum/parser.h"
+#include "pendulum/period.h"
 #include "pendulum/testing.h"
 
 #endif  // PENDULUM_H_
