@@ -162,6 +162,9 @@ TEST(DateTimeTest, Modifers) {
     EXPECT_THAT(dt.start_of("year"), DateTime(2020, 1, 1, "local"));
     EXPECT_THAT(dt.start_of("month"), DateTime(2020, 4, 1, "local"));
     EXPECT_THAT(dt.start_of("day"), DateTime(2020, 4, 3, "local"));
+    EXPECT_THAT(dt.minute(20).start_of("hour"), DateTime(2020, 4, 3, 15, 0, 0, "local"));
+    EXPECT_THAT(dt.minute(20).second(30).start_of("minute"),
+                DateTime(2020, 4, 3, 15, 20, 0, "local"));
     EXPECT_THAT(dt.start_of("week"), DateTime(2020, 3, 30, "local"));
 
     EXPECT_THAT(dt.end_of("year"), DateTime(2020, 12, 31, 23, 59, 59, "local"));

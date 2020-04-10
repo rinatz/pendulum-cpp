@@ -235,6 +235,12 @@ class DateTime {
         if (unit == "day") {
             return start_of_day();
         }
+        if (unit == "hour") {
+            return start_of_hour();
+        }
+        if (unit == "minute") {
+            return start_of_minute();
+        }
         if (unit == "week") {
             return start_of_week();
         }
@@ -309,6 +315,8 @@ class DateTime {
     DateTime start_of_year() const { return on(year(), 1, 1).at(0, 0, 0); }
     DateTime start_of_month() const { return on(year(), month(), 1).at(0, 0, 0); }
     DateTime start_of_day() const { return at(0, 0, 0); }
+    DateTime start_of_hour() const { return at(hour(), 0, 0); }
+    DateTime start_of_minute() const { return at(hour(), minute(), 0); }
 
     DateTime start_of_week() const {
         const auto week_day = internal::week_starts_at();
