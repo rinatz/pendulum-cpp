@@ -2,6 +2,10 @@ CONFIG = Debug
 OUT = build/$(CONFIG)
 CMAKE_SOURCE_DIR = $(CURDIR)
 
+.PHONY: get
+get:
+	conan install -u .
+
 .PHONY: cmake
 cmake:
 	mkdir -p $(OUT)
