@@ -12,7 +12,7 @@ namespace pendulum {
 
 class DateTimeIterator {
    public:
-    using difference_type = ptrdiff_t;
+    using difference_type = int;
     using value_type = DateTime;
     using pointer = const DateTime*;
     using reference = const DateTime&;
@@ -39,7 +39,7 @@ class DateTimeIterator {
     }
 
     const DateTime& operator*() const { return *dt_; }
-    const DateTime* operator->() const { return &dt_.value(); }
+    const DateTime* operator->() const { return &*dt_; }
 
     bool operator==(const DateTimeIterator& that) const {
         return dt_ == that.dt_ && stop_ == that.stop_;
@@ -49,7 +49,7 @@ class DateTimeIterator {
 
    private:
     void next() {
-        *dt_ = add_(&dt_.value());
+        *dt_ = add_(&*dt_);
 
         if (!cmp_(*dt_, *stop_)) {
             clear();
@@ -71,13 +71,10 @@ class DateTimeIterator {
 
 class DateTimeRange {
    public:
-    using Add = DateTimeIterator::Add;
-    using Compare = DateTimeIterator::Compare;
-
     DateTimeRange() = default;
 
-    DateTimeRange(const DateTime& start, const DateTime& stop, const Add& add, const Compare& cmp)
-            : begin_(start, stop, add, cmp), end_() {}
+    DateTimeRange(const DateTimeIterator& begin, const DateTimeIterator& end)
+            : begin_(begin), end_(end) {}
 
     const DateTimeIterator& begin() const { return begin_; }
     const DateTimeIterator& end() const { return end_; }
@@ -134,7 +131,7 @@ class Period {
             add = std::bind(&DateTime::add_seconds, _1, step * sign());
         }
 
-        return DateTimeRange(start_, stop_, add, cmp());
+        return DateTimeRange(DateTimeIterator(start_, stop_, add, cmp()), DateTimeIterator());
     }
 
     DateTimeIterator begin() const {

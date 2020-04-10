@@ -30,6 +30,7 @@
 #include "pendulum/constants.h"
 #include "pendulum/date.h"
 #include "pendulum/datetime.h"
+#include "pendulum/period.h"
 #include "pendulum/testing.h"
 
 namespace pendulum {
@@ -72,6 +73,10 @@ inline DateTime from_timestamp(time_t timestamp, const std::string& tz = "UTC") 
     const auto& cs = cctz::convert(tp, timezone);
 
     return DateTime(cs, timezone);
+}
+
+inline Period period(const DateTime& start, const DateTime& stop, bool absolute = false) {
+    return Period(start, stop, absolute);
 }
 
 inline bool week_starts_at(int week_day) {

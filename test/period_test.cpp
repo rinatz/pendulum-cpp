@@ -1,5 +1,6 @@
 #include <gmock/gmock.h>
 
+#include <iterator>
 #include <vector>
 
 #include "pendulum/datetime.h"

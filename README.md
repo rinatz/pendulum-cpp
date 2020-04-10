@@ -153,6 +153,26 @@ dt.previous();                      // 2020-03-27 00:00:00
 dt.previous(/* keep_time= */true);  // 2020-03-27 15:00:00
 ```
 
+### Period
+
+```cpp
+const auto& start = pendulum::datetime(2020, 1, 1);
+const auto& stop = pendulum::datetime(2025, 12, 31);
+const auto& period = pendulum::period(start, stop);
+
+for (const auto& dt : period.range("years")) {
+    std::cout << dt.to_date_string();   // 2020-01-01, 2021-01-01, ...
+}
+
+for (const auto& dt : period.range("months")) {
+    std::cout << dt.to_date_string();   // 2020-01-01, 2020-02-01, ...
+}
+
+for (const auto& dt : period.range("days")) {
+    std::cout << dt.to_date_string();   // 2020-01-01, 2020-01-02, ...
+}
+```
+
 ### Testing
 
 ```cpp
