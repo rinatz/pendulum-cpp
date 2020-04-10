@@ -164,6 +164,15 @@ TEST(DateTimeTest, Modifers) {
     EXPECT_THAT(dt.start_of("day"), DateTime(2020, 4, 3, "local"));
     EXPECT_THAT(dt.start_of("week"), DateTime(2020, 3, 30, "local"));
 
+    EXPECT_THAT(dt.end_of("year"), DateTime(2020, 12, 31, 23, 59, 59, "local"));
+    EXPECT_THAT(dt.end_of("month"), DateTime(2020, 4, 30, 23, 59, 59, "local"));
+    EXPECT_THAT(dt.month(2).end_of("month"), DateTime(2020, 2, 29, 23, 59, 59, "local"));
+    EXPECT_THAT(dt.end_of("day"), DateTime(2020, 4, 3, 23, 59, 59, "local"));
+    EXPECT_THAT(dt.end_of("week"), DateTime(2020, 4, 5, 23, 59, 59, "local"));
+    EXPECT_THAT(dt.day(13).end_of("week"), DateTime(2020, 4, 19, 23, 59, 59, "local"));
+    EXPECT_THAT(dt.end_of("hour"), DateTime(2020, 4, 3, 15, 59, 59, "local"));
+    EXPECT_THAT(dt.end_of("minute"), DateTime(2020, 4, 3, 15, 0, 59, "local"));
+
     EXPECT_THAT(dt.in_timezone("US/Eastern"), DateTime(2020, 4, 3, 2, 0, 0, "US/Eastern"));
     EXPECT_THAT(dt.in_offset(-14400), DateTime(2020, 4, 3, 2, 0, 0, "US/Eastern"));
     EXPECT_THAT(dt.in_offset_hours(-4), DateTime(2020, 4, 3, 2, 0, 0, "US/Eastern"));

@@ -225,18 +225,40 @@ class DateTime {
         return dt;
     }
 
-    DateTime start_of(const std::string& when) const {
-        if (when == "year") {
+    DateTime start_of(const std::string& unit) const {
+        if (unit == "year") {
             return start_of_year();
         }
-        if (when == "month") {
+        if (unit == "month") {
             return start_of_month();
         }
-        if (when == "day") {
+        if (unit == "day") {
             return start_of_day();
         }
-        if (when == "week") {
+        if (unit == "week") {
             return start_of_week();
+        }
+        return at(0, 0, 0);
+    }
+
+    DateTime end_of(const std::string& unit) const {
+        if (unit == "year") {
+            return end_of_year();
+        }
+        if (unit == "month") {
+            return end_of_month();
+        }
+        if (unit == "day") {
+            return end_of_day();
+        }
+        if (unit == "hour") {
+            return end_of_hour();
+        }
+        if (unit == "minute") {
+            return end_of_minute();
+        }
+        if (unit == "week") {
+            return end_of_week();
         }
         return at(0, 0, 0);
     }
@@ -298,13 +320,15 @@ class DateTime {
         return previous(week_day);
     }
 
-    DateTime end_of_year() const { return on(year(), 12, 31).at(0, 0, 0); }
-    DateTime end_of_month() const { return on(year(), month() + 1, 1).add_days(-1).at(0, 0, 0); }
-    DateTime end_of_day() const { return at(0, 0, 0); }
+    DateTime end_of_year() const { return on(year(), 12, 31).at(23, 59, 59); }
+    DateTime end_of_month() const { return on(year(), month() + 1, 1).add_days(-1).at(23, 59, 59); }
+    DateTime end_of_day() const { return at(23, 59, 59); }
+    DateTime end_of_hour() const { return at(hour(), 59, 59); }
+    DateTime end_of_minute() const { return at(hour(), minute(), 59); }
 
     DateTime end_of_week() const {
         const auto week_day = internal::week_starts_at();
-        return next(week_day).add_days(-1);
+        return next(week_day).add_days(-1).at(23, 59, 59);
     }
 
     cctz::civil_second cs_;

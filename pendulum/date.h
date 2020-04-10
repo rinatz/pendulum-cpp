@@ -112,33 +112,33 @@ class Date {
         return Date(cctz::prev_weekday(ymd_, static_cast<cctz::weekday>(day_of_week)));
     }
 
-    Date start_of(const std::string& when) const {
-        if (when == "year") {
+    Date start_of(const std::string& unit) const {
+        if (unit == "year") {
             return start_of_year();
         }
-        if (when == "month") {
+        if (unit == "month") {
             return start_of_month();
         }
-        if (when == "day") {
+        if (unit == "day") {
             return start_of_day();
         }
-        if (when == "week") {
+        if (unit == "week") {
             return start_of_week();
         }
         return *this;
     }
 
-    Date end_of(const std::string& when) const {
-        if (when == "year") {
+    Date end_of(const std::string& unit) const {
+        if (unit == "year") {
             return end_of_year();
         }
-        if (when == "month") {
+        if (unit == "month") {
             return end_of_month();
         }
-        if (when == "day") {
+        if (unit == "day") {
             return end_of_day();
         }
-        if (when == "week") {
+        if (unit == "week") {
             return end_of_week();
         }
         return *this;
