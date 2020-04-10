@@ -166,18 +166,11 @@ class Period {
 
    private:
     DateTimeIterator::Compare cmp() const {
-        if (inverse_) {
-            return [](const DateTime& dt, const DateTime& stop) { return dt >= stop; };
-        }
-        return [](const DateTime& dt, const DateTime& stop) { return dt <= stop; };
+        return inverse_ ? [](const DateTime& dt, const DateTime& stop) { return dt >= stop; }
+                        : [](const DateTime& dt, const DateTime& stop) { return dt <= stop; };
     }
 
-    int sign() const {
-        if (inverse_) {
-            return -1;
-        }
-        return 1;
-    }
+    int sign() const { return inverse_ ? -1 : 1; }
 
     DateTime start_;
     DateTime stop_;
