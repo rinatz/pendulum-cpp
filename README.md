@@ -118,7 +118,7 @@ std::cout << dt.to_iso8601_string();                    // 2020-04-03T22:18:26+0
 std::cout << dt.format("at %H:%M:%S on %d/%m, %Y");     // at 22:18:26 on 03/04, 2020
 ```
 
-### Addition
+### Additions
 
 ```cpp
 auto dt = pendulum::datetime(2020, 4, 3, 22, 18, 26, "Asia/Tokyo");

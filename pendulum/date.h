@@ -88,7 +88,7 @@ class Date {
     }
 
     //
-    // Addition
+    // Additions
     //
 
     Date add_years(int y) const { return add(y, 0, 0); }

@@ -171,7 +171,7 @@ class DateTime {
     }
 
     //
-    // Addition
+    // Additions
     //
 
     DateTime add_years(int y) const { return add_date(y, 0, 0); }
