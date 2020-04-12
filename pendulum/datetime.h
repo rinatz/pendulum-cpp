@@ -162,6 +162,7 @@ class DateTime {
     //
 
     std::string to_date_string() const { return date().to_date_string(); }
+    std::string to_time_string() const { return format("%H:%M:%S"); }
     std::string to_datetime_string() const { return format("%Y-%m-%d %H:%M:%S"); }
     std::string to_iso8601_string() const { return format("%Y-%m-%dT%H:%M:%S%Ez"); }
 
