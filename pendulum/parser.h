@@ -23,6 +23,8 @@
 #ifndef PENDULUM_PARSER_H_
 #define PENDULUM_PARSER_H_
 
+#include <algorithm>
+#include <cctype>
 #include <chrono>
 #include <cstdio>
 #include <ctime>
@@ -36,18 +38,37 @@
 
 namespace pendulum {
 
+namespace internal {
+
+inline Optional<DateTime> from_yyyymmdd(const std::string& input, const std::string& tz = "UTC") {
+    if (input.size() != 8) {
+        return nullopt;
+    }
+
+    const auto non_digit_count = std::count_if(input.begin(), input.end(),
+                                               [](unsigned char c) { return !std::isdigit(c); });
+
+    if (non_digit_count > 0) {
+        return nullopt;
+    }
+
+    int year = 0, month = 0, day = 0;
+    auto count = std::sscanf(input.c_str(), "%04d%02d%02d", &year, &month, &day);
+
+    if (count != 3 || count == EOF) {
+        return nullopt;
+    }
+
+    return DateTime(year, month, day, tz);
+}
+
+}  // namespace internal
+
 inline Optional<DateTime> from_format(const std::string& input, const std::string& fmt,
                                       const std::string& tz = "UTC") {
     if (fmt == "%Y%m%d") {
         // cctz cannot parse '%Y%m%d'
-        int year = 0, month = 0, day = 0;
-        auto count = std::sscanf(input.c_str(), "%04d%02d%02d", &year, &month, &day);
-
-        if (count != 3 || count == EOF) {
-            return nullopt;
-        }
-
-        return DateTime(year, month, day, tz);
+        return internal::from_yyyymmdd(input, tz);
     }
 
     const auto& timezone = internal::timezone(tz);
