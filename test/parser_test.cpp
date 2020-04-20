@@ -84,7 +84,7 @@ TEST(ParserTest, InvalidString) {
     EXPECT_THAT(dt.value_or(DateTime::epoch()), DateTime::epoch());
 }
 
-TEST(ParserTest, FormatUnmattched) {
+TEST(ParserTest, FormatUnmatched) {
     const auto& dt = from_format("2020-04-20", "%Y%m%d", "Asia/Tokyo");
 
     EXPECT_THAT(dt.has_value(), false);
