@@ -46,7 +46,7 @@ inline bool is_digit(const std::string& input) {
 
 inline Expected<DateTime> from_yyyymmdd(const std::string& input, const std::string& tz = "UTC") {
     if (input.size() != 8) {
-        return error<DateTime>("Not a eight digit number");
+        return error<DateTime>("Not an eight digit number");
     }
 
     if (!internal::is_digit(input)) {
