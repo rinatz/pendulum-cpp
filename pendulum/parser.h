@@ -34,7 +34,7 @@
 
 #include "pendulum/datetime.h"
 #include "pendulum/helpers.h"
-#include "pendulum/optional.h"
+#include "pendulum/utility.h"
 
 namespace pendulum {
 
@@ -44,20 +44,20 @@ inline bool is_digit(const std::string& input) {
     return std::all_of(input.begin(), input.end(), [](unsigned char c) { return std::isdigit(c); });
 }
 
-inline Optional<DateTime> from_yyyymmdd(const std::string& input, const std::string& tz = "UTC") {
+inline Expected<DateTime> from_yyyymmdd(const std::string& input, const std::string& tz = "UTC") {
     if (input.size() != 8) {
-        return nullopt;
+        return error<DateTime>("Not a eight digit number");
     }
 
     if (!internal::is_digit(input)) {
-        return nullopt;
+        return error<DateTime>("Contains non digit character");
     }
 
     int year = 0, month = 0, day = 0;
     auto count = std::sscanf(input.c_str(), "%04d%02d%02d", &year, &month, &day);
 
     if (count != 3 || count == EOF) {
-        return nullopt;
+        return error<DateTime>("Unsupported format");
     }
 
     return DateTime(year, month, day, tz);
@@ -65,7 +65,7 @@ inline Optional<DateTime> from_yyyymmdd(const std::string& input, const std::str
 
 }  // namespace internal
 
-inline Optional<DateTime> from_format(const std::string& input, const std::string& fmt,
+inline Expected<DateTime> from_format(const std::string& input, const std::string& fmt,
                                       const std::string& tz = "UTC") {
     if (fmt == "%Y%m%d") {
         // cctz cannot parse '%Y%m%d'
@@ -78,7 +78,7 @@ inline Optional<DateTime> from_format(const std::string& input, const std::strin
     auto ok = cctz::parse(fmt, input, timezone, &tp);
 
     if (!ok) {
-        return nullopt;
+        return error<DateTime>("Unsupported format");
     }
 
     const auto& cs = cctz::convert(tp, timezone);
@@ -86,7 +86,7 @@ inline Optional<DateTime> from_format(const std::string& input, const std::strin
     return DateTime(cs, timezone);
 }
 
-inline Optional<DateTime> parse(const std::string& input, const std::string& tz = "UTC") {
+inline Expected<DateTime> parse(const std::string& input, const std::string& tz = "UTC") {
     static const std::string formats[] = {
             "%Y-%m-%dT%H:%M:%S%Ez",
             "%Y-%m-%dT%H:%M:%S%E",
@@ -104,7 +104,7 @@ inline Optional<DateTime> parse(const std::string& input, const std::string& tz 
         }
     }
 
-    return nullopt;
+    return error<DateTime>("Unsupported format");
 }
 
 }  // namespace pendulum

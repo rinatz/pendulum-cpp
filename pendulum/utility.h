@@ -20,18 +20,42 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef PENDULUM_OPTIONAL_H_
-#define PENDULUM_OPTIONAL_H_
+#ifndef PENDULUM_UTILITY_H_
+#define PENDULUM_UTILITY_H_
 
+#include <exception>
+#include <string>
+
+#include "pendulum/internal/expected.hpp"
 #include "pendulum/internal/optional.hpp"
 
 namespace pendulum {
 
+class PendulumException : public std::exception {
+   public:
+    PendulumException() = default;
+
+    explicit PendulumException(const std::string& error) : error_(error) {}
+
+    const char* what() const noexcept override { return error_.c_str(); }
+
+   private:
+    std::string error_;
+};
+
+template <typename T>
+using Expected = nonstd::expected<T, PendulumException>;
+
+template <typename T>
+inline Expected<T> error(const std::string& e) {
+    return nonstd::make_unexpected(PendulumException(e));
+}
+
 template <typename T>
 using Optional = nonstd::optional<T>;
 
-static constexpr auto nullopt = nonstd::nullopt;
+using nonstd::nullopt;
 
 }  // namespace pendulum
 
-#endif  // PENDULUM_OPTIONAL_H_
+#endif  // PENDULUM_UTILITY_H_
