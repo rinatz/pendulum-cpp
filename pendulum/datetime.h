@@ -82,7 +82,7 @@ class DateTime {
 
     DateTime(const DateTime&) = default;
     DateTime(DateTime&&) = default;
-    ~DateTime() = default;
+    virtual ~DateTime() = default;
 
     DateTime& operator=(const DateTime&) = default;
     DateTime& operator=(DateTime&&) = default;

@@ -46,7 +46,7 @@ class Date {
 
     Date(const Date&) = default;
     Date(Date&&) = default;
-    ~Date() = default;
+    virtual ~Date() = default;
 
     Date& operator=(const Date&) = default;
     Date& operator=(Date&&) = default;
