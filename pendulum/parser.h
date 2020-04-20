@@ -40,15 +40,16 @@ namespace pendulum {
 
 namespace internal {
 
+inline bool is_digit(const std::string& input) {
+    return std::all_of(input.begin(), input.end(), [](unsigned char c) { return std::isdigit(c); });
+}
+
 inline Optional<DateTime> from_yyyymmdd(const std::string& input, const std::string& tz = "UTC") {
     if (input.size() != 8) {
         return nullopt;
     }
 
-    const auto non_digit_count = std::count_if(input.begin(), input.end(),
-                                               [](unsigned char c) { return !std::isdigit(c); });
-
-    if (non_digit_count > 0) {
+    if (!internal::is_digit(input)) {
         return nullopt;
     }
 
