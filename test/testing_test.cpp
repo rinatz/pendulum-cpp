@@ -72,7 +72,7 @@ TEST(Testing, Exception) {
             throw PendulumException("testing");
         });
     } catch (const PendulumException&) {
-        // Check set_test_now() will be invoked even if throwing exceptions
+        // Check test now will be cleared even if throwed exceptions
     }
 
     EXPECT_THAT(now(), Not(test_now));
