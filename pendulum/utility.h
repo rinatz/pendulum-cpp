@@ -29,8 +29,8 @@
 namespace pendulum {
 namespace internal {
 
-using namespace nonstd;
 using namespace gsl;
+using namespace nonstd;
 
 }  // namespace internal
 }  // namespace pendulum
