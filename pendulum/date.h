@@ -158,13 +158,13 @@ class Date {
     Date start_of_day() const { return *this; }
 
     Date start_of_week() const {
-        const auto week_day = internal::week_starts_at();
+        const auto weekday = internal::week_starts_at();
 
-        if (day_of_week() == week_day) {
+        if (day_of_week() == weekday) {
             return *this;
         }
 
-        return previous(week_day);
+        return previous(weekday);
     }
 
     Date end_of_year() const { return on(year(), 12, 31); }
@@ -172,8 +172,8 @@ class Date {
     Date end_of_day() const { return *this; }
 
     Date end_of_week() const {
-        const auto week_day = internal::week_starts_at();
-        return next(week_day).add_days(-1);
+        const auto weekday = internal::week_starts_at();
+        return next(weekday).add_days(-1);
     }
 
     cctz::civil_day ymd_;

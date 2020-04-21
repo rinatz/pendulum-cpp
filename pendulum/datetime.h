@@ -295,13 +295,13 @@ class DateTime {
     DateTime start_of_minute() const { return at(hour(), minute(), 0); }
 
     DateTime start_of_week() const {
-        const auto week_day = internal::week_starts_at();
+        const auto weekday = internal::week_starts_at();
 
-        if (day_of_week() == week_day) {
+        if (day_of_week() == weekday) {
             return at(0, 0, 0);
         }
 
-        return previous(week_day);
+        return previous(weekday);
     }
 
     DateTime end_of_year() const { return on(year(), 12, 31).at(23, 59, 59); }
@@ -311,8 +311,8 @@ class DateTime {
     DateTime end_of_minute() const { return at(hour(), minute(), 59); }
 
     DateTime end_of_week() const {
-        const auto week_day = internal::week_starts_at();
-        return next(week_day).add_days(-1).at(23, 59, 59);
+        const auto weekday = internal::week_starts_at();
+        return next(weekday).add_days(-1).at(23, 59, 59);
     }
 
     cctz::civil_second cs_;
