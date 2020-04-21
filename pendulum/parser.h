@@ -46,18 +46,18 @@ inline bool is_digit(const std::string& input) {
 
 inline DateTime from_yyyymmdd(const std::string& input, const std::string& tz = "UTC") {
     if (input.size() != 8) {
-        throw UnsupportedFormat("input: " + input);
+        throw UnsupportedFormat("input: " + input + " - format: %Y%m%d");
     }
 
     if (!internal::is_digit(input)) {
-        throw UnsupportedFormat("input: " + input);
+        throw UnsupportedFormat("input: " + input + " - format: %Y%m%d");
     }
 
     int year = 0, month = 0, day = 0;
     auto count = std::sscanf(input.c_str(), "%04d%02d%02d", &year, &month, &day);
 
     if (count != 3 || count == EOF) {
-        throw UnsupportedFormat("input: " + input);
+        throw UnsupportedFormat("input: " + input + " - format: %Y%m%d");
     }
 
     return DateTime(year, month, day, tz);
