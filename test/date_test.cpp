@@ -22,6 +22,9 @@
 
 #include <gmock/gmock.h>
 
+#include <map>
+#include <unordered_map>
+
 #include "pendulum/date.h"
 
 namespace pendulum {
@@ -98,6 +101,22 @@ TEST(Date, Modifiers) {
     EXPECT_THAT(date.end_of("day"), Date(2020, 4, 17));
     EXPECT_THAT(date.end_of("week"), Date(2020, 4, 19));
     EXPECT_THAT(date.day(13).end_of("week"), Date(2020, 4, 19));
+}
+
+TEST(Date, Map) {
+    std::map<Date, int> map{
+            {Date(), 1},
+    };
+
+    EXPECT_THAT(map[Date()], 1);
+}
+
+TEST(Date, UnorderedMap) {
+    std::unordered_map<Date, int> map{
+            {Date(), 1},
+    };
+
+    EXPECT_THAT(map[Date()], 1);
 }
 
 }  // namespace pendulum

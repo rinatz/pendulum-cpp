@@ -23,6 +23,7 @@
 #ifndef PENDULUM_DATE_H_
 #define PENDULUM_DATE_H_
 
+#include <functional>
 #include <string>
 
 #include <cctz/civil_time.h>
@@ -40,13 +41,11 @@ class Date {
     //
 
     Date() : ymd_(1970, 1, 1) {}
-
-    explicit Date(int y, int m, int d) : ymd_(y, m, d) {}
-
+    Date(int y, int m, int d) : ymd_(y, m, d) {}
     explicit Date(const cctz::civil_day& ymd) : ymd_(ymd) {}
-
     Date(const Date&) = default;
     Date(Date&&) = default;
+
     virtual ~Date() = default;
 
     Date& operator=(const Date&) = default;
@@ -193,5 +192,28 @@ inline bool operator>(const Date& a, const Date& b) { return a.instance() > b.in
 inline bool operator>=(const Date& a, const Date& b) { return a.instance() >= b.instance(); }
 
 }  // namespace pendulum
+
+namespace std {
+
+template <>
+struct hash<pendulum::Date> {
+    using result_type = size_t;
+    using argument_type = pendulum::Date;
+
+    hash() = default;
+    hash(const hash&) = default;
+    hash(hash&&) = default;
+
+    virtual ~hash() = default;
+
+    hash& operator=(const hash&) = default;
+    hash& operator=(hash&&) = default;
+
+    size_t operator()(const pendulum::Date& date) const {
+        return hash<std::string>()(date.to_date_string());
+    }
+};
+
+}  // namespace std
 
 #endif  // PENDULUM_DATE_H_

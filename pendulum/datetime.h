@@ -25,6 +25,7 @@
 
 #include <chrono>
 #include <ctime>
+#include <functional>
 #include <string>
 
 #include <cctz/civil_time.h>
@@ -348,5 +349,28 @@ inline bool operator>=(const DateTime& a, const DateTime& b) {
 }
 
 }  // namespace pendulum
+
+namespace std {
+
+template <>
+struct hash<pendulum::DateTime> {
+    using result_type = size_t;
+    using argument_type = pendulum::DateTime;
+
+    hash() = default;
+    hash(const hash&) = default;
+    hash(hash&&) = default;
+
+    virtual ~hash() = default;
+
+    hash& operator=(const hash&) = default;
+    hash& operator=(hash&&) = default;
+
+    size_t operator()(const pendulum::DateTime& dt) const {
+        return hash<std::string>()(dt.to_iso8601_string());
+    }
+};
+
+}  // namespace std
 
 #endif  // PENDULUM_DATETIME_H_

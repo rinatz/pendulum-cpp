@@ -22,7 +22,8 @@
 
 #include <gmock/gmock.h>
 
-#include <limits>
+#include <map>
+#include <unordered_map>
 
 #include "pendulum/datetime.h"
 #include "pendulum/exceptions.h"
@@ -185,6 +186,22 @@ TEST(DateTime, Modifers) {
     EXPECT_THAT(dt.in_offset(-14400), DateTime(2020, 4, 3, 2, 0, 0, "US/Eastern"));
     EXPECT_THAT(dt.in_offset_hours(-4), DateTime(2020, 4, 3, 2, 0, 0, "US/Eastern"));
     EXPECT_THAT(dt.in_offset_hours(8, 45), DateTime(2020, 4, 3, 14, 45, 0, "Australia/Eucla"));
+}
+
+TEST(DateTime, Map) {
+    std::map<DateTime, int> map{
+            {DateTime(), 1},
+    };
+
+    EXPECT_THAT(map[DateTime()], 1);
+}
+
+TEST(DateTime, UnorderedMap) {
+    std::unordered_map<DateTime, int> map{
+            {DateTime(), 1},
+    };
+
+    EXPECT_THAT(map[DateTime()], 1);
 }
 
 }  // namespace pendulum

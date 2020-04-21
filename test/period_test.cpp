@@ -1,6 +1,7 @@
 #include <gmock/gmock.h>
 
 #include <iterator>
+#include <unordered_map>
 #include <vector>
 
 #include "pendulum/datetime.h"
@@ -201,6 +202,14 @@ TEST(Period, Inverse) {
         DateTime(2020, 12, 27)
     ));
     // clang-format on
+}
+
+TEST(Period, UnorderedMap) {
+    std::unordered_map<Period, int> map{
+            {Period(), 1},
+    };
+
+    EXPECT_THAT(map[Period()], 1);
 }
 
 }  // namespace pendulum

@@ -128,13 +128,13 @@ class Period {
     Period() = default;
 
     Period(const DateTime& start, const DateTime& stop, bool absolute = false)
-            : start_(start), stop_(stop) {
+            : start_(start), stop_(stop), absolute_(absolute), invert_(false) {
         if (start > stop) {
             if (absolute) {
                 start_ = stop;
                 stop_ = start;
             } else {
-                inverse_ = true;
+                invert_ = true;
             }
         }
     }
@@ -149,6 +149,7 @@ class Period {
 
     const DateTime& start() const { return start_; }
     const DateTime& stop() const { return stop_; }
+    bool absolute() const { return absolute_; }
 
     int in_weeks() const { return in_days() / 7; }
     int remaining_days() const { return in_days() % 7; }
@@ -193,17 +194,61 @@ class Period {
 
    private:
     DateTimeIterator::Compare cmp() const {
-        return inverse_ ? [](const DateTime& dt, const DateTime& stop) { return dt >= stop; }
-                        : [](const DateTime& dt, const DateTime& stop) { return dt <= stop; };
+        return invert_ ? [](const DateTime& dt, const DateTime& stop) { return dt >= stop; }
+                       : [](const DateTime& dt, const DateTime& stop) { return dt <= stop; };
     }
 
-    int sign() const { return inverse_ ? -1 : 1; }
+    int sign() const { return invert_ ? -1 : 1; }
 
     DateTime start_;
     DateTime stop_;
-    bool inverse_ = false;
+    bool absolute_ = false;
+    bool invert_ = false;
 };
 
+inline bool operator==(const Period& a, const Period& b) {
+    return a.start() == b.start() && a.stop() == b.stop() && a.absolute() == b.absolute();
+}
+
+inline bool operator!=(const Period& a, const Period& b) { return !operator==(a, b); }
+
 }  // namespace pendulum
+
+namespace std {
+
+template <>
+struct hash<pendulum::Period> {
+    using result_type = size_t;
+    using argument_type = pendulum::Period;
+
+    hash() = default;
+    hash(const hash&) = default;
+    hash(hash&&) = default;
+
+    virtual ~hash() = default;
+
+    hash& operator=(const hash&) = default;
+    hash& operator=(hash&&) = default;
+
+    size_t operator()(const pendulum::Period& period) const {
+        const auto& start = period.start().to_iso8601_string();
+        const auto& stop = period.stop().to_iso8601_string();
+
+        const size_t hash_values[] = {
+                hash<std::string>()(start + "/" + stop),
+                hash<bool>()(period.absolute()),
+        };
+
+        size_t seed = 0;
+
+        for (auto hash_value : hash_values) {
+            seed ^= hash_value + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+        }
+
+        return seed;
+    }
+};
+
+}  // namespace std
 
 #endif  // PENDULUM_PERIOD_H_
