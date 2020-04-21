@@ -20,17 +20,26 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef PENDULUM_UTILITY_H_
-#define PENDULUM_UTILITY_H_
+#ifndef PENDULUM_EXCEPTIONS_H_
+#define PENDULUM_EXCEPTIONS_H_
 
-#include "pendulum/internal/optional.hpp"
+#include <exception>
+#include <string>
 
 namespace pendulum {
-namespace internal {
 
-using namespace nonstd;
+class PendulumException : public std::exception {
+   public:
+    PendulumException() = default;
 
-}  // namespace internal
+    explicit PendulumException(const std::string& error) : error_(error) {}
+
+    const char* what() const noexcept override { return error_.c_str(); }
+
+   private:
+    std::string error_;
+};
+
 }  // namespace pendulum
 
-#endif  // PENDULUM_UTILITY_H_
+#endif  // PENDULUM_EXCEPTIONS_H_

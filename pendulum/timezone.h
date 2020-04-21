@@ -20,17 +20,43 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef PENDULUM_UTILITY_H_
-#define PENDULUM_UTILITY_H_
+#ifndef PENDULUM_TIMEZONE_H_
+#define PENDULUM_TIMEZONE_H_
 
-#include "pendulum/internal/optional.hpp"
+#include <chrono>
+#include <string>
+
+#include <cctz/time_zone.h>
+
+#include "pendulum/exceptions.h"
 
 namespace pendulum {
 namespace internal {
 
-using namespace nonstd;
+inline cctz::time_zone timezone(const std::string& name) {
+    if (name == "UTC") {
+        return cctz::utc_time_zone();
+    }
+
+    if (name == "local") {
+        return cctz::local_time_zone();
+    }
+
+    cctz::time_zone tz;
+    auto ok = cctz::load_time_zone(name, &tz);
+
+    if (!ok) {
+        throw PendulumException("Invalid timezone: " + name);
+    }
+
+    return tz;
+}
+
+inline cctz::time_zone timezone(std::chrono::seconds offset) {
+    return cctz::fixed_time_zone(offset);
+}
 
 }  // namespace internal
 }  // namespace pendulum
 
-#endif  // PENDULUM_UTILITY_H_
+#endif  // PENDULUM_TIMEZONE_H_

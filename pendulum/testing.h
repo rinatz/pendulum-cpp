@@ -32,8 +32,8 @@ namespace pendulum {
 
 namespace internal {
 
-inline Optional<DateTime>& test_now() {
-    static Optional<DateTime> now;
+inline optional<DateTime>& test_now() {
+    static optional<DateTime> now;
     return now;
 }
 
@@ -42,7 +42,7 @@ inline Optional<DateTime>& test_now() {
 inline bool has_test_now() { return internal::test_now().has_value(); }
 inline DateTime get_test_now() { return internal::test_now().value(); }
 inline void set_test_now(const DateTime& now) { internal::test_now() = now; }
-inline void set_test_now() { internal::test_now() = nullopt; }
+inline void set_test_now() { internal::test_now() = internal::nullopt; }
 
 inline void test(const DateTime& now, std::function<void()> func) {
     set_test_now(now);

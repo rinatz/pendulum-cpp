@@ -32,31 +32,9 @@
 
 #include "pendulum/constants.h"
 #include "pendulum/date.h"
+#include "pendulum/timezone.h"
 
 namespace pendulum {
-
-namespace internal {
-
-inline cctz::time_zone timezone(const std::string& name) {
-    if (name == "UTC") {
-        return cctz::utc_time_zone();
-    }
-
-    if (name == "local") {
-        return cctz::local_time_zone();
-    }
-
-    cctz::time_zone tz;
-    cctz::load_time_zone(name, &tz);
-
-    return tz;
-}
-
-inline cctz::time_zone timezone(std::chrono::seconds offset) {
-    return cctz::fixed_time_zone(offset);
-}
-
-}  // namespace internal
 
 class DateTime {
    public:
@@ -64,19 +42,20 @@ class DateTime {
     // Instantiation
     //
 
+    static const DateTime& epoch() {
+        static DateTime dt(1970, 1, 1, "UTC");
+        return dt;
+    }
+
     DateTime() { *this = epoch(); }
-
-    explicit DateTime(int y, int m, int d, const std::string& tz = "UTC") : cs_(y, m, d) {
-        tz_ = internal::timezone(tz);
-    }
-
-    DateTime(int y, int m, int d, int hh, int mm = 0, int ss = 0, const std::string& tz = "UTC")
-            : cs_(y, m, d, hh, mm, ss) {
-        tz_ = internal::timezone(tz);
-    }
 
     DateTime(const Date& date, const std::string& tz = "UTC")
             : DateTime(date.year(), date.month(), date.day(), tz) {}
+
+    DateTime(int y, int m, int d, const std::string& tz = "UTC") : DateTime(y, m, d, 0, 0, 0, tz) {}
+
+    DateTime(int y, int m, int d, int hh, int mm = 0, int ss = 0, const std::string& tz = "UTC")
+            : DateTime(cctz::civil_second(y, m, d, hh, mm, ss), internal::timezone(tz)) {}
 
     DateTime(const cctz::civil_second& cs, const cctz::time_zone& tz) : cs_(cs), tz_(tz) {}
 
@@ -245,7 +224,7 @@ class DateTime {
         if (unit == "week") {
             return start_of_week();
         }
-        return at(0, 0, 0);
+        throw PendulumException("Invalid unit for start_of(): " + unit);
     }
 
     DateTime end_of(const std::string& unit) const {
@@ -267,7 +246,7 @@ class DateTime {
         if (unit == "week") {
             return end_of_week();
         }
-        return at(0, 0, 0);
+        throw PendulumException("Invalid unit for end_of(): " + unit);
     }
 
     DateTime in_timezone(const std::string& name) const {
@@ -298,11 +277,6 @@ class DateTime {
     //
     // Internals
     //
-
-    static const DateTime& epoch() {
-        static DateTime dt(1970, 1, 1, "UTC");
-        return dt;
-    }
 
     const cctz::time_zone& timezone() const { return tz_; }
     const cctz::civil_second& instance() const { return cs_; }

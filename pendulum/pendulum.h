@@ -26,6 +26,7 @@
 #include "pendulum/constants.h"
 #include "pendulum/date.h"
 #include "pendulum/datetime.h"
+#include "pendulum/exceptions.h"
 #include "pendulum/helpers.h"
 #include "pendulum/parser.h"
 #include "pendulum/period.h"

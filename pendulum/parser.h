@@ -33,8 +33,8 @@
 #include <cctz/time_zone.h>
 
 #include "pendulum/datetime.h"
+#include "pendulum/exceptions.h"
 #include "pendulum/helpers.h"
-#include "pendulum/utility.h"
 
 namespace pendulum {
 
@@ -44,20 +44,20 @@ inline bool is_digit(const std::string& input) {
     return std::all_of(input.begin(), input.end(), [](unsigned char c) { return std::isdigit(c); });
 }
 
-inline Expected<DateTime> from_yyyymmdd(const std::string& input, const std::string& tz = "UTC") {
+inline DateTime from_yyyymmdd(const std::string& input, const std::string& tz = "UTC") {
     if (input.size() != 8) {
-        return error<DateTime>("Not an eight digit number");
+        throw PendulumException("Not an eight digit number");
     }
 
     if (!internal::is_digit(input)) {
-        return error<DateTime>("Contains non digit character");
+        throw PendulumException("Contains non digit character");
     }
 
     int year = 0, month = 0, day = 0;
     auto count = std::sscanf(input.c_str(), "%04d%02d%02d", &year, &month, &day);
 
     if (count != 3 || count == EOF) {
-        return error<DateTime>("Unsupported format");
+        throw PendulumException("Unsupported format");
     }
 
     return DateTime(year, month, day, tz);
@@ -65,8 +65,8 @@ inline Expected<DateTime> from_yyyymmdd(const std::string& input, const std::str
 
 }  // namespace internal
 
-inline Expected<DateTime> from_format(const std::string& input, const std::string& fmt,
-                                      const std::string& tz = "UTC") {
+inline DateTime from_format(const std::string& input, const std::string& fmt,
+                            const std::string& tz = "UTC") {
     if (fmt == "%Y%m%d") {
         // cctz cannot parse '%Y%m%d'
         return internal::from_yyyymmdd(input, tz);
@@ -78,7 +78,7 @@ inline Expected<DateTime> from_format(const std::string& input, const std::strin
     auto ok = cctz::parse(fmt, input, timezone, &tp);
 
     if (!ok) {
-        return error<DateTime>("Unsupported format");
+        throw PendulumException("Unsupported format");
     }
 
     const auto& cs = cctz::convert(tp, timezone);
@@ -86,7 +86,7 @@ inline Expected<DateTime> from_format(const std::string& input, const std::strin
     return DateTime(cs, timezone);
 }
 
-inline Expected<DateTime> parse(const std::string& input, const std::string& tz = "UTC") {
+inline DateTime parse(const std::string& input, const std::string& tz = "UTC") {
     static const std::string formats[] = {
             "%Y-%m-%dT%H:%M:%S%Ez",
             "%Y-%m-%dT%H:%M:%S%E",
@@ -98,13 +98,14 @@ inline Expected<DateTime> parse(const std::string& input, const std::string& tz 
     };
 
     for (const auto& fmt : formats) {
-        const auto& dt = from_format(input, fmt, tz);
-        if (dt) {
-            return dt;
+        try {
+            return from_format(input, fmt, tz);
+        } catch (const PendulumException&) {
+            continue;
         }
     }
 
-    return error<DateTime>("Unsupported format");
+    throw PendulumException("Unsupported format");
 }
 
 }  // namespace pendulum

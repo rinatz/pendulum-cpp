@@ -28,6 +28,7 @@
 #include <string>
 
 #include "pendulum/datetime.h"
+#include "pendulum/exceptions.h"
 #include "pendulum/utility.h"
 
 namespace pendulum {
@@ -48,6 +49,14 @@ class DateTimeIterator {
     DateTimeIterator(const DateTime& start, const DateTime& stop, const Add& add,
                      const Compare& cmp)
             : dt_(start), stop_(stop), add_(add), cmp_(cmp) {}
+
+    DateTimeIterator(const DateTimeIterator&) = default;
+    DateTimeIterator(DateTimeIterator&&) = default;
+
+    DateTimeIterator& operator=(const DateTimeIterator&) = default;
+    DateTimeIterator& operator=(DateTimeIterator&&) = default;
+
+    virtual ~DateTimeIterator() = default;
 
     DateTimeIterator& operator++() {
         next();
@@ -79,14 +88,14 @@ class DateTimeIterator {
     }
 
     void clear() {
-        dt_ = nullopt;
-        stop_ = nullopt;
+        dt_ = internal::nullopt;
+        stop_ = internal::nullopt;
         add_ = nullptr;
         cmp_ = nullptr;
     }
 
-    Optional<DateTime> dt_;
-    Optional<DateTime> stop_;
+    internal::optional<DateTime> dt_;
+    internal::optional<DateTime> stop_;
     Add add_;
     Compare cmp_;
 };
@@ -97,6 +106,14 @@ class DateTimeRange {
 
     DateTimeRange(const DateTimeIterator& begin, const DateTimeIterator& end)
             : begin_(begin), end_(end) {}
+
+    DateTimeRange(const DateTimeRange&) = default;
+    DateTimeRange(DateTimeRange&&) = default;
+
+    DateTimeRange& operator=(const DateTimeRange&) = default;
+    DateTimeRange& operator=(DateTimeRange&&) = default;
+
+    virtual ~DateTimeRange() = default;
 
     const DateTimeIterator& begin() const { return begin_; }
     const DateTimeIterator& end() const { return end_; }
@@ -121,6 +138,14 @@ class Period {
             }
         }
     }
+
+    Period(const Period&) = default;
+    Period(Period&&) = default;
+
+    Period& operator=(const Period&) = default;
+    Period& operator=(Period&&) = default;
+
+    virtual ~Period() = default;
 
     const DateTime& start() const { return start_; }
     const DateTime& stop() const { return stop_; }
@@ -151,6 +176,8 @@ class Period {
             add = std::bind(&DateTime::add_minutes, _1, step * sign());
         } else if (unit == "seconds") {
             add = std::bind(&DateTime::add_seconds, _1, step * sign());
+        } else {
+            throw PendulumException("Invalid unit for range(): " + unit);
         }
 
         return DateTimeRange(DateTimeIterator(start_, stop_, add, cmp()), DateTimeIterator());

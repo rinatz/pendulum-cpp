@@ -29,6 +29,7 @@
 #include <cctz/time_zone.h>
 
 #include "pendulum/constants.h"
+#include "pendulum/exceptions.h"
 
 namespace pendulum {
 
@@ -125,7 +126,7 @@ class Date {
         if (unit == "week") {
             return start_of_week();
         }
-        return *this;
+        throw PendulumException("Invalid unit for start_of(): " + unit);
     }
 
     Date end_of(const std::string& unit) const {
@@ -141,7 +142,7 @@ class Date {
         if (unit == "week") {
             return end_of_week();
         }
-        return *this;
+        throw PendulumException("Invalid unit for end_of(): " + unit);
     }
 
     //
