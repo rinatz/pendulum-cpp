@@ -31,13 +31,45 @@ namespace pendulum {
 class PendulumException : public std::exception {
    public:
     PendulumException() = default;
-
     explicit PendulumException(const std::string& error) : error_(error) {}
+    PendulumException(const PendulumException&) = default;
+    PendulumException(PendulumException&&) = default;
+
+    virtual ~PendulumException() = default;
+
+    PendulumException& operator=(const PendulumException&) = default;
+    PendulumException& operator=(PendulumException&&) = default;
 
     const char* what() const noexcept override { return error_.c_str(); }
 
    private:
     std::string error_;
+};
+
+class InvalidTimezone : public PendulumException {
+   public:
+    InvalidTimezone() = default;
+    explicit InvalidTimezone(const std::string& error) : PendulumException(error) {}
+    InvalidTimezone(const InvalidTimezone&) = default;
+    InvalidTimezone(InvalidTimezone&&) = default;
+
+    virtual ~InvalidTimezone() = default;
+
+    InvalidTimezone& operator=(const InvalidTimezone&) = default;
+    InvalidTimezone& operator=(InvalidTimezone&&) = default;
+};
+
+class UnsupportedFormat : public PendulumException {
+   public:
+    UnsupportedFormat() = default;
+    explicit UnsupportedFormat(const std::string& error) : PendulumException(error) {}
+    UnsupportedFormat(const UnsupportedFormat&) = default;
+    UnsupportedFormat(UnsupportedFormat&&) = default;
+
+    virtual ~UnsupportedFormat() = default;
+
+    UnsupportedFormat& operator=(const UnsupportedFormat&) = default;
+    UnsupportedFormat& operator=(UnsupportedFormat&&) = default;
 };
 
 }  // namespace pendulum

@@ -46,7 +46,7 @@ inline cctz::time_zone timezone(const std::string& name) {
     auto ok = cctz::load_time_zone(name, &tz);
 
     if (!ok) {
-        throw PendulumException("Invalid timezone: " + name);
+        throw InvalidTimezone("tz: " + name);
     }
 
     return tz;

@@ -46,18 +46,18 @@ inline bool is_digit(const std::string& input) {
 
 inline DateTime from_yyyymmdd(const std::string& input, const std::string& tz = "UTC") {
     if (input.size() != 8) {
-        throw PendulumException("Not an eight digit number: " + input);
+        throw UnsupportedFormat("input: " + input);
     }
 
     if (!internal::is_digit(input)) {
-        throw PendulumException("Contains non digit character: " + input);
+        throw UnsupportedFormat("input: " + input);
     }
 
     int year = 0, month = 0, day = 0;
     auto count = std::sscanf(input.c_str(), "%04d%02d%02d", &year, &month, &day);
 
     if (count != 3 || count == EOF) {
-        throw PendulumException("Unsupported format: " + input);
+        throw UnsupportedFormat("input: " + input);
     }
 
     return DateTime(year, month, day, tz);
@@ -78,7 +78,7 @@ inline DateTime from_format(const std::string& input, const std::string& fmt,
     auto ok = cctz::parse(fmt, input, tz_, &tp);
 
     if (!ok) {
-        throw PendulumException("Unsupported format - input: " + input + " - format: " + fmt);
+        throw UnsupportedFormat("input: " + input + " - format: " + fmt);
     }
 
     const auto& cs = cctz::convert(tp, tz_);
@@ -98,18 +98,18 @@ inline DateTime parse(const std::string& input, const std::string& tz = "UTC") {
     };
 
     if (input == "now") {
-        return now();
+        return now(tz);
     }
 
     for (const auto& fmt : formats) {
         try {
             return from_format(input, fmt, tz);
-        } catch (const PendulumException&) {
+        } catch (const UnsupportedFormat&) {
             continue;
         }
     }
 
-    throw PendulumException("Unsupported format: " + input);
+    throw UnsupportedFormat("input: " + input);
 }
 
 }  // namespace pendulum
