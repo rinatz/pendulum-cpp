@@ -47,28 +47,14 @@ const auto& tomorrow = pendulum::tomorrow();    // 2020-04-06T00:00:00+09:00
 ### Parsing
 
 ```cpp
+// 2020-04-03T00:00:00+09:00
 const auto& dt = pendulum::from_format("2020-04-03", "%Y-%m-%d", "Asia/Tokyo");
-if (dt.has_value()) {
-    *dt;                            // 2020-04-03T00:00:00+09:00
-    dt.value();                     // 2020-04-03T00:00:00+09:00
-}
 
+// 2015-06-10T00:00:00+09:00
 const auto& dt = pendulum::parse("2015-06-10", "Asia/Tokyo");
-if (dt.has_value()) {
-    *dt;                            // 2015-06-10T00:00:00+09:00
-    dt.value();                     // 2015-06-10T00:00:00+09:00
-}
 
+// 2000-01-05T00:00:00+09:00
 const auto& dt = pendulum::parse("20000105", "Asia/Tokyo");
-if (dt.has_value()) {
-    *dt;                            // 2000-01-05T00:00:00+09:00
-    dt.value();                     // 2000-01-05T00:00:00+09:00
-}
-
-// invalid string
-const auto& dt = pendulum::parse("2020/12/25", "Asia/Tokyo");
-dt.value();                         // throws the exception
-dt.value_or(DateTime::epoch());     // 1970-01-01T00:00:00+00:00 (UNIX epoch)
 ```
 
 ### Attributes
