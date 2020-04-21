@@ -46,18 +46,18 @@ inline bool is_digit(const std::string& input) {
 
 inline DateTime from_yyyymmdd(const std::string& input, const std::string& tz = "UTC") {
     if (input.size() != 8) {
-        throw PendulumException("Not an eight digit number");
+        throw PendulumException("Not an eight digit number: " + input);
     }
 
     if (!internal::is_digit(input)) {
-        throw PendulumException("Contains non digit character");
+        throw PendulumException("Contains non digit character: " + input);
     }
 
     int year = 0, month = 0, day = 0;
     auto count = std::sscanf(input.c_str(), "%04d%02d%02d", &year, &month, &day);
 
     if (count != 3 || count == EOF) {
-        throw PendulumException("Unsupported format");
+        throw PendulumException("Unsupported format: " + input);
     }
 
     return DateTime(year, month, day, tz);
@@ -72,18 +72,18 @@ inline DateTime from_format(const std::string& input, const std::string& fmt,
         return internal::from_yyyymmdd(input, tz);
     }
 
-    const auto& timezone = internal::timezone(tz);
+    const auto& tz_ = internal::timezone(tz);
     cctz::time_point<std::chrono::seconds> tp;
 
-    auto ok = cctz::parse(fmt, input, timezone, &tp);
+    auto ok = cctz::parse(fmt, input, tz_, &tp);
 
     if (!ok) {
-        throw PendulumException("Unsupported format");
+        throw PendulumException("Unsupported format - input: " + input + " - format: " + fmt);
     }
 
-    const auto& cs = cctz::convert(tp, timezone);
+    const auto& cs = cctz::convert(tp, tz_);
 
-    return DateTime(cs, timezone);
+    return DateTime(cs, tz_);
 }
 
 inline DateTime parse(const std::string& input, const std::string& tz = "UTC") {
@@ -109,7 +109,7 @@ inline DateTime parse(const std::string& input, const std::string& tz = "UTC") {
         }
     }
 
-    throw PendulumException("Unsupported format");
+    throw PendulumException("Unsupported format: " + input);
 }
 
 }  // namespace pendulum
