@@ -41,8 +41,8 @@ static constexpr int kSecondsPerMinute = 60;
 static constexpr int kMinutesPerHour = 60;
 
 inline int& week_starts_at() {
-    static int week_day = kMonday;
-    return week_day;
+    static int weekday = kMonday;
+    return weekday;
 }
 
 }  // namespace internal
