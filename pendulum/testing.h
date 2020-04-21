@@ -23,6 +23,7 @@
 #ifndef PENDULUM_TESTING_H_
 #define PENDULUM_TESTING_H_
 
+#include <exception>
 #include <functional>
 
 #include "pendulum/datetime.h"
@@ -45,9 +46,10 @@ inline void set_test_now(const DateTime& now) { internal::test_now() = now; }
 inline void set_test_now() { internal::test_now() = internal::nullopt; }
 
 inline void test(const DateTime& now, std::function<void()> func) {
+    auto act = internal::finally([] { set_test_now(); });
+
     set_test_now(now);
     func();
-    set_test_now();
 }
 
 }  // namespace pendulum

@@ -30,37 +30,52 @@ namespace pendulum {
 using testing::Not;
 
 TEST(Testing, Testing1) {
-    const auto& now = pendulum::datetime(2000, 12, 25, 16, 30, 50);
+    const auto& test_now = datetime(2000, 12, 25, 16, 30, 50);
 
-    pendulum::set_test_now(now);
+    set_test_now(test_now);
 
-    EXPECT_THAT(pendulum::now(), now);
-    EXPECT_THAT(pendulum::today(), pendulum::datetime(2000, 12, 25));
-    EXPECT_THAT(pendulum::yesterday(), pendulum::datetime(2000, 12, 24));
-    EXPECT_THAT(pendulum::tomorrow(), pendulum::datetime(2000, 12, 26));
+    EXPECT_THAT(now(), test_now);
+    EXPECT_THAT(today(), datetime(2000, 12, 25));
+    EXPECT_THAT(yesterday(), datetime(2000, 12, 24));
+    EXPECT_THAT(tomorrow(), datetime(2000, 12, 26));
 
-    pendulum::set_test_now();
+    set_test_now();
 
-    EXPECT_THAT(pendulum::now(), Not(now));
-    EXPECT_THAT(pendulum::today(), Not(pendulum::datetime(2000, 12, 25)));
-    EXPECT_THAT(pendulum::yesterday(), Not(pendulum::datetime(2000, 12, 24)));
-    EXPECT_THAT(pendulum::tomorrow(), Not(pendulum::datetime(2000, 12, 26)));
+    EXPECT_THAT(now(), Not(test_now));
+    EXPECT_THAT(today(), Not(datetime(2000, 12, 25)));
+    EXPECT_THAT(yesterday(), Not(datetime(2000, 12, 24)));
+    EXPECT_THAT(tomorrow(), Not(datetime(2000, 12, 26)));
 }
 
 TEST(Testing, Testing2) {
-    const auto& now = pendulum::datetime(2000, 12, 25, 16, 30, 50);
+    const auto& test_now = datetime(2000, 12, 25, 16, 30, 50);
 
-    pendulum::test(now, [&]() {
-        EXPECT_THAT(pendulum::now(), now);
-        EXPECT_THAT(pendulum::today(), pendulum::datetime(2000, 12, 25));
-        EXPECT_THAT(pendulum::yesterday(), pendulum::datetime(2000, 12, 24));
-        EXPECT_THAT(pendulum::tomorrow(), pendulum::datetime(2000, 12, 26));
+    test(test_now, [&]() {
+        EXPECT_THAT(now(), test_now);
+        EXPECT_THAT(today(), datetime(2000, 12, 25));
+        EXPECT_THAT(yesterday(), datetime(2000, 12, 24));
+        EXPECT_THAT(tomorrow(), datetime(2000, 12, 26));
     });
 
-    EXPECT_THAT(pendulum::now(), Not(now));
-    EXPECT_THAT(pendulum::today(), Not(pendulum::datetime(2000, 12, 25)));
-    EXPECT_THAT(pendulum::yesterday(), Not(pendulum::datetime(2000, 12, 24)));
-    EXPECT_THAT(pendulum::tomorrow(), Not(pendulum::datetime(2000, 12, 26)));
+    EXPECT_THAT(now(), Not(test_now));
+    EXPECT_THAT(today(), Not(datetime(2000, 12, 25)));
+    EXPECT_THAT(yesterday(), Not(datetime(2000, 12, 24)));
+    EXPECT_THAT(tomorrow(), Not(datetime(2000, 12, 26)));
+}
+
+TEST(Testing, Exception) {
+    const auto& test_now = datetime(2000, 12, 25, 16, 30, 50);
+
+    try {
+        test(test_now, [&]() {
+            EXPECT_THAT(now(), test_now);
+            throw PendulumException("testing");
+        });
+    } catch (const PendulumException&) {
+        // Check set_test_now() will be invoked even if throwing exceptions
+    }
+
+    EXPECT_THAT(now(), Not(test_now));
 }
 
 }  // namespace pendulum

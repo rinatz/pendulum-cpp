@@ -23,12 +23,14 @@
 #ifndef PENDULUM_UTILITY_H_
 #define PENDULUM_UTILITY_H_
 
+#include "pendulum/internal/gsl.hpp"
 #include "pendulum/internal/optional.hpp"
 
 namespace pendulum {
 namespace internal {
 
 using namespace nonstd;
+using namespace gsl;
 
 }  // namespace internal
 }  // namespace pendulum
