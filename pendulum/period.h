@@ -53,10 +53,10 @@ class DateTimeIterator {
     DateTimeIterator(const DateTimeIterator&) = default;
     DateTimeIterator(DateTimeIterator&&) = default;
 
+    virtual ~DateTimeIterator() = default;
+
     DateTimeIterator& operator=(const DateTimeIterator&) = default;
     DateTimeIterator& operator=(DateTimeIterator&&) = default;
-
-    virtual ~DateTimeIterator() = default;
 
     DateTimeIterator& operator++() {
         next();
@@ -110,10 +110,10 @@ class DateTimeRange {
     DateTimeRange(const DateTimeRange&) = default;
     DateTimeRange(DateTimeRange&&) = default;
 
+    virtual ~DateTimeRange() = default;
+
     DateTimeRange& operator=(const DateTimeRange&) = default;
     DateTimeRange& operator=(DateTimeRange&&) = default;
-
-    virtual ~DateTimeRange() = default;
 
     const DateTimeIterator& begin() const { return begin_; }
     const DateTimeIterator& end() const { return end_; }
@@ -142,10 +142,10 @@ class Period {
     Period(const Period&) = default;
     Period(Period&&) = default;
 
+    virtual ~Period() = default;
+
     Period& operator=(const Period&) = default;
     Period& operator=(Period&&) = default;
-
-    virtual ~Period() = default;
 
     const DateTime& start() const { return start_; }
     const DateTime& stop() const { return stop_; }
