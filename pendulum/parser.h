@@ -97,6 +97,10 @@ inline DateTime parse(const std::string& input, const std::string& tz = "UTC") {
             "%Y",
     };
 
+    if (input == "now") {
+        return now();
+    }
+
     for (const auto& fmt : formats) {
         try {
             return from_format(input, fmt, tz);

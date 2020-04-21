@@ -27,6 +27,12 @@
 
 namespace pendulum {
 
+TEST(Parser, Now) {
+    const auto& now = datetime(2020, 4, 15, "Asia/Tokyo");
+
+    pendulum::test(now, [&]() { EXPECT_THAT(parse("now"), now); });
+}
+
 TEST(Parser, ISO8601String1) {
     const auto& dt = parse("2020-04-03T15:20:30+09:00");
 
