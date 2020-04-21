@@ -77,14 +77,14 @@ TEST(Parser, YearString) {
     EXPECT_THAT(dt, DateTime(2020, 1, 1, "Asia/Tokyo"));
 }
 
-TEST(Parser, InvalidString) {
+TEST(Parser, UnsupportedFormat) {
     DateTime dt;
 
     EXPECT_THROW(dt = parse("2020/12/25", "Asia/Tokyo"), PendulumException);
     EXPECT_THAT(dt, DateTime::epoch());
 }
 
-TEST(Parser, FormatUnmatched) {
+TEST(Parser, UnmatchedFormat) {
     DateTime dt;
 
     EXPECT_THROW(dt = from_format("2020-04-20", "%Y%m%d", "Asia/Tokyo"), PendulumException);
