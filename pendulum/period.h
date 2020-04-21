@@ -178,7 +178,7 @@ class Period {
         } else if (unit == "seconds") {
             add = std::bind(&DateTime::add_seconds, _1, step * sign());
         } else {
-            throw PendulumException("Invalid unit for range(): " + unit);
+            throw InvalidUnit("unit for range(): " + unit);
         }
 
         return DateTimeRange(DateTimeIterator(start_, stop_, add, cmp()), DateTimeIterator());

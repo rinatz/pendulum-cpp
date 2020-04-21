@@ -125,7 +125,7 @@ class Date {
         if (unit == "week") {
             return start_of_week();
         }
-        throw PendulumException("Invalid unit for start_of(): " + unit);
+        throw InvalidUnit("unit for start_of(): " + unit);
     }
 
     Date end_of(const std::string& unit) const {
@@ -141,7 +141,7 @@ class Date {
         if (unit == "week") {
             return end_of_week();
         }
-        throw PendulumException("Invalid unit for end_of(): " + unit);
+        throw InvalidUnit("unit for end_of(): " + unit);
     }
 
     //

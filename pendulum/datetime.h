@@ -226,7 +226,7 @@ class DateTime {
         if (unit == "week") {
             return start_of_week();
         }
-        throw PendulumException("Invalid unit for start_of(): " + unit);
+        throw InvalidUnit("unit for start_of(): " + unit);
     }
 
     DateTime end_of(const std::string& unit) const {
@@ -248,7 +248,7 @@ class DateTime {
         if (unit == "week") {
             return end_of_week();
         }
-        throw PendulumException("Invalid unit for end_of(): " + unit);
+        throw InvalidUnit("unit for end_of(): " + unit);
     }
 
     DateTime in_timezone(const std::string& name) const {

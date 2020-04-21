@@ -46,6 +46,19 @@ class PendulumException : public std::exception {
     std::string error_;
 };
 
+class InvalidUnit : public PendulumException {
+   public:
+    InvalidUnit() = default;
+    explicit InvalidUnit(const std::string& error) : PendulumException(error) {}
+    InvalidUnit(const InvalidUnit&) = default;
+    InvalidUnit(InvalidUnit&&) = default;
+
+    virtual ~InvalidUnit() = default;
+
+    InvalidUnit& operator=(const InvalidUnit&) = default;
+    InvalidUnit& operator=(InvalidUnit&&) = default;
+};
+
 class InvalidTimezone : public PendulumException {
    public:
     InvalidTimezone() = default;
