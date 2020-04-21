@@ -22,72 +22,67 @@
 
 #include <gmock/gmock.h>
 
+#include "pendulum/exceptions.h"
 #include "pendulum/parser.h"
 
 namespace pendulum {
 
-TEST(ParserTest, ISO8601String1) {
+TEST(Parser, ISO8601String1) {
     const auto& dt = parse("2020-04-03T15:20:30+09:00");
 
-    ASSERT_THAT(dt.has_value(), true);
-    EXPECT_THAT(dt->to_iso8601_string(), "2020-04-03T06:20:30+00:00");
-    EXPECT_THAT(*dt, DateTime(2020, 4, 3, 15, 20, 30, "Asia/Tokyo"));
+    EXPECT_THAT(dt.to_iso8601_string(), "2020-04-03T06:20:30+00:00");
+    EXPECT_THAT(dt, DateTime(2020, 4, 3, 15, 20, 30, "Asia/Tokyo"));
 }
 
-TEST(ParserTest, ISO8601String2) {
+TEST(Parser, ISO8601String2) {
     const auto& dt = parse("2020-04-03T15:20:30+0900");
 
-    ASSERT_THAT(dt.has_value(), true);
-    EXPECT_THAT(dt->to_iso8601_string(), "2020-04-03T06:20:30+00:00");
-    EXPECT_THAT(*dt, DateTime(2020, 4, 3, 15, 20, 30, "Asia/Tokyo"));
+    EXPECT_THAT(dt.to_iso8601_string(), "2020-04-03T06:20:30+00:00");
+    EXPECT_THAT(dt, DateTime(2020, 4, 3, 15, 20, 30, "Asia/Tokyo"));
 }
 
-TEST(ParserTest, DateTimeString) {
+TEST(Parser, DateTimeString) {
     const auto& dt = parse("2020-04-03 15:20:30", "Asia/Tokyo");
 
-    ASSERT_THAT(dt.has_value(), true);
-    EXPECT_THAT(*dt, DateTime(2020, 4, 3, 15, 20, 30, "Asia/Tokyo"));
+    EXPECT_THAT(dt, DateTime(2020, 4, 3, 15, 20, 30, "Asia/Tokyo"));
 }
 
-TEST(ParserTest, DateString1) {
+TEST(Parser, DateString1) {
     const auto& dt = parse("2020-04-03", "Asia/Tokyo");
 
-    ASSERT_THAT(dt.has_value(), true);
-    EXPECT_THAT(*dt, DateTime(2020, 4, 3, "Asia/Tokyo"));
+    EXPECT_THAT(dt, DateTime(2020, 4, 3, "Asia/Tokyo"));
 }
 
-TEST(ParserTest, DateString2) {
+TEST(Parser, DateString2) {
     const auto& dt = parse("20200403", "Asia/Tokyo");
 
-    ASSERT_THAT(dt.has_value(), true);
-    EXPECT_THAT(*dt, DateTime(2020, 4, 3, "Asia/Tokyo"));
+    EXPECT_THAT(dt, DateTime(2020, 4, 3, "Asia/Tokyo"));
 }
 
-TEST(ParserTest, YearMonthString) {
+TEST(Parser, YearMonthString) {
     const auto& dt = parse("2020-04", "Asia/Tokyo");
 
-    ASSERT_THAT(dt.has_value(), true);
-    EXPECT_THAT(*dt, DateTime(2020, 4, 1, "Asia/Tokyo"));
+    EXPECT_THAT(dt, DateTime(2020, 4, 1, "Asia/Tokyo"));
 }
 
-TEST(ParserTest, YearString) {
+TEST(Parser, YearString) {
     const auto& dt = parse("2020", "Asia/Tokyo");
 
-    ASSERT_THAT(dt.has_value(), true);
-    EXPECT_THAT(*dt, DateTime(2020, 1, 1, "Asia/Tokyo"));
+    EXPECT_THAT(dt, DateTime(2020, 1, 1, "Asia/Tokyo"));
 }
 
-TEST(ParserTest, InvalidString) {
-    const auto& dt = parse("2020/12/25", "Asia/Tokyo");
+TEST(Parser, InvalidString) {
+    DateTime dt;
 
-    ASSERT_THAT(dt.has_value(), false);
-    EXPECT_THAT(dt.value_or(DateTime::epoch()), DateTime::epoch());
+    EXPECT_THROW(dt = parse("2020/12/25", "Asia/Tokyo"), PendulumException);
+    EXPECT_THAT(dt, DateTime::epoch());
 }
 
-TEST(ParserTest, FormatUnmatched) {
-    const auto& dt = from_format("2020-04-20", "%Y%m%d", "Asia/Tokyo");
+TEST(Parser, FormatUnmatched) {
+    DateTime dt;
 
-    EXPECT_THAT(dt.has_value(), false);
+    EXPECT_THROW(dt = from_format("2020-04-20", "%Y%m%d", "Asia/Tokyo"), PendulumException);
+    EXPECT_THAT(dt, DateTime::epoch());
 }
 
 }  // namespace pendulum

@@ -26,7 +26,7 @@
 
 namespace pendulum {
 
-TEST(DateTest, Instantiation1) {
+TEST(Date, Instantiation1) {
     Date date;
 
     EXPECT_THAT(date.year(), 1970);
@@ -34,7 +34,7 @@ TEST(DateTest, Instantiation1) {
     EXPECT_THAT(date.day(), 1);
 }
 
-TEST(DateTest, Instantiation2) {
+TEST(Date, Instantiation2) {
     Date date(2020, 4, 17);
 
     EXPECT_THAT(date.year(), 2020);
@@ -42,7 +42,7 @@ TEST(DateTest, Instantiation2) {
     EXPECT_THAT(date.day(), 17);
 }
 
-TEST(DateTest, Attributes) {
+TEST(Date, Attributes) {
     Date date(2020, 4, 17);
 
     EXPECT_THAT(date.day_of_week(), pendulum::kFriday);
@@ -54,7 +54,7 @@ TEST(DateTest, Attributes) {
     EXPECT_THAT(date.year(2024).is_leap_year(), true);
 }
 
-TEST(DateTest, FluentHelpers) {
+TEST(Date, FluentHelpers) {
     Date date(2020, 4, 17);
 
     EXPECT_THAT(date.year(2021), Date(2021, 4, 17));
@@ -63,14 +63,14 @@ TEST(DateTest, FluentHelpers) {
     EXPECT_THAT(date.on(2021, 5, 10), Date(2021, 5, 10));
 }
 
-TEST(DateTest, StringFormatting) {
+TEST(Date, StringFormatting) {
     Date date(2020, 4, 17);
 
     EXPECT_THAT(date.to_date_string(), "2020-04-17");
     EXPECT_THAT(date.format("I was born on %d/%m %Y"), "I was born on 17/04 2020");
 }
 
-TEST(DateTest, Addition) {
+TEST(Date, Addition) {
     Date date(2020, 12, 31);
 
     EXPECT_THAT(date.add_years(1), Date(2021, 12, 31));
@@ -78,7 +78,7 @@ TEST(DateTest, Addition) {
     EXPECT_THAT(date.add_days(1), Date(2021, 1, 1));
 }
 
-TEST(DateTest, Modifiers) {
+TEST(Date, Modifiers) {
     Date date(2020, 4, 17);
 
     EXPECT_THAT(date.next(), Date(2020, 4, 24));

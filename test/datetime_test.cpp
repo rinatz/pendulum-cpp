@@ -25,10 +25,11 @@
 #include <limits>
 
 #include "pendulum/datetime.h"
+#include "pendulum/exceptions.h"
 
 namespace pendulum {
 
-TEST(DateTimeTest, Instantiation1) {
+TEST(DateTime, Instantiation1) {
     DateTime dt;
 
     EXPECT_THAT(dt.year(), 1970);
@@ -41,7 +42,11 @@ TEST(DateTimeTest, Instantiation1) {
     EXPECT_THAT(dt, DateTime::epoch());
 }
 
-TEST(DateTimeTest, Instantiation2) {
+TEST(DateTime, InvalidTimezone) {
+    EXPECT_THROW(DateTime(2020, 4, 3, "invalid"), PendulumException);
+}
+
+TEST(DateTime, Instantiation2) {
     DateTime dt(2020, 4, 3, "Asia/Tokyo");
 
     EXPECT_THAT(dt.year(), 2020);
@@ -53,7 +58,7 @@ TEST(DateTimeTest, Instantiation2) {
     EXPECT_THAT(dt.timezone_name(), "Asia/Tokyo");
 }
 
-TEST(DateTimeTest, Instantiation3) {
+TEST(DateTime, Instantiation3) {
     DateTime dt(2020, 4, 3, 15, 30, 10, "Asia/Tokyo");
 
     EXPECT_THAT(dt.year(), 2020);
@@ -65,7 +70,7 @@ TEST(DateTimeTest, Instantiation3) {
     EXPECT_THAT(dt.timezone_name(), "Asia/Tokyo");
 }
 
-TEST(DateTimeTest, Instantiation4) {
+TEST(DateTime, Instantiation4) {
     DateTime dt(Date(2020, 4, 3), "Asia/Tokyo");
 
     EXPECT_THAT(dt.year(), 2020);
@@ -77,7 +82,7 @@ TEST(DateTimeTest, Instantiation4) {
     EXPECT_THAT(dt.timezone_name(), "Asia/Tokyo");
 }
 
-TEST(DateTimeTest, Attributes) {
+TEST(DateTime, Attributes) {
     DateTime dt(2020, 4, 3, 15, 30, 10, "US/Eastern");
 
     EXPECT_THAT(dt.date(), Date(2020, 4, 3));
@@ -99,7 +104,7 @@ TEST(DateTimeTest, Attributes) {
     EXPECT_THAT(DateTime::epoch().timestamp(), 0);
 }
 
-TEST(DateTimeTest, FluentHelpers) {
+TEST(DateTime, FluentHelpers) {
     DateTime dt(2020, 4, 3, "Asia/Tokyo");
 
     EXPECT_THAT(dt.year(2021), DateTime(2021, 4, 3, "Asia/Tokyo"));
@@ -120,7 +125,7 @@ TEST(DateTimeTest, FluentHelpers) {
     EXPECT_THAT(dt.offset_hours(8, 45), DateTime(2020, 4, 3, "Australia/Eucla"));
 }
 
-TEST(DateTimeTest, StringFormatting) {
+TEST(DateTime, StringFormatting) {
     DateTime dt(2020, 4, 3, 15, 10, 25, "Asia/Tokyo");
 
     EXPECT_THAT(dt.to_date_string(), "2020-04-03");
@@ -130,7 +135,7 @@ TEST(DateTimeTest, StringFormatting) {
                 "I was born at 15:10 on 03/04 2020.");
 }
 
-TEST(DateTimeTest, Addition) {
+TEST(DateTime, Addition) {
     DateTime dt(2020, 4, 3, 15, 0, 0, "local");
 
     EXPECT_THAT(dt.add_years(3), DateTime(2023, 4, 3, 15, 0, 0, "local"));
@@ -144,7 +149,7 @@ TEST(DateTimeTest, Addition) {
     EXPECT_THAT(dt.add_time(-24, 10, 1), DateTime(2020, 4, 2, 15, 10, 1, "local"));
 }
 
-TEST(DateTimeTest, Modifers) {
+TEST(DateTime, Modifers) {
     DateTime dt(2020, 4, 3, 15, 0, 0, "local");
     const auto keep_time = true;
 

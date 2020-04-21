@@ -10,7 +10,7 @@ namespace pendulum {
 
 using testing::ElementsAre;
 
-TEST(PeriodTest, Attributes) {
+TEST(Period, Attributes) {
     DateTime start(2020, 1, 1);
     DateTime stop(2030, 1, 1);
     Period period(start, stop);
@@ -22,7 +22,7 @@ TEST(PeriodTest, Attributes) {
     EXPECT_THAT(period.in_seconds(), 315619200);
 }
 
-TEST(PeriodTest, RangeYears) {
+TEST(Period, RangeYears) {
     DateTime start(2020, 1, 1);
     DateTime stop(2024, 12, 31);
     Period period(start, stop);
@@ -44,7 +44,7 @@ TEST(PeriodTest, RangeYears) {
     // clang-format on
 }
 
-TEST(PeriodTest, RangeMonths) {
+TEST(Period, RangeMonths) {
     DateTime start(2020, 1, 5);
     DateTime stop(2020, 5, 1);
     Period period(start, stop);
@@ -65,7 +65,7 @@ TEST(PeriodTest, RangeMonths) {
     // clang-format on
 }
 
-TEST(PeriodTest, RangeDays1) {
+TEST(Period, RangeDays1) {
     DateTime start(2020, 1, 1, 3);
     DateTime stop(2020, 1, 1, 5);
     Period period(start, stop);
@@ -83,7 +83,7 @@ TEST(PeriodTest, RangeDays1) {
     // clang-format on
 }
 
-TEST(PeriodTest, RangeDays2) {
+TEST(Period, RangeDays2) {
     DateTime start(2020, 1, 1);
     DateTime stop(2020, 1, 5);
     Period period(start, stop);
@@ -105,7 +105,7 @@ TEST(PeriodTest, RangeDays2) {
     // clang-format on
 }
 
-TEST(PeriodTest, RangeHours) {
+TEST(Period, RangeHours) {
     DateTime start(2020, 1, 1, 0, 5);
     DateTime stop(2020, 1, 1, 5);
     Period period(start, stop);
@@ -127,7 +127,7 @@ TEST(PeriodTest, RangeHours) {
     // clang-format on
 }
 
-TEST(PeriodTest, RangeMinutes) {
+TEST(Period, RangeMinutes) {
     DateTime start(2020, 1, 1, 0, 1, 5);
     DateTime stop(2020, 1, 1, 0, 5);
     Period period(start, stop);
@@ -148,7 +148,7 @@ TEST(PeriodTest, RangeMinutes) {
     // clang-format on
 }
 
-TEST(PeriodTest, RangeSeconds) {
+TEST(Period, RangeSeconds) {
     DateTime start(2020, 1, 1, 0, 0, 1);
     DateTime stop(2020, 1, 1, 0, 0, 5);
     Period period(start, stop);
@@ -170,7 +170,7 @@ TEST(PeriodTest, RangeSeconds) {
     // clang-format on
 }
 
-TEST(PeriodTest, Absolute) {
+TEST(Period, Absolute) {
     DateTime start(2020, 12, 31);
     DateTime stop(2020, 1, 1);
     const auto absolute = true;
@@ -180,7 +180,7 @@ TEST(PeriodTest, Absolute) {
     EXPECT_THAT(period.stop(), start);
 }
 
-TEST(PeriodTest, Inverse) {
+TEST(Period, Inverse) {
     DateTime start(2020, 12, 31);
     DateTime stop(2020, 12, 26);
     Period period(start, stop);

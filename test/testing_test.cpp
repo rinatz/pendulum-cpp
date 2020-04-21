@@ -29,7 +29,7 @@ namespace pendulum {
 
 using testing::Not;
 
-TEST(TestingTest, Testing1) {
+TEST(Testing, Testing1) {
     const auto& now = pendulum::datetime(2000, 12, 25, 16, 30, 50);
 
     pendulum::set_test_now(now);
@@ -47,7 +47,7 @@ TEST(TestingTest, Testing1) {
     EXPECT_THAT(pendulum::tomorrow(), Not(pendulum::datetime(2000, 12, 26)));
 }
 
-TEST(TestingTest, Testing2) {
+TEST(Testing, Testing2) {
     const auto& now = pendulum::datetime(2000, 12, 25, 16, 30, 50);
 
     pendulum::test(now, [&]() {
