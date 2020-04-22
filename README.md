@@ -99,6 +99,7 @@ const auto& dt = pendulum::datetime(2020, 4, 3, 22, 18, 26, "Asia/Tokyo");
 
 std::cout << dt;                                        // 2020-04-03T22:18:26+09:00
 std::cout << dt.to_date_string();                       // 2020-04-03
+std::cout << dt.to_time_string();                       // 22:18:26
 std::cout << dt.to_datetime_string();                   // 2020-04-03 22:18:26
 std::cout << dt.to_iso8601_string();                    // 2020-04-03T22:18:26+09:00
 std::cout << dt.format("at %H:%M:%S on %d/%m, %Y");     // at 22:18:26 on 03/04, 2020
