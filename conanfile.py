@@ -5,7 +5,7 @@ class PendulumConan(ConanFile):
     name = "pendulum"
     version = "0.1.0"
     license = "MIT"
-    author = "Ida Kenichiro"
+    author = "IDA Kenichiro"
     url = "https://github.com/rinatz/pendulum-cpp"
     description = "Datetime library for C++."
     topics = ("datetime")
