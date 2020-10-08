@@ -1,10 +1,10 @@
 # Pendulum C++
 
-[Pendulum] is beautiful datetime library implemented by Python. I was ported it to C++!
+`Pendulum C++` is a simple wrapper around [cctz] inspired by [Pendulum] that is beautiful Python library.
 
 ## Requirements
 
-- C++11 or above
+- C++11
 - [cctz]
 
 ## Usage
