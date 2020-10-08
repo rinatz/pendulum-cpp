@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 3.0)
 
 project(pendulum)
 
+set(OUT_DIR ${PROJECT_BINARY_DIR}/..)
+set(DEPS_DIR ${OUT_DIR}/deps)
+
 file(READ VERSION PROJECT_VERSION)
 configure_file(version.h.in ${PROJECT_SOURCE_DIR}/pendulum/version.h)
 
@@ -18,11 +21,11 @@ add_compile_options(
 
 include_directories(
     ${PROJECT_SOURCE_DIR}
-    ${PROJECT_SOURCE_DIR}/libs/include
+    ${DEPS_DIR}/include
 )
 
 link_directories(
-    ${PROJECT_SOURCE_DIR}/libs/lib
+    ${DEPS_DIR}/lib
 )
 
 file(GLOB_RECURSE TEST_SOURCES ${PROJECT_SOURCE_DIR}/test/*.cpp)
@@ -35,6 +38,12 @@ target_link_libraries(
     gtest
     dl
     pthread
+)
+
+set_target_properties(
+    ${PROJECT_NAME}_test
+    PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY ${OUT_DIR}
 )
 
 enable_testing()

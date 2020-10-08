@@ -3,7 +3,7 @@ from conans import ConanFile
 
 class PendulumConan(ConanFile):
     name = "pendulum"
-    version = "0.1.0"
+    version = "0.7.0"
     license = "MIT"
     author = "IDA Kenichiro"
     url = "https://github.com/rinatz/pendulum-cpp"
@@ -21,9 +21,9 @@ class PendulumConan(ConanFile):
     )
 
     def imports(self):
-        self.copy("*.h", dst="libs/include", src="include")
-        self.copy("*.a", dst="libs/lib", src="lib")
+        self.copy("*.h", src="include", dst="include")
+        self.copy("*.a", src="lib", dst="lib")
 
     def package(self):
-        self.copy("*.h", dst="include/pendulum", src="pendulum")
-        self.copy("*.hpp", dst="include/pendulum", src="pendulum")
+        self.copy("*.h", src="pendulum", dst="include/pendulum")
+        self.copy("*.hpp", src="pendulum", dst="include/pendulum")

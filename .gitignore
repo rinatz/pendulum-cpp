@@ -1,11 +1,4 @@
-build/
-libs/
-conan_imports_manifest.txt
-conan.lock
-conanbuildinfo.cmake
-conanbuildinfo.txt
-conaninfo.txt
-graph_info.json
+target/
 
 # Created by https://www.gitignore.io/api/c++
 # Edit at https://www.gitignore.io/?templates=c++

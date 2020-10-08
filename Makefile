@@ -1,24 +1,36 @@
-CONFIG = Debug
-OUT = build/$(CONFIG)
-CMAKE_SOURCE_DIR = $(CURDIR)
+PROJECT_DIR = $(CURDIR)
+BUILD_TYPE = Debug
+OUT_DIR = target/$(BUILD_TYPE)
+DEPS_DIR = $(OUT_DIR)/deps
+BUILD_DIR = $(OUT_DIR)/build
 
-.PHONY: get
-get:
-	conan install -u .
+.PHONY: install
+install:
+	mkdir -p $(DEPS_DIR)
+	cd $(DEPS_DIR) && conan install --build=missing $(PROJECT_DIR)
+
+.PHONY: update
+update:
+	mkdir -p $(DEPS_DIR)
+	cd $(DEPS_DIR) && conan install -u --build=missing $(PROJECT_DIR)
 
 .PHONY: cmake
-cmake:
-	mkdir -p $(OUT)
-	cd $(OUT) && cmake -DCMAKE_BUILD_TYPE=$(CONFIG) $(CMAKE_SOURCE_DIR)
+cmake: install
+	mkdir -p $(BUILD_DIR)
+	cd $(BUILD_DIR) && cmake -DCMAKE_BUILD_TYPE=$(BUILD_TYPE) $(PROJECT_DIR)
 
 .PHONY: build
 build: cmake
-	cmake --build $(OUT)
+	cmake --build $(BUILD_DIR)
 
 .PHONY: test
-test: build
-	-$(OUT)/pendulum_test
+test:
+	-$(OUT_DIR)/pendulum_test
+
+.PHONY: package
+package:
+	cd $(DEPS_DIR) && conan export-pkg $(PROJECT_DIR)
 
 .PHONY: clean
 clean:
-	cmake --build $(OUT) --target clean
+	rm -rf $(OUT_DIR)
