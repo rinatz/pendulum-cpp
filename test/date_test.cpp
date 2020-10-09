@@ -81,6 +81,14 @@ TEST(Date, Addition) {
     EXPECT_THAT(date.add_days(1), Date(2021, 1, 1));
 }
 
+TEST(Date, Subtraction) {
+    Date date(2020, 1, 1);
+
+    EXPECT_THAT(date.subtract_years(1), Date(2019, 1, 1));
+    EXPECT_THAT(date.subtract_months(1), Date(2019, 12, 1));
+    EXPECT_THAT(date.subtract_days(1), Date(2019, 12, 31));
+}
+
 TEST(Date, Modifiers) {
     Date date(2020, 4, 17);
 

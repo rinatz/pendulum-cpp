@@ -142,12 +142,28 @@ TEST(DateTime, Addition) {
     EXPECT_THAT(dt.add_years(3), DateTime(2023, 4, 3, 15, 0, 0, "local"));
     EXPECT_THAT(dt.add_months(2), DateTime(2020, 6, 3, 15, 0, 0, "local"));
     EXPECT_THAT(dt.add_days(30), DateTime(2020, 5, 3, 15, 0, 0, "local"));
+
     EXPECT_THAT(dt.add_hours(-24), DateTime(2020, 4, 2, 15, 0, 0, "local"));
     EXPECT_THAT(dt.add_minutes(30), DateTime(2020, 4, 3, 15, 30, 0, "local"));
     EXPECT_THAT(dt.add_seconds(-3600), DateTime(2020, 4, 3, 14, 0, 0, "local"));
 
     EXPECT_THAT(dt.add_date(1, 2, 3), DateTime(2021, 6, 6, 15, 0, 0, "local"));
     EXPECT_THAT(dt.add_time(-24, 10, 1), DateTime(2020, 4, 2, 15, 10, 1, "local"));
+}
+
+TEST(DateTime, Subtraction) {
+    DateTime dt(2020, 10, 9, 15, 30, 0, "local");
+
+    EXPECT_THAT(dt.subtract_years(3), DateTime(2017, 10, 9, 15, 30, 0, "local"));
+    EXPECT_THAT(dt.subtract_months(2), DateTime(2020, 8, 9, 15, 30, 0, "local"));
+    EXPECT_THAT(dt.subtract_days(30), DateTime(2020, 9, 9, 15, 30, 0, "local"));
+
+    EXPECT_THAT(dt.subtract_hours(24), DateTime(2020, 10, 8, 15, 30, 0, "local"));
+    EXPECT_THAT(dt.subtract_minutes(30), DateTime(2020, 10, 9, 15, 0, 0, "local"));
+    EXPECT_THAT(dt.subtract_seconds(3600), DateTime(2020, 10, 9, 14, 30, 0, "local"));
+
+    EXPECT_THAT(dt.subtract_date(1, 2, 3), DateTime(2019, 8, 6, 15, 30, 0, "local"));
+    EXPECT_THAT(dt.subtract_time(24, 10, 1), DateTime(2020, 10, 8, 15, 19, 59, "local"));
 }
 
 TEST(DateTime, Modifers) {

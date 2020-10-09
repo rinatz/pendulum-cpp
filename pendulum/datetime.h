@@ -153,12 +153,13 @@ class DateTime {
     }
 
     //
-    // Additions
+    // Additions and Subtractions
     //
 
     DateTime add_years(int y) const { return add_date(y, 0, 0); }
     DateTime add_months(int m) const { return add_date(0, m, 0); }
     DateTime add_days(int d) const { return add_date(0, 0, d); }
+
     DateTime add_hours(int hh) const { return add_time(hh, 0, 0); }
     DateTime add_minutes(int mm) const { return add_time(0, mm, 0); }
     DateTime add_seconds(int ss) const { return add_time(0, 0, ss); }
@@ -176,6 +177,17 @@ class DateTime {
 
         return DateTime(cs, tz_);
     }
+
+    DateTime subtract_years(int y) const { return add_date(-y, 0, 0); }
+    DateTime subtract_months(int m) const { return add_date(0, -m, 0); }
+    DateTime subtract_days(int d) const { return add_date(0, 0, -d); }
+
+    DateTime subtract_hours(int hh) const { return add_time(-hh, 0, 0); }
+    DateTime subtract_minutes(int mm) const { return add_time(0, -mm, 0); }
+    DateTime subtract_seconds(int ss) const { return add_time(0, 0, -ss); }
+
+    DateTime subtract_date(int y, int m, int d) const { return add_date(-y, -m, -d); }
+    DateTime subtract_time(int hh, int mm, int ss) const { return add_time(-hh, -mm, -ss); }
 
     //
     // Modifiers

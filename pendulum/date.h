@@ -88,13 +88,18 @@ class Date {
     }
 
     //
-    // Additions
+    // Additions and Subtractions
     //
 
     Date add_years(int y) const { return add(y, 0, 0); }
     Date add_months(int m) const { return add(0, m, 0); }
     Date add_days(int d) const { return add(0, 0, d); }
     Date add(int y, int m, int d) const { return Date(year() + y, month() + m, day() + d); }
+
+    Date subtract_years(int y) const { return add_years(-y); }
+    Date subtract_months(int m) const { return add_months(-m); }
+    Date subtract_days(int d) const { return add_days(-d); }
+    Date subtract(int y, int m, int d) const { return add(-y, -m, -d); }
 
     //
     // Modifiers
