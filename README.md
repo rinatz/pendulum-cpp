@@ -105,17 +105,24 @@ std::cout << dt.to_iso8601_string();                    // 2020-04-03T22:18:26+0
 std::cout << dt.format("at %H:%M:%S on %d/%m, %Y");     // at 22:18:26 on 03/04, 2020
 ```
 
-### Additions
+### Additions and Subtractions
 
 ```cpp
 auto dt = pendulum::datetime(2020, 4, 3, 22, 18, 26, "Asia/Tokyo");
 
-dt = dt.add_years(3);       // 2023-04-03 22:18:26
-dt = dt.add_months(1);      // 2020-05-03 22:18:26
-dt = dt.add_days(30);       // 2020-05-03 22:18:26
-dt = dt.add_hours(2);       // 2020-04-04 00:18:26
-dt = dt.add_minutes(73);    // 2020-04-03 23:31:26
-dt = dt.add_seconds(92);    // 2020-04-03 22:19:58
+dt = dt.add_years(3);           // 2023-04-03 22:18:26
+dt = dt.add_months(1);          // 2020-05-03 22:18:26
+dt = dt.add_days(30);           // 2020-05-03 22:18:26
+dt = dt.add_hours(2);           // 2020-04-04 00:18:26
+dt = dt.add_minutes(73);        // 2020-04-03 23:31:26
+dt = dt.add_seconds(92);        // 2020-04-03 22:19:58
+
+dt = dt.subtract_years(3);      // 2017-04-03 22:18:26
+dt = dt.subtract_months(1);     // 2020-03-03 22:18:26
+dt = dt.subtract_days(30);      // 2020-03-03 22:18:26
+dt = dt.subtract_hours(2);      // 2020-04-03 20:18:26
+dt = dt.subtract_minutes(73);   // 2020-04-03 21:05:26
+dt = dt.subtract_seconds(92);   // 2020-04-03 22:16:54
 ```
 
 ### Modifiers
