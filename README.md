@@ -44,6 +44,20 @@ const auto& yesterday = pendulum::yesterday();  // 2020-04-04T00:00:00+09:00
 const auto& tomorrow = pendulum::tomorrow();    // 2020-04-06T00:00:00+09:00
 ```
 
+```cpp
+// 2020-10-24T15:36:02+00:00
+time_t timestamp = std::time(nullptr);
+const auto& dt = pendulum::from_timestamp(timestamp);
+
+// 2020-10-25T00:36:02+09:00
+const std::tm* localtime = std::localtime(&timestamp);
+const auto& dt = pendulum::from_localtime(*localtime);
+
+// 2020-10-24T15:36:02+00:00
+const std::tm* gmtime = std::gmtime(&timestamp);
+const auto& dt = pendulum::from_gmtime(*gmtime);
+```
+
 ### Parsing
 
 ```cpp
