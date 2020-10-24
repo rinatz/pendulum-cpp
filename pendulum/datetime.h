@@ -23,7 +23,9 @@
 #ifndef PENDULUM_DATETIME_H_
 #define PENDULUM_DATETIME_H_
 
+#include <cassert>
 #include <chrono>
+#include <cstring>
 #include <ctime>
 #include <functional>
 #include <string>
@@ -101,6 +103,45 @@ class DateTime {
     time_t timestamp() const {
         const auto& tp = cctz::convert(cs_, tz_);
         return std::chrono::system_clock::to_time_t(tp);
+    }
+
+    void mktime(std::tm* tm) const {
+        assert(tm != nullptr);
+        std::memset(tm, 0, sizeof(*tm));
+
+        const auto& dt = in_timezone("local");
+        tm->tm_sec = dt.second();
+        tm->tm_min = dt.minute();
+        tm->tm_hour = dt.hour();
+        tm->tm_mday = dt.day();
+        tm->tm_mon = dt.month() - 1;
+        tm->tm_year = dt.year() - 1900;
+        tm->tm_wday = dt.day_of_week() - kSunday + 7;
+        tm->tm_yday = dt.day_of_year();
+        tm->tm_isdst = is_dst();
+
+        std::mktime(tm);
+    }
+
+    void mkgmtime(std::tm* tm) const {
+        assert(tm != nullptr);
+        std::memset(tm, 0, sizeof(*tm));
+
+        const auto& dt = in_timezone("UTC");
+        tm->tm_sec = dt.second();
+        tm->tm_min = dt.minute();
+        tm->tm_hour = dt.hour();
+        tm->tm_mday = dt.day();
+        tm->tm_mon = dt.month() - 1;
+        tm->tm_year = dt.year() - 1900;
+        tm->tm_wday = dt.day_of_week() - kSunday + 7;
+        tm->tm_yday = dt.day_of_year();
+        tm->tm_isdst = is_dst();
+
+#ifdef _BSD_SOURCE
+        tm->tm_gmtoff = 0;
+        tm->tm_zone = "GMT";
+#endif  // _BSD_SOURCE
     }
 
     //

@@ -75,6 +75,15 @@ inline DateTime from_timestamp(time_t timestamp, const std::string& tz = "UTC") 
     return DateTime(cs, timezone);
 }
 
+inline DateTime from_localtime(const std::tm& tm) {
+    return DateTime(tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec,
+                    "local");
+}
+
+inline DateTime from_gmtime(const std::tm& tm) {
+    return DateTime(tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
+}
+
 inline Period period(const DateTime& start, const DateTime& stop, bool absolute = false) {
     return Period(start, stop, absolute);
 }

@@ -27,6 +27,7 @@
 
 #include "pendulum/datetime.h"
 #include "pendulum/exceptions.h"
+#include "pendulum/helpers.h"
 
 namespace pendulum {
 
@@ -103,6 +104,50 @@ TEST(DateTime, Attributes) {
 
     EXPECT_THAT(dt.timestamp(), 1585942210);
     EXPECT_THAT(DateTime::epoch().timestamp(), 0);
+}
+
+TEST(DateTime, Localtime) {
+    time_t timestamp = std::time(nullptr);
+    const auto* want = std::localtime(&timestamp);
+    const auto& dt = from_localtime(*want);
+
+    std::tm got{};
+    dt.mktime(&got);
+
+    EXPECT_THAT(got.tm_sec, want->tm_sec);
+    EXPECT_THAT(got.tm_hour, want->tm_hour);
+    EXPECT_THAT(got.tm_min, want->tm_min);
+    EXPECT_THAT(got.tm_mday, want->tm_mday);
+    EXPECT_THAT(got.tm_mon, want->tm_mon);
+    EXPECT_THAT(got.tm_year, want->tm_year);
+    EXPECT_THAT(got.tm_isdst, want->tm_isdst);
+
+#ifdef _BSD_SOURCE
+    EXPECT_THAT(got.tm_gmtoff, want->tm_gmtoff);
+    EXPECT_THAT(got.tm_zone, testing::StrEq(want->tm_zone));
+#endif  // _BSD_SOURCE
+}
+
+TEST(DateTime, Gmtime) {
+    time_t timestamp = std::time(nullptr);
+    const auto* want = std::gmtime(&timestamp);
+    const auto& dt = from_gmtime(*want);
+
+    std::tm got{};
+    dt.mkgmtime(&got);
+
+    EXPECT_THAT(got.tm_sec, want->tm_sec);
+    EXPECT_THAT(got.tm_hour, want->tm_hour);
+    EXPECT_THAT(got.tm_min, want->tm_min);
+    EXPECT_THAT(got.tm_mday, want->tm_mday);
+    EXPECT_THAT(got.tm_mon, want->tm_mon);
+    EXPECT_THAT(got.tm_year, want->tm_year);
+    EXPECT_THAT(got.tm_isdst, want->tm_isdst);
+
+#ifdef _BSD_SOURCE
+    EXPECT_THAT(got.tm_gmtoff, want->tm_gmtoff);
+    EXPECT_THAT(got.tm_zone, testing::StrEq(want->tm_zone));
+#endif  // _BSD_SOURCE
 }
 
 TEST(DateTime, FluentHelpers) {

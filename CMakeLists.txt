@@ -17,6 +17,7 @@ add_compile_options(
     -Wall
     -Wextra
     -Werror
+    -Wno-error=missing-field-initializers
 )
 
 include_directories(
