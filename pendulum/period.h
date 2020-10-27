@@ -29,7 +29,7 @@
 
 #include "pendulum/datetime.h"
 #include "pendulum/exceptions.h"
-#include "pendulum/utility.h"
+#include "pendulum/internal.h"
 
 namespace pendulum {
 

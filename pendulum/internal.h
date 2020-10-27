@@ -20,8 +20,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef PENDULUM_UTILITY_H_
-#define PENDULUM_UTILITY_H_
+#ifndef PENDULUM_INTERNAL_H_
+#define PENDULUM_INTERNAL_H_
 
 #include "pendulum/internal/gsl.hpp"
 #include "pendulum/internal/optional.hpp"
@@ -29,10 +29,11 @@
 namespace pendulum {
 namespace internal {
 
-using namespace gsl;
-using namespace nonstd;
+using gsl::finally;
+using nonstd::nullopt;
+using nonstd::optional;
 
 }  // namespace internal
 }  // namespace pendulum
 
-#endif  // PENDULUM_UTILITY_H_
+#endif  // PENDULUM_INTERNAL_H_

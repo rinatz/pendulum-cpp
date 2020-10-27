@@ -27,7 +27,7 @@
 #include <functional>
 
 #include "pendulum/datetime.h"
-#include "pendulum/utility.h"
+#include "pendulum/internal.h"
 
 namespace pendulum {
 
