@@ -112,8 +112,8 @@ TEST(DateTime, Localtime) {
     const auto& dt = from_localtime(*want);
 
     std::tm got{};
-    dt.mktime(&got);
 
+    EXPECT_THAT(dt.mktime(&got), timestamp);
     EXPECT_THAT(got.tm_sec, want->tm_sec);
     EXPECT_THAT(got.tm_hour, want->tm_hour);
     EXPECT_THAT(got.tm_min, want->tm_min);
@@ -122,10 +122,10 @@ TEST(DateTime, Localtime) {
     EXPECT_THAT(got.tm_year, want->tm_year);
     EXPECT_THAT(got.tm_isdst, want->tm_isdst);
 
-#ifdef _BSD_SOURCE
+#ifdef _DEFAULT_SOURCE
     EXPECT_THAT(got.tm_gmtoff, want->tm_gmtoff);
     EXPECT_THAT(got.tm_zone, testing::StrEq(want->tm_zone));
-#endif  // _BSD_SOURCE
+#endif  // _DEFAULT_SOURCE
 }
 
 TEST(DateTime, Gmtime) {
@@ -134,8 +134,8 @@ TEST(DateTime, Gmtime) {
     const auto& dt = from_gmtime(*want);
 
     std::tm got{};
-    dt.mkgmtime(&got);
 
+    EXPECT_THAT(dt.mkgmtime(&got), timestamp);
     EXPECT_THAT(got.tm_sec, want->tm_sec);
     EXPECT_THAT(got.tm_hour, want->tm_hour);
     EXPECT_THAT(got.tm_min, want->tm_min);
@@ -144,10 +144,10 @@ TEST(DateTime, Gmtime) {
     EXPECT_THAT(got.tm_year, want->tm_year);
     EXPECT_THAT(got.tm_isdst, want->tm_isdst);
 
-#ifdef _BSD_SOURCE
+#ifdef _DEFAULT_SOURCE
     EXPECT_THAT(got.tm_gmtoff, want->tm_gmtoff);
     EXPECT_THAT(got.tm_zone, testing::StrEq(want->tm_zone));
-#endif  // _BSD_SOURCE
+#endif  // _DEFAULT_SOURCE
 }
 
 TEST(DateTime, FluentHelpers) {

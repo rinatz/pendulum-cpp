@@ -25,7 +25,6 @@
 
 #include <cassert>
 #include <chrono>
-#include <cstring>
 #include <ctime>
 #include <functional>
 #include <string>
@@ -105,9 +104,8 @@ class DateTime {
         return std::chrono::system_clock::to_time_t(tp);
     }
 
-    void mktime(std::tm* tm) const {
+    time_t mktime(std::tm* tm) const {
         assert(tm != nullptr);
-        std::memset(tm, 0, sizeof(*tm));
 
         const auto& dt = in_timezone("local");
         tm->tm_sec = dt.second();
@@ -120,14 +118,13 @@ class DateTime {
         tm->tm_yday = dt.day_of_year();
         tm->tm_isdst = is_dst();
 
-        std::mktime(tm);
+        return std::mktime(tm);
     }
 
-    void mkgmtime(std::tm* tm) const {
+    time_t mkgmtime(std::tm* tm) const {
         assert(tm != nullptr);
-        std::memset(tm, 0, sizeof(*tm));
 
-        const auto& dt = in_timezone("UTC");
+        const auto& dt = in_timezone("GMT");
         tm->tm_sec = dt.second();
         tm->tm_min = dt.minute();
         tm->tm_hour = dt.hour();
@@ -138,10 +135,12 @@ class DateTime {
         tm->tm_yday = dt.day_of_year();
         tm->tm_isdst = is_dst();
 
-#ifdef _BSD_SOURCE
+#ifdef _DEFAULT_SOURCE
         tm->tm_gmtoff = 0;
         tm->tm_zone = "GMT";
-#endif  // _BSD_SOURCE
+#endif  // _DEFAULT_SOURCE
+
+        return dt.timestamp();
     }
 
     //
