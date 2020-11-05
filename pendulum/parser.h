@@ -60,7 +60,14 @@ inline DateTime from_yyyymmdd(const std::string& input, const std::string& tz = 
         throw UnsupportedFormat("input: " + input + " - format: %Y%m%d");
     }
 
-    return DateTime(year, month, day, tz);
+    DateTime dt(year, month, day, tz);
+
+    // input must be normalized before creating a DateTime instance
+    if (dt.year() != year || dt.month() != month || dt.day() != day) {
+        throw UnsupportedFormat("input: " + input + " - format: %Y%m%d");
+    }
+
+    return dt;
 }
 
 }  // namespace internal
