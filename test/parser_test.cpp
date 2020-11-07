@@ -28,66 +28,88 @@
 namespace pendulum {
 
 TEST(Parser, Now) {
-    const auto& now = datetime(2020, 4, 15, "Asia/Tokyo");
+    const auto& now = datetime(2006, 1, 2, 15, 4, 5).offset_hours(-7);
 
     pendulum::test(now, [&]() { EXPECT_THAT(parse("now"), now); });
 }
 
-TEST(Parser, ISO8601String1) {
-    const auto& dt = parse("2020-04-03T15:20:30+09:00");
+TEST(Parser, Iso8601ExtendedFormat1) {
+    const auto& dt = parse("2006-01-02T15:04:05-07:00", "MST");
 
-    EXPECT_THAT(dt.to_iso8601_string(), "2020-04-03T06:20:30+00:00");
-    EXPECT_THAT(dt, DateTime(2020, 4, 3, 15, 20, 30, "Asia/Tokyo"));
+    EXPECT_THAT(dt.to_iso8601_string(), "2006-01-02T15:04:05-07:00");
+    EXPECT_THAT(dt, DateTime(2006, 1, 2, 15, 4, 5, "MST"));
 }
 
-TEST(Parser, ISO8601String2) {
-    const auto& dt = parse("2020-04-03T15:20:30+0900");
+TEST(Parser, Iso8601ExtendedFormat2) {
+    const auto& dt = parse("2006-01-02T15:04:05-0700", "MST");
 
-    EXPECT_THAT(dt.to_iso8601_string(), "2020-04-03T06:20:30+00:00");
-    EXPECT_THAT(dt, DateTime(2020, 4, 3, 15, 20, 30, "Asia/Tokyo"));
+    EXPECT_THAT(dt.to_iso8601_string(), "2006-01-02T15:04:05-07:00");
+    EXPECT_THAT(dt, DateTime(2006, 1, 2, 15, 4, 5, "MST"));
 }
 
-TEST(Parser, DateTimeString) {
-    const auto& dt = parse("2020-04-03 15:20:30", "Asia/Tokyo");
+TEST(Parser, Iso8601ExtendedFormat3) {
+    const auto& dt = parse("2006-01-02T15:04:05Z");
 
-    EXPECT_THAT(dt, DateTime(2020, 4, 3, 15, 20, 30, "Asia/Tokyo"));
+    EXPECT_THAT(dt.to_iso8601_string(), "2006-01-02T15:04:05+00:00");
+    EXPECT_THAT(dt, DateTime(2006, 1, 2, 15, 4, 5));
 }
 
-TEST(Parser, DateString1) {
-    const auto& dt = parse("2020-04-03", "Asia/Tokyo");
+TEST(Parser, Iso8601DateTimeFormat1) {
+    const auto& dt = parse("20060102T150405-0700", "MST");
 
-    EXPECT_THAT(dt, DateTime(2020, 4, 3, "Asia/Tokyo"));
+    EXPECT_THAT(dt.to_iso8601_string(), "2006-01-02T15:04:05-07:00");
+    EXPECT_THAT(dt, DateTime(2006, 1, 2, 15, 4, 5, "MST"));
 }
 
-TEST(Parser, DateString2) {
-    const auto& dt = parse("20200403", "Asia/Tokyo");
+TEST(Parser, Iso8601DateTimeFormat2) {
+    const auto& dt = parse("2006-01-02 15:04:05");
 
-    EXPECT_THAT(dt, DateTime(2020, 4, 3, "Asia/Tokyo"));
+    EXPECT_THAT(dt.to_iso8601_string(), "2006-01-02T15:04:05+00:00");
+    EXPECT_THAT(dt, DateTime(2006, 1, 2, 15, 4, 5));
 }
 
-TEST(Parser, YearMonthString) {
-    const auto& dt = parse("2020-04", "Asia/Tokyo");
+TEST(Parser, Iso8601DateFormat1) {
+    const auto& dt = parse("2006-01-02");
 
-    EXPECT_THAT(dt, DateTime(2020, 4, 1, "Asia/Tokyo"));
+    EXPECT_THAT(dt, DateTime(2006, 1, 2));
 }
 
-TEST(Parser, YearString) {
-    const auto& dt = parse("2020", "Asia/Tokyo");
+TEST(Parser, Iso8601DateFormat2) {
+    const auto& dt = parse("2006-01");
 
-    EXPECT_THAT(dt, DateTime(2020, 1, 1, "Asia/Tokyo"));
+    EXPECT_THAT(dt, DateTime(2006, 1, 1));
 }
 
-TEST(Parser, UnsupportedFormat) {
+TEST(Parser, Iso8601DateFormat3) {
+    const auto& dt = parse("20060102");
+
+    EXPECT_THAT(dt, DateTime(2006, 1, 2));
+}
+
+TEST(Parser, Iso8601DateFormat4) {
+    const auto& dt = parse("2006");
+
+    EXPECT_THAT(dt, DateTime(2006, 1, 1));
+}
+
+TEST(Parser, UnsupportedFormat1) {
     DateTime dt;
 
-    EXPECT_THROW(dt = parse("2020/12/25", "Asia/Tokyo"), PendulumException);
+    EXPECT_THROW(dt = parse("10000"), PendulumException);
     EXPECT_THAT(dt, DateTime::epoch());
 }
 
-TEST(Parser, UnmatchedFormat) {
+TEST(Parser, UnsupportedFormat2) {
     DateTime dt;
 
-    EXPECT_THROW(dt = from_format("2020-04-20", "%Y%m%d", "Asia/Tokyo"), PendulumException);
+    EXPECT_THROW(dt = parse("2006/01/02", "Asia/Tokyo"), PendulumException);
+    EXPECT_THAT(dt, DateTime::epoch());
+}
+
+TEST(Parser, UnsupportedFormat3) {
+    DateTime dt;
+
+    EXPECT_THROW(dt = from_format("2006-01-02", "%Y%m%d", "Asia/Tokyo"), PendulumException);
     EXPECT_THAT(dt, DateTime::epoch());
 }
 

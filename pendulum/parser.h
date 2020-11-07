@@ -23,11 +23,7 @@
 #ifndef PENDULUM_PARSER_H_
 #define PENDULUM_PARSER_H_
 
-#include <algorithm>
-#include <cctype>
 #include <chrono>
-#include <cstdio>
-#include <ctime>
 #include <string>
 
 #include <cctz/time_zone.h>
@@ -38,47 +34,8 @@
 
 namespace pendulum {
 
-namespace internal {
-
-inline bool is_digit(const std::string& input) {
-    return std::all_of(input.begin(), input.end(), [](unsigned char c) { return std::isdigit(c); });
-}
-
-inline DateTime from_yyyymmdd(const std::string& input, const std::string& tz = "UTC") {
-    if (input.size() != 8) {
-        throw UnsupportedFormat("input: " + input + " - format: %Y%m%d");
-    }
-
-    if (!internal::is_digit(input)) {
-        throw UnsupportedFormat("input: " + input + " - format: %Y%m%d");
-    }
-
-    int year = 0, month = 0, day = 0;
-    auto count = std::sscanf(input.c_str(), "%04d%02d%02d", &year, &month, &day);
-
-    if (count != 3 || count == EOF) {
-        throw UnsupportedFormat("input: " + input + " - format: %Y%m%d");
-    }
-
-    DateTime dt(year, month, day, tz);
-
-    // input must be normalized before creating a DateTime instance
-    if (dt.year() != year || dt.month() != month || dt.day() != day) {
-        throw UnsupportedFormat("input: " + input + " - format: %Y%m%d");
-    }
-
-    return dt;
-}
-
-}  // namespace internal
-
 inline DateTime from_format(const std::string& input, const std::string& fmt,
                             const std::string& tz = "UTC") {
-    if (fmt == "%Y%m%d") {
-        // cctz cannot parse '%Y%m%d'
-        return internal::from_yyyymmdd(input, tz);
-    }
-
     const auto& tz_ = internal::timezone(tz);
     cctz::time_point<std::chrono::seconds> tp;
 
@@ -95,13 +52,17 @@ inline DateTime from_format(const std::string& input, const std::string& fmt,
 
 inline DateTime parse(const std::string& input, const std::string& tz = "UTC") {
     static const std::string formats[] = {
-            "%Y-%m-%dT%H:%M:%S%Ez",
-            "%Y-%m-%dT%H:%M:%S%E",
-            "%Y-%m-%d %H:%M:%S",
-            "%Y-%m-%d",
-            "%Y-%m",
-            "%Y%m%d",
-            "%Y",
+            // ISO 8601 extended format
+            "%E4Y-%m-%dT%H:%M:%S%Ez",
+            "%E4Y-%m-%dT%H:%M:%SZ",
+            // ISO 8601 datetime format
+            "%E4Y%m%dT%H%M%S%z",
+            "%E4Y-%m-%d %H:%M:%S",
+            // ISO 8601 date format
+            "%E4Y-%m-%d",
+            "%E4Y-%m",
+            "%E4Y%m%d",
+            "%E4Y",
     };
 
     if (input == "now") {
