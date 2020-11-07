@@ -116,7 +116,7 @@ class DateTime {
         tm->tm_year = dt.year() - 1900;
         tm->tm_wday = dt.day_of_week() - kSunday + 7;
         tm->tm_yday = dt.day_of_year();
-        tm->tm_isdst = is_dst();
+        tm->tm_isdst = is_dst() ? 1 : 0;
 
         return std::mktime(tm);
     }
@@ -133,7 +133,7 @@ class DateTime {
         tm->tm_year = dt.year() - 1900;
         tm->tm_wday = dt.day_of_week() - kSunday + 7;
         tm->tm_yday = dt.day_of_year();
-        tm->tm_isdst = is_dst();
+        tm->tm_isdst = is_dst() ? 1 : 0;
 
 #ifdef _DEFAULT_SOURCE
         tm->tm_gmtoff = 0;
