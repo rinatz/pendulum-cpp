@@ -46,9 +46,7 @@ inline DateTime datetime(int y, int m, int d, int hh, int mm = 0, int ss = 0,
     return DateTime(y, m, d, hh, mm, ss, tz);
 }
 
-inline DateTime local(int y, int m, int d) { return datetime(y, m, d, "local"); }
-
-inline DateTime local(int y, int m, int d, int hh, int mm = 0, int ss = 0) {
+inline DateTime local(int y, int m, int d, int hh = 0, int mm = 0, int ss = 0) {
     return datetime(y, m, d, hh, mm, ss, "local");
 }
 
@@ -57,10 +55,10 @@ inline DateTime now(const std::string& tz = "local") {
         return get_test_now();
     }
 
-    const auto& tz_ = internal::timezone(tz);
-    const auto& cs = cctz::convert(std::chrono::system_clock::now(), tz_);
+    const auto& timezone = internal::timezone(tz);
+    const auto& cs = cctz::convert(std::chrono::system_clock::now(), timezone);
 
-    return DateTime(cs, tz_);
+    return DateTime(cs, timezone);
 }
 
 inline DateTime today(const std::string& tz = "local") { return now(tz).start_of("day"); }
