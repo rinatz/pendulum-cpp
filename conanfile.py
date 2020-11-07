@@ -3,7 +3,6 @@ from conans import ConanFile
 
 class PendulumConan(ConanFile):
     name = "pendulum"
-    version = "0.10.0"
     license = "MIT"
     author = "IDA Kenichiro"
     url = "https://github.com/rinatz/pendulum-cpp"

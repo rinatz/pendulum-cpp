@@ -1,4 +1,5 @@
 PROJECT_DIR = $(CURDIR)
+VERSION := $(shell cat VERSION)
 
 BUILD_TYPE = Debug
 OUT_DIR = target/$(BUILD_TYPE)
@@ -30,4 +31,4 @@ test:
 
 .PHONY: package
 package:
-	cd $(OUT_DIR) && conan export-pkg $(PROJECT_DIR)
+	cd $(OUT_DIR) && conan export-pkg $(PROJECT_DIR) pendulum/$(VERSION)@_/_
