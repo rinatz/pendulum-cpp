@@ -59,7 +59,18 @@ class Date {
     int month() const { return ymd_.month(); }
     int day() const { return ymd_.day(); }
 
-    int day_of_week() const { return static_cast<int>(cctz::get_weekday(ymd_)); }
+    Weekday weekday() const { return static_cast<Weekday>(cctz::get_weekday(ymd_)); }
+
+    int day_of_week() const {
+        auto days = static_cast<int>(weekday()) - static_cast<int>(internal::week_starts_at()) + 1;
+
+        if (days < 0) {
+            days += 7;
+        }
+
+        return days;
+    }
+
     int day_of_year() const { return cctz::get_yearday(ymd_); }
     int week_of_month() const { return (day() + 6) / 7; }
 
@@ -105,16 +116,16 @@ class Date {
     // Modifiers
     //
 
-    Date next() const { return next(day_of_week()); }
+    Date next() const { return next(weekday()); }
 
-    Date next(int day_of_week) const {
-        return Date(cctz::next_weekday(ymd_, static_cast<cctz::weekday>(day_of_week)));
+    Date next(Weekday weekday) const {
+        return Date(cctz::next_weekday(ymd_, static_cast<cctz::weekday>(weekday)));
     }
 
-    Date previous() const { return previous(day_of_week()); }
+    Date previous() const { return previous(weekday()); }
 
-    Date previous(int day_of_week) const {
-        return Date(cctz::prev_weekday(ymd_, static_cast<cctz::weekday>(day_of_week)));
+    Date previous(Weekday weekday) const {
+        return Date(cctz::prev_weekday(ymd_, static_cast<cctz::weekday>(weekday)));
     }
 
     Date start_of(const std::string& unit) const {
@@ -163,13 +174,13 @@ class Date {
     Date start_of_day() const { return *this; }
 
     Date start_of_week() const {
-        const auto weekday = internal::week_starts_at();
+        const auto wday = internal::week_starts_at();
 
-        if (day_of_week() == weekday) {
+        if (weekday() == wday) {
             return *this;
         }
 
-        return previous(weekday);
+        return previous(wday);
     }
 
     Date end_of_year() const { return on(year(), 12, 31); }

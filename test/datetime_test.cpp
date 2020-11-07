@@ -88,7 +88,8 @@ TEST(DateTime, Attributes) {
     DateTime dt(2020, 4, 3, 15, 30, 10, "US/Eastern");
 
     EXPECT_THAT(dt.date(), Date(2020, 4, 3));
-    EXPECT_THAT(dt.day_of_week(), 4);
+    EXPECT_THAT(dt.weekday(), kFriday);
+    EXPECT_THAT(dt.day_of_week(), 5);
     EXPECT_THAT(dt.day_of_year(), 94);
     EXPECT_THAT(dt.week_of_month(), 1);
 
@@ -217,14 +218,13 @@ TEST(DateTime, Modifers) {
 
     EXPECT_THAT(dt.next(), DateTime(2020, 4, 10, "local"));
     EXPECT_THAT(dt.next(keep_time), DateTime(2020, 4, 10, 15, 0, 0, "local"));
-    EXPECT_THAT(dt.next(pendulum::kFriday), DateTime(2020, 4, 10, "local"));
-    EXPECT_THAT(dt.next(pendulum::kMonday, keep_time), DateTime(2020, 4, 6, 15, 0, 0, "local"));
+    EXPECT_THAT(dt.next(kFriday), DateTime(2020, 4, 10, "local"));
+    EXPECT_THAT(dt.next(kMonday, keep_time), DateTime(2020, 4, 6, 15, 0, 0, "local"));
 
     EXPECT_THAT(dt.previous(), DateTime(2020, 3, 27, "local"));
     EXPECT_THAT(dt.previous(keep_time), DateTime(2020, 3, 27, 15, 0, 0, "local"));
-    EXPECT_THAT(dt.previous(pendulum::kFriday), DateTime(2020, 3, 27, "local"));
-    EXPECT_THAT(dt.previous(pendulum::kMonday, keep_time),
-                DateTime(2020, 3, 30, 15, 0, 0, "local"));
+    EXPECT_THAT(dt.previous(kFriday), DateTime(2020, 3, 27, "local"));
+    EXPECT_THAT(dt.previous(kMonday, keep_time), DateTime(2020, 3, 30, 15, 0, 0, "local"));
 
     EXPECT_THAT(dt.start_of("year"), DateTime(2020, 1, 1, "local"));
     EXPECT_THAT(dt.start_of("month"), DateTime(2020, 4, 1, "local"));

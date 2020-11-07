@@ -27,21 +27,31 @@
 
 namespace pendulum {
 
-static constexpr int kMonday = static_cast<int>(cctz::weekday::monday);
-static constexpr int kTuesday = static_cast<int>(cctz::weekday::tuesday);
-static constexpr int kWednesday = static_cast<int>(cctz::weekday::wednesday);
-static constexpr int kThursday = static_cast<int>(cctz::weekday::thursday);
-static constexpr int kFriday = static_cast<int>(cctz::weekday::friday);
-static constexpr int kSaturday = static_cast<int>(cctz::weekday::saturday);
-static constexpr int kSunday = static_cast<int>(cctz::weekday::sunday);
+enum class Weekday : int {
+    kMonday = static_cast<int>(cctz::weekday::monday),
+    kTuesday = static_cast<int>(cctz::weekday::tuesday),
+    kWednesday = static_cast<int>(cctz::weekday::wednesday),
+    kThursday = static_cast<int>(cctz::weekday::thursday),
+    kFriday = static_cast<int>(cctz::weekday::friday),
+    kSaturday = static_cast<int>(cctz::weekday::saturday),
+    kSunday = static_cast<int>(cctz::weekday::sunday),
+};
+
+static constexpr Weekday kMonday = Weekday::kMonday;
+static constexpr Weekday kTuesday = Weekday::kTuesday;
+static constexpr Weekday kWednesday = Weekday::kWednesday;
+static constexpr Weekday kThursday = Weekday::kThursday;
+static constexpr Weekday kFriday = Weekday::kFriday;
+static constexpr Weekday kSaturday = Weekday::kSaturday;
+static constexpr Weekday kSunday = Weekday::kSunday;
 
 namespace internal {
 
 static constexpr int kSecondsPerMinute = 60;
 static constexpr int kMinutesPerHour = 60;
 
-inline int& week_starts_at() {
-    static int weekday = kMonday;
+inline Weekday& week_starts_at() {
+    static Weekday weekday = kMonday;
     return weekday;
 }
 

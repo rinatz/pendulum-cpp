@@ -48,7 +48,8 @@ TEST(Date, Instantiation2) {
 TEST(Date, Attributes) {
     Date date(2020, 4, 17);
 
-    EXPECT_THAT(date.day_of_week(), pendulum::kFriday);
+    EXPECT_THAT(date.weekday(), pendulum::kFriday);
+    EXPECT_THAT(date.day_of_week(), 5);
     EXPECT_THAT(date.day_of_year(), 108);
     EXPECT_THAT(date.week_of_month(), 3);
 
@@ -93,10 +94,10 @@ TEST(Date, Modifiers) {
     Date date(2020, 4, 17);
 
     EXPECT_THAT(date.next(), Date(2020, 4, 24));
-    EXPECT_THAT(date.next(pendulum::kMonday), Date(2020, 4, 20));
+    EXPECT_THAT(date.next(kMonday), Date(2020, 4, 20));
 
     EXPECT_THAT(date.previous(), Date(2020, 4, 10));
-    EXPECT_THAT(date.previous(pendulum::kWednesday), Date(2020, 4, 15));
+    EXPECT_THAT(date.previous(kWednesday), Date(2020, 4, 15));
 
     EXPECT_THAT(date.start_of("year"), Date(2020, 1, 1));
     EXPECT_THAT(date.start_of("month"), Date(2020, 4, 1));

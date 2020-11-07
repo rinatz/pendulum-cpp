@@ -82,7 +82,7 @@ dt.day();           // 3
 dt.hour();          // 21
 dt.minute();        // 54
 dt.second();        // 13
-dt.day_of_week();   // 4
+dt.day_of_week();   // 5
 dt.day_of_year();   // 94
 dt.week_of_month(); // 1
 dt.timestamp();     // 1585918453
@@ -149,6 +149,8 @@ dt.start_of("month");   // 2020-04-01 00:00:00
 dt.start_of("day");     // 2020-04-03 00:00:00
 
 dt.start_of("week");    // 2020-03-30 00:00:00 (Monday)
+
+// Change the start of week from Monday to Sunday
 pendulum::week_starts_at(pendulum::kSunday);
 dt.start_of("week");    // 2020-03-29 00:00:00 (Sunday)
 

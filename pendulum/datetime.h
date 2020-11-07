@@ -81,6 +81,7 @@ class DateTime {
     int second() const { return cs_.second(); }
 
     Date date() const { return Date(year(), month(), day()); }
+    Weekday weekday() const { return date().weekday(); }
     int day_of_week() const { return date().day_of_week(); }
     int day_of_year() const { return date().day_of_year(); }
     int week_of_month() const { return date().week_of_month(); }
@@ -114,7 +115,7 @@ class DateTime {
         tm->tm_mday = dt.day();
         tm->tm_mon = dt.month() - 1;
         tm->tm_year = dt.year() - 1900;
-        tm->tm_wday = dt.day_of_week() - kSunday + 7;
+        tm->tm_wday = static_cast<int>(dt.weekday()) - static_cast<int>(kSunday) + 7;
         tm->tm_yday = dt.day_of_year();
         tm->tm_isdst = is_dst() ? 1 : 0;
 
@@ -131,7 +132,7 @@ class DateTime {
         tm->tm_mday = dt.day();
         tm->tm_mon = dt.month() - 1;
         tm->tm_year = dt.year() - 1900;
-        tm->tm_wday = dt.day_of_week() - kSunday + 7;
+        tm->tm_wday = static_cast<int>(dt.weekday()) - static_cast<int>(kSunday) + 7;
         tm->tm_yday = dt.day_of_year();
         tm->tm_isdst = is_dst() ? 1 : 0;
 
@@ -233,10 +234,10 @@ class DateTime {
     // Modifiers
     //
 
-    DateTime next(bool keep_time = false) const { return next(day_of_week(), keep_time); }
+    DateTime next(bool keep_time = false) const { return next(weekday(), keep_time); }
 
-    DateTime next(int day_of_week, bool keep_time = false) const {
-        const auto& cs = DateTime(date().next(day_of_week)).instance();
+    DateTime next(Weekday weekday, bool keep_time = false) const {
+        const auto& cs = DateTime(date().next(weekday)).instance();
         auto dt = DateTime(cs, tz_);
 
         if (keep_time) {
@@ -246,10 +247,10 @@ class DateTime {
         return dt;
     }
 
-    DateTime previous(bool keep_time = false) const { return previous(day_of_week(), keep_time); }
+    DateTime previous(bool keep_time = false) const { return previous(weekday(), keep_time); }
 
-    DateTime previous(int day_of_week, bool keep_time = false) const {
-        const auto& cs = DateTime(date().previous(day_of_week)).instance();
+    DateTime previous(Weekday weekday, bool keep_time = false) const {
+        const auto& cs = DateTime(date().previous(weekday)).instance();
         auto dt = DateTime(cs, tz_);
 
         if (keep_time) {
@@ -348,13 +349,13 @@ class DateTime {
     DateTime start_of_minute() const { return at(hour(), minute(), 0); }
 
     DateTime start_of_week() const {
-        const auto weekday = internal::week_starts_at();
+        const auto wday = internal::week_starts_at();
 
-        if (day_of_week() == weekday) {
+        if (weekday() == wday) {
             return at(0, 0, 0);
         }
 
-        return previous(weekday);
+        return previous(wday);
     }
 
     DateTime end_of_year() const { return on(year(), 12, 31).at(23, 59, 59); }

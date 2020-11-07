@@ -86,13 +86,8 @@ inline Period period(const DateTime& start, const DateTime& stop, bool absolute 
     return Period(start, stop, absolute);
 }
 
-inline bool week_starts_at(int week_day) {
-    if (kMonday <= week_day && week_day <= kSunday) {
-        internal::week_starts_at() = week_day;
-        return true;
-    }
-
-    return false;
+inline void week_starts_at(Weekday weekday) {
+    internal::week_starts_at() = weekday;
 }
 
 }  // namespace pendulum
