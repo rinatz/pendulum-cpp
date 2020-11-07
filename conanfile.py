@@ -7,7 +7,7 @@ class PendulumConan(ConanFile):
     license = "MIT"
     author = "IDA Kenichiro"
     url = "https://github.com/rinatz/pendulum-cpp"
-    description = "Datetime library for C++."
+    description = "Pendulum C++ is a simple wrapper around cctz inspired by Pendulum that is beautiful Python library."
     topics = "datetime",
     settings = "os", "compiler", "build_type", "arch"
     generators = "cmake"
