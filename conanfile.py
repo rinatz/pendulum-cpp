@@ -8,7 +8,7 @@ class PendulumConan(ConanFile):
     author = "IDA Kenichiro"
     url = "https://github.com/rinatz/pendulum-cpp"
     description = "Datetime library for C++."
-    topics = ("datetime")
+    topics = "datetime",
     settings = "os", "compiler", "build_type", "arch"
     generators = "cmake"
 
