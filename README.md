@@ -82,6 +82,7 @@ dt.day();           // 3
 dt.hour();          // 21
 dt.minute();        // 54
 dt.second();        // 13
+dt.weekday();       // Friday
 dt.day_of_week();   // 5
 dt.day_of_year();   // 94
 dt.week_of_month(); // 1
