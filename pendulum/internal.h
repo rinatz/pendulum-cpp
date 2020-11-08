@@ -23,6 +23,7 @@
 #ifndef PENDULUM_INTERNAL_H_
 #define PENDULUM_INTERNAL_H_
 
+#include "pendulum/internal/enum.h"
 #include "pendulum/internal/gsl.hpp"
 #include "pendulum/internal/optional.hpp"
 

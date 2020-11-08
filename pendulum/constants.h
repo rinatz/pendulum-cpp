@@ -23,27 +23,19 @@
 #ifndef PENDULUM_CONSTANTS_H_
 #define PENDULUM_CONSTANTS_H_
 
-#include <cctz/civil_time.h>
+#include "pendulum/internal.h"
 
 namespace pendulum {
 
-enum class Weekday : int {
-    kMonday = static_cast<int>(cctz::weekday::monday),
-    kTuesday = static_cast<int>(cctz::weekday::tuesday),
-    kWednesday = static_cast<int>(cctz::weekday::wednesday),
-    kThursday = static_cast<int>(cctz::weekday::thursday),
-    kFriday = static_cast<int>(cctz::weekday::friday),
-    kSaturday = static_cast<int>(cctz::weekday::saturday),
-    kSunday = static_cast<int>(cctz::weekday::sunday),
-};
+BETTER_ENUM(Weekday, int, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday)
 
-static constexpr Weekday kMonday = Weekday::kMonday;
-static constexpr Weekday kTuesday = Weekday::kTuesday;
-static constexpr Weekday kWednesday = Weekday::kWednesday;
-static constexpr Weekday kThursday = Weekday::kThursday;
-static constexpr Weekday kFriday = Weekday::kFriday;
-static constexpr Weekday kSaturday = Weekday::kSaturday;
-static constexpr Weekday kSunday = Weekday::kSunday;
+static constexpr Weekday kMonday = Weekday::Monday;
+static constexpr Weekday kTuesday = Weekday::Tuesday;
+static constexpr Weekday kWednesday = Weekday::Wednesday;
+static constexpr Weekday kThursday = Weekday::Thursday;
+static constexpr Weekday kFriday = Weekday::Friday;
+static constexpr Weekday kSaturday = Weekday::Saturday;
+static constexpr Weekday kSunday = Weekday::Sunday;
 
 namespace internal {
 
@@ -58,5 +50,7 @@ inline Weekday& week_starts_at() {
 }  // namespace internal
 
 }  // namespace pendulum
+
+BETTER_ENUMS_DECLARE_STD_HASH(pendulum::Weekday)
 
 #endif  // PENDULUM_CONSTANTS_H_
