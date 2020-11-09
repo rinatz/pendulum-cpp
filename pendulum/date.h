@@ -63,16 +63,7 @@ class Date {
         return Weekday::_from_integral(static_cast<int>(cctz::get_weekday(ymd_)));
     }
 
-    int day_of_week() const {
-        auto days = static_cast<int>(weekday()) - static_cast<int>(internal::week_starts_at()) + 1;
-
-        if (days < 0) {
-            days += 7;
-        }
-
-        return days;
-    }
-
+    int day_of_week() const { return weekday()._to_integral(); }
     int day_of_year() const { return cctz::get_yearday(ymd_); }
     int week_of_month() const { return (day() + 6) / 7; }
 
