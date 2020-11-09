@@ -49,7 +49,7 @@ TEST(Date, Attributes) {
     Date date(2020, 4, 17);
 
     EXPECT_THAT(date.weekday(), pendulum::kFriday);
-    EXPECT_THAT(date.day_of_week(), 5);
+    EXPECT_THAT(date.day_of_week(), 4);
     EXPECT_THAT(date.day_of_year(), 108);
     EXPECT_THAT(date.week_of_month(), 3);
 

@@ -89,7 +89,7 @@ TEST(DateTime, Attributes) {
 
     EXPECT_THAT(dt.date(), Date(2020, 4, 3));
     EXPECT_THAT(dt.weekday(), kFriday);
-    EXPECT_THAT(dt.day_of_week(), 5);
+    EXPECT_THAT(dt.day_of_week(), 4);
     EXPECT_THAT(dt.day_of_year(), 94);
     EXPECT_THAT(dt.week_of_month(), 1);
 
