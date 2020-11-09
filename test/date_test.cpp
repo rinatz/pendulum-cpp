@@ -56,6 +56,10 @@ TEST(Date, Attributes) {
     EXPECT_THAT(date.is_leap_year(), true);
     EXPECT_THAT(date.year(2021).is_leap_year(), false);
     EXPECT_THAT(date.year(2024).is_leap_year(), true);
+
+    EXPECT_THAT(Date(2020, 1, 1).week_of_month(), 1);
+    EXPECT_THAT(Date(2020, 1, 7).week_of_month(), 2);
+    EXPECT_THAT(Date(2020, 1, 14).week_of_month(), 3);
 }
 
 TEST(Date, FluentHelpers) {

@@ -65,7 +65,8 @@ class Date {
 
     int day_of_week() const { return weekday()._to_integral(); }
     int day_of_year() const { return cctz::get_yearday(ymd_); }
-    int week_of_month() const { return (day() + 6) / 7; }
+    int week_of_month() const { return week_of_year() - day(1).week_of_year() + 1; }
+    int week_of_year() const { return std::stoi(format("%V")); }
 
     bool is_leap_year() const { return on(year(), 2, 29).month() == 2; }
 
