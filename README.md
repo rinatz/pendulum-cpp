@@ -44,6 +44,21 @@ const auto& yesterday = pendulum::yesterday();  // 2020-04-04T00:00:00+09:00
 const auto& tomorrow = pendulum::tomorrow();    // 2020-04-06T00:00:00+09:00
 ```
 
+### Parsing
+
+```cpp
+// 2020-04-03T00:00:00+09:00
+const auto& dt = pendulum::from_format("2020-04-03", "%Y-%m-%d", "Asia/Tokyo");
+
+// 2015-06-10T00:00:00+09:00
+const auto& dt = pendulum::parse("2015-06-10", "Asia/Tokyo");
+
+// 2000-01-05T00:00:00+09:00
+const auto& dt = pendulum::parse("20000105", "Asia/Tokyo");
+```
+
+### std::tm struct conversion
+
 ```cpp
 // 2020-10-24T15:36:02+00:00
 time_t timestamp = std::time(nullptr);
@@ -56,19 +71,14 @@ const auto& dt = pendulum::from_localtime(*localtime);
 // 2020-10-24T15:36:02+00:00
 const std::tm* gmtime = std::gmtime(&timestamp);
 const auto& dt = pendulum::from_gmtime(*gmtime);
-```
 
-### Parsing
+// Converts to localtime
+std::tm localtime;
+dt.mktime(&localtime);
 
-```cpp
-// 2020-04-03T00:00:00+09:00
-const auto& dt = pendulum::from_format("2020-04-03", "%Y-%m-%d", "Asia/Tokyo");
-
-// 2015-06-10T00:00:00+09:00
-const auto& dt = pendulum::parse("2015-06-10", "Asia/Tokyo");
-
-// 2000-01-05T00:00:00+09:00
-const auto& dt = pendulum::parse("20000105", "Asia/Tokyo");
+// Converts to gmtime
+std::tm gmtime;
+dt.mkgmtime(&gmtime);
 ```
 
 ### Attributes
