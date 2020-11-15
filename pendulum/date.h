@@ -59,11 +59,10 @@ class Date {
     int month() const { return ymd_.month(); }
     int day() const { return ymd_.day(); }
 
-    Weekday weekday() const {
+    Weekday day_of_week() const {
         return Weekday::_from_integral(static_cast<int>(cctz::get_weekday(ymd_)));
     }
 
-    int day_of_week() const { return weekday()._to_integral(); }
     int day_of_year() const { return cctz::get_yearday(ymd_); }
     int week_of_month() const { return week_of_year() - day(1).week_of_year() + 1; }
     int week_of_year() const { return std::stoi(format("%V")); }
@@ -110,13 +109,13 @@ class Date {
     // Modifiers
     //
 
-    Date next() const { return next(weekday()); }
+    Date next() const { return next(day_of_week()); }
 
     Date next(Weekday weekday) const {
         return Date(cctz::next_weekday(ymd_, static_cast<cctz::weekday>(weekday._to_integral())));
     }
 
-    Date previous() const { return previous(weekday()); }
+    Date previous() const { return previous(day_of_week()); }
 
     Date previous(Weekday weekday) const {
         return Date(cctz::prev_weekday(ymd_, static_cast<cctz::weekday>(weekday._to_integral())));
@@ -170,7 +169,7 @@ class Date {
     Date start_of_week() const {
         const auto wday = internal::week_starts_at();
 
-        if (weekday() == wday) {
+        if (day_of_week() == wday) {
             return *this;
         }
 

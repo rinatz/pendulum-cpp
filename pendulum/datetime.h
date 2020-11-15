@@ -81,8 +81,7 @@ class DateTime {
     int second() const { return cs_.second(); }
 
     Date date() const { return Date(year(), month(), day()); }
-    Weekday weekday() const { return date().weekday(); }
-    int day_of_week() const { return date().day_of_week(); }
+    Weekday day_of_week() const { return date().day_of_week(); }
     int day_of_year() const { return date().day_of_year(); }
     int week_of_month() const { return date().week_of_month(); }
 
@@ -234,7 +233,7 @@ class DateTime {
     // Modifiers
     //
 
-    DateTime next(bool keep_time = false) const { return next(weekday(), keep_time); }
+    DateTime next(bool keep_time = false) const { return next(day_of_week(), keep_time); }
 
     DateTime next(Weekday weekday, bool keep_time = false) const {
         const auto& cs = DateTime(date().next(weekday)).instance();
@@ -247,7 +246,7 @@ class DateTime {
         return dt;
     }
 
-    DateTime previous(bool keep_time = false) const { return previous(weekday(), keep_time); }
+    DateTime previous(bool keep_time = false) const { return previous(day_of_week(), keep_time); }
 
     DateTime previous(Weekday weekday, bool keep_time = false) const {
         const auto& cs = DateTime(date().previous(weekday)).instance();
@@ -351,7 +350,7 @@ class DateTime {
     DateTime start_of_week() const {
         const auto wday = internal::week_starts_at();
 
-        if (weekday() == wday) {
+        if (day_of_week() == wday) {
             return at(0, 0, 0);
         }
 

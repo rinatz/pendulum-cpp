@@ -82,14 +82,26 @@ dt.day();           // 3
 dt.hour();          // 21
 dt.minute();        // 54
 dt.second();        // 13
-dt.weekday();       // Friday
-dt.day_of_week();   // 4 [0: Monday, 1: Tuesday, ..., 6: Sunday]
+dt.day_of_week();   // "Friday"
 dt.day_of_year();   // 94
 dt.week_of_month(); // 1
 dt.timestamp();     // 1585918453
-dt.timezone_name(); // Asia/Tokyo
+dt.timezone_name(); // "Asia/Tokyo"
 dt.offset();        // 32400
 dt.offset_hours();  // 9.0
+```
+
+```cpp
+// day_of_week() returns pendulum::Weekday enum, which can compare the value with int.
+// 0: Monday, 1: Tuesday, ..., 6: Sunday
+if (dt.day_of_week() == 4) {
+    ...
+}
+
+// Of course, it can compare the value with enum elements.
+if (dt.day_of_week() == pendulum::kFriday) {
+    ...
+}
 ```
 
 ### Fluent helpers
