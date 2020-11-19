@@ -18,30 +18,32 @@ conan_basic_setup()
 #
 # Test settings
 #
+set(TEST_EXECUTABLE_NAME ${PROJECT_NAME}_test)
+
 file(GLOB_RECURSE TEST_SOURCES ${PROJECT_SOURCE_DIR}/test/*.cpp)
-add_executable(${PROJECT_NAME}_test ${TEST_SOURCES})
-add_test(NAME ${PROJECT_NAME}_test COMMAND pendulum_test --gtest_shuffle)
+add_executable(${TEST_EXECUTABLE_NAME} ${TEST_SOURCES})
+add_test(NAME ${TEST_EXECUTABLE_NAME} COMMAND ${TEST_EXECUTABLE_NAME} --gtest_shuffle)
+
+target_compile_features(
+    ${TEST_EXECUTABLE_NAME}
+    PUBLIC
+    cxx_std_11
+)
 
 target_include_directories(
-    ${PROJECT_NAME}_test
+    ${TEST_EXECUTABLE_NAME}
     PUBLIC
     ${CMAKE_SOURCE_DIR}
 )
 
 target_compile_definitions(
-    ${PROJECT_NAME}_test
+    ${TEST_EXECUTABLE_NAME}
     PUBLIC
     -D_GLIBCXX_USE_CXX11_ABI=0
 )
 
-target_compile_features(
-    ${PROJECT_NAME}_test
-    PUBLIC
-    cxx_std_11
-)
-
 target_compile_options(
-    ${PROJECT_NAME}_test
+    ${TEST_EXECUTABLE_NAME}
     PUBLIC
     -Wall
     -Wextra
@@ -50,10 +52,8 @@ target_compile_options(
 )
 
 target_link_libraries(
-    ${PROJECT_NAME}_test
-    cctz
-    gmock
-    gtest
+    ${TEST_EXECUTABLE_NAME}
+    ${CONAN_LIBS}
     dl
     pthread
 )
