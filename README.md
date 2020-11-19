@@ -101,18 +101,23 @@ dt.offset();        // 32400
 dt.offset_hours();  // 9.0
 ```
 
+`day_of_week()` returns `pendulum::Weekday` enum, which can compare the value with int.
+
 ```cpp
-// day_of_week() returns pendulum::Weekday enum, which can compare the value with int.
 // 0: Monday, 1: Tuesday, ..., 6: Sunday
 if (dt.day_of_week() == 4) {
     ...
 }
+```
 
-// Of course, it can compare the value with enum elements.
+Of course, it can compare the value with enum elements.
+
+```cpp
 if (dt.day_of_week() == pendulum::kFriday) {
     ...
 }
 ```
+
 
 ### Fluent helpers
 
