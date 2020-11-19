@@ -27,15 +27,15 @@
 
 namespace pendulum {
 
-BETTER_ENUM(Weekday, int, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday)
-
-static constexpr Weekday kMonday = Weekday::Monday;
-static constexpr Weekday kTuesday = Weekday::Tuesday;
-static constexpr Weekday kWednesday = Weekday::Wednesday;
-static constexpr Weekday kThursday = Weekday::Thursday;
-static constexpr Weekday kFriday = Weekday::Friday;
-static constexpr Weekday kSaturday = Weekday::Saturday;
-static constexpr Weekday kSunday = Weekday::Sunday;
+enum Weekday {
+    kMonday,
+    kTuesday,
+    kWednesday,
+    kThursday,
+    kFriday,
+    kSaturday,
+    kSunday,
+};
 
 namespace internal {
 
@@ -50,7 +50,5 @@ inline Weekday& week_starts_at() {
 }  // namespace internal
 
 }  // namespace pendulum
-
-BETTER_ENUMS_DECLARE_STD_HASH(pendulum::Weekday)
 
 #endif  // PENDULUM_CONSTANTS_H_

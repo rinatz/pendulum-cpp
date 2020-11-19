@@ -23,7 +23,6 @@
 #ifndef PENDULUM_TESTING_H_
 #define PENDULUM_TESTING_H_
 
-#include <exception>
 #include <functional>
 
 #include "pendulum/datetime.h"
@@ -32,6 +31,26 @@
 namespace pendulum {
 
 namespace internal {
+
+class Finally {
+   public:
+    explicit Finally(std::function<void()> action) : action_(action) {}
+
+    Finally(const Finally&) = delete;
+    Finally(Finally&&) = delete;
+
+    Finally& operator=(const Finally&) = delete;
+    Finally& operator=(Finally&&) = delete;
+
+    virtual ~Finally() {
+        if (action_) {
+            action_();
+        }
+    }
+
+   private:
+    std::function<void()> action_;
+};
 
 inline optional<DateTime>& test_now() {
     static optional<DateTime> now;
@@ -46,7 +65,7 @@ inline void set_test_now(const DateTime& now) { internal::test_now() = now; }
 inline void set_test_now() { internal::test_now() = internal::nullopt; }
 
 inline void test(const DateTime& now, std::function<void()> func) {
-    auto act = internal::finally([] { set_test_now(); });
+    internal::Finally finally([] { set_test_now(); });
 
     set_test_now(now);
     func();
