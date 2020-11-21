@@ -28,13 +28,13 @@
 namespace pendulum {
 
 enum Weekday {
+    kSunday,
     kMonday,
     kTuesday,
     kWednesday,
     kThursday,
     kFriday,
     kSaturday,
-    kSunday,
 };
 
 namespace internal {

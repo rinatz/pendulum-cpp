@@ -114,7 +114,7 @@ class DateTime {
         tm->tm_mday = dt.day();
         tm->tm_mon = dt.month() - 1;
         tm->tm_year = dt.year() - 1900;
-        tm->tm_wday = (dt.day_of_week() + 1) % 7;
+        tm->tm_wday = dt.day_of_week();
         tm->tm_yday = dt.day_of_year();
         tm->tm_isdst = is_dst() ? 1 : 0;
 
@@ -131,7 +131,7 @@ class DateTime {
         tm->tm_mday = dt.day();
         tm->tm_mon = dt.month() - 1;
         tm->tm_year = dt.year() - 1900;
-        tm->tm_wday = (dt.day_of_week() + 1) % 7;
+        tm->tm_wday = dt.day_of_week();
         tm->tm_yday = dt.day_of_year();
         tm->tm_isdst = is_dst() ? 1 : 0;
 
