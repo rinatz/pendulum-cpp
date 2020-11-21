@@ -158,12 +158,7 @@ const auto& dt = pendulum::datetime(2020, 4, 3, 15, 0, 0);
 dt.start_of("year");    // 2020-01-01 00:00:00
 dt.start_of("month");   // 2020-04-01 00:00:00
 dt.start_of("day");     // 2020-04-03 00:00:00
-
 dt.start_of("week");    // 2020-03-30 00:00:00 (Monday)
-
-// Change the start of week from Monday to Sunday
-pendulum::week_starts_at(pendulum::kSunday);
-dt.start_of("week");    // 2020-03-29 00:00:00 (Sunday)
 
 dt.next(pendulum::kWednesday);  // 2020-04-08 00:00:00
 dt.next();                      // 2020-04-10 00:00:00
@@ -172,6 +167,13 @@ dt.next(/* keep_time= */true);  // 2020-04-10 15:00:00
 dt.previous(pendulum::kSunday);     // 2020-03-29 00:00:00
 dt.previous();                      // 2020-03-27 00:00:00
 dt.previous(/* keep_time= */true);  // 2020-03-27 15:00:00
+```
+
+It can change the start of week from Monday to Sunday (and other weekdays).
+
+```cpp
+pendulum::week_starts_at(pendulum::kSunday);
+dt.start_of("week");    // 2020-03-29 00:00:00 (Sunday)
 ```
 
 ### Period
