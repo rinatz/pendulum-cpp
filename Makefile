@@ -13,7 +13,7 @@ clean:
 	rm -rf $(OUT_DIR)
 
 .PHONY: install
-install:
+install: init
 	cd $(OUT_DIR) && conan install --build=missing $(PROJECT_DIR)
 
 .PHONY: update
