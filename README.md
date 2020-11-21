@@ -1,10 +1,11 @@
-# Pendulum C++
+# `Pendulum C++`
 
 `Pendulum C++` is a simple wrapper around [cctz] inspired by [Pendulum] that is beautiful Python library.
 
+![](https://img.shields.io/static/v1?logo=c%2B%2B&label=Language&message=C%2B%2B11&color=00599C)
+
 ## Requirements
 
-- C++11
 - [cctz]
 
 ## Usage
