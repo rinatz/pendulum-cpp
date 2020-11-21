@@ -243,10 +243,14 @@ TEST(DateTime, Modifers) {
     EXPECT_THAT(dt.end_of("hour"), DateTime(2020, 4, 3, 15, 59, 59, "local"));
     EXPECT_THAT(dt.end_of("minute"), DateTime(2020, 4, 3, 15, 0, 59, "local"));
 
-    EXPECT_THAT(dt.in_timezone("US/Eastern"), DateTime(2020, 4, 3, 2, 0, 0, "US/Eastern"));
-    EXPECT_THAT(dt.in_offset(-14400), DateTime(2020, 4, 3, 2, 0, 0, "US/Eastern"));
-    EXPECT_THAT(dt.in_offset_hours(-4), DateTime(2020, 4, 3, 2, 0, 0, "US/Eastern"));
-    EXPECT_THAT(dt.in_offset_hours(8, 45), DateTime(2020, 4, 3, 14, 45, 0, "Australia/Eucla"));
+    EXPECT_THAT(dt.timezone("Asia/Tokyo").in_timezone("US/Eastern"),
+                DateTime(2020, 4, 3, 2, 0, 0, "US/Eastern"));
+    EXPECT_THAT(dt.timezone("Asia/Tokyo").in_offset(-14400),
+                DateTime(2020, 4, 3, 2, 0, 0, "US/Eastern"));
+    EXPECT_THAT(dt.timezone("Asia/Tokyo").in_offset_hours(-4),
+                DateTime(2020, 4, 3, 2, 0, 0, "US/Eastern"));
+    EXPECT_THAT(dt.timezone("Asia/Tokyo").in_offset_hours(8, 45),
+                DateTime(2020, 4, 3, 14, 45, 0, "Australia/Eucla"));
 }
 
 TEST(DateTime, Map) {
