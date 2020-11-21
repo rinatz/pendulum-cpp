@@ -93,7 +93,7 @@ dt.day();           // 3
 dt.hour();          // 21
 dt.minute();        // 54
 dt.second();        // 13
-dt.day_of_week();   // 4 [0: Monday, 1: Tuesday, ..., 6: Sunday]
+dt.day_of_week();   // 5 [0: Sunday, 1: Monday, ..., 6: Saturday]
 dt.day_of_year();   // 94
 dt.week_of_month(); // 1
 dt.timestamp();     // 1585918453
