@@ -39,8 +39,8 @@ enum Weekday {
 
 namespace internal {
 
-static constexpr int kSecondsPerMinute = 60;
-static constexpr int kMinutesPerHour = 60;
+constexpr int kSecondsPerMinute = 60;
+constexpr int kMinutesPerHour = 60;
 
 inline Weekday& week_starts_at() {
     static Weekday weekday = kMonday;
