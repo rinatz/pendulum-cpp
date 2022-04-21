@@ -1,6 +1,6 @@
 // MIT License
 //
-// Copyright (c) 2020 IDA Kenichiro
+// Copyright (c) 2022 IDA Kenichiro
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,6 +24,7 @@
 #define PENDULUM_PARSER_H_
 
 #include <chrono>
+#include <stdexcept>
 #include <string>
 
 #include <cctz/time_zone.h>
@@ -34,12 +35,56 @@
 
 namespace pendulum {
 
+namespace internal {
+
+inline bool is_digit(const std::string& input) {
+    return std::all_of(input.begin(), input.end(), [](unsigned char c) { return std::isdigit(c); });
+}
+
+inline DateTime from_ymd(const std::string& input, const std::string& tz = "UTC") {
+    if (input.size() < 5) {
+        throw UnsupportedFormat("input: " + input + " - format: %Y%m%d");
+    }
+
+    if (!internal::is_digit(input)) {
+        throw UnsupportedFormat("input: " + input + " - format: %Y%m%d");
+    }
+
+    int year = 0, month = 0, day = 0;
+
+    try {
+        year = std::stoi(input.substr(0, input.size() - 4));
+        month = std::stoi(input.substr(input.size() - 4, 2));
+        day = std::stoi(input.substr(input.size() - 2, 2));
+    } catch (const std::invalid_argument& e) {
+        throw UnsupportedFormat("input: " + input + " - format: %Y%m%d - " + e.what());
+    } catch (const std::out_of_range& e) {
+        throw UnsupportedFormat("input: " + input + " - format: %Y%m%d - " + e.what());
+    }
+
+    DateTime dt(year, month, day, tz);
+
+    // input must be normalized before creating a DateTime instance
+    if (dt.year() != year || dt.month() != month || dt.day() != day) {
+        throw UnsupportedFormat("input: " + input + " - format: %Y%m%d");
+    }
+
+    return dt;
+}
+
+}  // namespace internal
+
 inline DateTime from_format(const std::string& input, const std::string& fmt,
                             const std::string& tz = "UTC") {
     const auto& tz_ = internal::timezone(tz);
     cctz::time_point<std::chrono::seconds> tp;
 
-    auto ok = cctz::parse(fmt, input, tz_, &tp);
+    if (fmt == "%Y%m%d") {
+        // cctz cannot parse '%Y%m%d'
+        return internal::from_ymd(input, tz);
+    }
+
+    const auto ok = cctz::parse(fmt, input, tz_, &tp);
 
     if (!ok) {
         throw UnsupportedFormat("input: " + input + " - format: " + fmt);

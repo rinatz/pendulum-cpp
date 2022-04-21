@@ -1,6 +1,6 @@
 // MIT License
 
-// Copyright (c) 2020 IDA Kenichiro
+// Copyright (c) 2022 IDA Kenichiro
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -92,6 +92,12 @@ TEST(Parser, Iso8601DateFormat4) {
     EXPECT_THAT(dt, DateTime(2006, 1, 1));
 }
 
+TEST(Parser, Iso8601DateFormatWithFormat) {
+    const auto& dt = from_format("100001231", "%Y%m%d");
+
+    EXPECT_THAT(dt, DateTime(10000, 12, 31));
+}
+
 TEST(Parser, UnsupportedFormat1) {
     DateTime dt;
 
@@ -110,6 +116,13 @@ TEST(Parser, UnsupportedFormat3) {
     DateTime dt;
 
     EXPECT_THROW(dt = from_format("2006-01-02", "%Y%m%d", "Asia/Tokyo"), PendulumException);
+    EXPECT_THAT(dt, DateTime::epoch());
+}
+
+TEST(Parser, UnsupportedFormat4) {
+    DateTime dt;
+
+    EXPECT_THROW(dt = from_format("yyyymmdd", "%Y%m%d", "Asia/Tokyo"), PendulumException);
     EXPECT_THAT(dt, DateTime::epoch());
 }
 
