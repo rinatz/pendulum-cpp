@@ -22,11 +22,11 @@ update:
 
 .PHONY: build
 build:
-	cd $(OUT_DIR) && cmake -DCMAKE_BUILD_TYPE=$(BUILD_TYPE) $(PROJECT_DIR)
+	cd $(OUT_DIR) && cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_BUILD_TYPE=$(BUILD_TYPE) $(PROJECT_DIR)
 	cmake --build $(OUT_DIR)
 
 .PHONY: test
-test:
+test: build
 	GTEST_COLOR=1 make -C $(OUT_DIR) test ARGS="--verbose"
 
 .PHONY: package
