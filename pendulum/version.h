@@ -23,6 +23,6 @@
 #ifndef PENDULUM_VERSION_H_
 #define PENDULUM_VERSION_H_
 
-#define PENDULUM_VERSION "1.0.1"
+#define PENDULUM_VERSION "1.0.2"
 
 #endif  // PENDULUM_VERSION_H_
