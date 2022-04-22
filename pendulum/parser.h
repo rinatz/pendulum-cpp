@@ -23,6 +23,7 @@
 #ifndef PENDULUM_PARSER_H_
 #define PENDULUM_PARSER_H_
 
+#include <algorithm>
 #include <chrono>
 #include <stdexcept>
 #include <string>
@@ -46,7 +47,7 @@ inline DateTime from_ymd(const std::string& input, const std::string& tz = "UTC"
         throw UnsupportedFormat("input: " + input + " - format: %Y%m%d");
     }
 
-    if (!internal::is_digit(input)) {
+    if (!is_digit(input)) {
         throw UnsupportedFormat("input: " + input + " - format: %Y%m%d");
     }
 
