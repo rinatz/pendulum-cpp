@@ -236,7 +236,7 @@ class DateTime {
     DateTime next(bool keep_time = false) const { return next(day_of_week(), keep_time); }
 
     DateTime next(Weekday weekday, bool keep_time = false) const {
-        const auto& cs = DateTime(date().next(weekday)).instance();
+        const auto cs = DateTime(date().next(weekday)).instance();
         auto dt = DateTime(cs, tz_);
 
         if (keep_time) {
@@ -249,7 +249,7 @@ class DateTime {
     DateTime previous(bool keep_time = false) const { return previous(day_of_week(), keep_time); }
 
     DateTime previous(Weekday weekday, bool keep_time = false) const {
-        const auto& cs = DateTime(date().previous(weekday)).instance();
+        const auto cs = DateTime(date().previous(weekday)).instance();
         auto dt = DateTime(cs, tz_);
 
         if (keep_time) {
