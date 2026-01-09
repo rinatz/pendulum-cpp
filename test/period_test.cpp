@@ -234,4 +234,38 @@ TEST(Period, UnorderedMap) {
     EXPECT_THAT(map[Period()], 1);
 }
 
+TEST(Period, Contains) {
+    auto start = DateTime(2022, 1, 10);
+    auto stop = DateTime(2022, 1, 20);
+    auto period = Period(start, stop);
+
+    EXPECT_TRUE(period.contains(DateTime(2022, 1, 15)));
+    EXPECT_TRUE(period.contains(start));
+    EXPECT_TRUE(period.contains(stop));
+    EXPECT_FALSE(period.contains(DateTime(2022, 1, 9)));
+    EXPECT_FALSE(period.contains(DateTime(2022, 1, 21)));
+
+    // Test with inverted period
+    auto inverted_period = Period(stop, start);
+    EXPECT_FALSE(inverted_period.contains(DateTime(2022, 1, 15)));
+}
+
+TEST(Period, RangeInvalidUnit) {
+    auto period = Period(DateTime(2022, 1, 1), DateTime(2022, 1, 2));
+    EXPECT_THROW(period.range("invalid_unit"), InvalidUnit);
+}
+
+TEST(Period, InvertedPeriodCalculations) {
+    auto start = DateTime(2022, 1, 20);
+    auto stop = DateTime(2022, 1, 10);
+    auto period = Period(start, stop);
+
+    EXPECT_EQ(-10 * 24 * 60 * 60, period.in_seconds());
+    EXPECT_EQ(-10 * 24 * 60, period.in_minutes());
+    EXPECT_EQ(-10 * 24, period.in_hours());
+    EXPECT_EQ(-10, period.in_days());
+    EXPECT_EQ(-1, period.in_weeks());
+    EXPECT_EQ(-3, period.remaining_days());
+}
+
 }  // namespace pendulum

@@ -85,7 +85,7 @@ TEST(DateTime, Instantiation4) {
 }
 
 TEST(DateTime, Attributes) {
-    DateTime dt(2020, 4, 3, 15, 30, 10, "US/Eastern");
+    DateTime dt(2020, 4, 3, 15, 30, 10, "America/New_York");
 
     EXPECT_THAT(dt.date(), Date(2020, 4, 3));
     EXPECT_THAT(dt.day_of_week(), kFriday);
@@ -105,6 +105,29 @@ TEST(DateTime, Attributes) {
 
     EXPECT_THAT(dt.timestamp(), 1585942210);
     EXPECT_THAT(DateTime::epoch().timestamp(), 0);
+}
+
+TEST(DateTime, DISABLED_Dst) {
+    // In timezone
+    DateTime dt(2017, 3, 26, 1, 30, 0, "Europe/Paris");
+    EXPECT_EQ(1, dt.offset_hours());
+
+    dt = dt.add_hours(1);
+    EXPECT_EQ(DateTime(2017, 3, 26, 3, 30, 0, "Europe/Paris"), dt);
+    EXPECT_EQ(2, dt.offset_hours());
+
+    // In timezone from UTC
+    dt = DateTime(2013, 3, 31, 2, 30, 0, "Europe/Paris");
+    EXPECT_EQ(DateTime(2013, 3, 31, 3, 30, 0, "Europe/Paris"), dt.in_timezone("Europe/Paris"));
+}
+
+TEST(DateTime, Timezone) {
+    DateTime dt(2017, 1, 1, 12, 34, 56, "Europe/Paris");
+    EXPECT_EQ("Europe/Paris", dt.timezone_name());
+
+    dt = dt.in_timezone("Asia/Tokyo");
+    EXPECT_EQ(DateTime(2017, 1, 1, 20, 34, 56, "Asia/Tokyo"), dt);
+    EXPECT_EQ("Asia/Tokyo", dt.timezone_name());
 }
 
 TEST(DateTime, Localtime) {
@@ -163,12 +186,12 @@ TEST(DateTime, FluentHelpers) {
 
     EXPECT_THAT(dt.on(2021, 12, 25), DateTime(2021, 12, 25, "Asia/Tokyo"));
     EXPECT_THAT(dt.at(15, 30, 10), DateTime(2020, 4, 3, 15, 30, 10, "Asia/Tokyo"));
-    EXPECT_THAT(dt.timezone("US/Hawaii"), DateTime(2020, 4, 3, "US/Hawaii"));
-    EXPECT_THAT(dt.on(2021, 12, 25).at(15, 30, 10).timezone("US/Hawaii"),
-                DateTime(2021, 12, 25, 15, 30, 10, "US/Hawaii"));
+    EXPECT_THAT(dt.timezone("Pacific/Honolulu"), DateTime(2020, 4, 3, "Pacific/Honolulu"));
+    EXPECT_THAT(dt.on(2021, 12, 25).at(15, 30, 10).timezone("Pacific/Honolulu"),
+                DateTime(2021, 12, 25, 15, 30, 10, "Pacific/Honolulu"));
 
-    EXPECT_THAT(dt.offset(-14400), DateTime(2020, 4, 3, "US/Eastern"));
-    EXPECT_THAT(dt.offset_hours(-4), DateTime(2020, 4, 3, "US/Eastern"));
+    EXPECT_THAT(dt.offset(-14400), DateTime(2020, 4, 3, "America/New_York"));
+    EXPECT_THAT(dt.offset_hours(-4), DateTime(2020, 4, 3, "America/New_York"));
     EXPECT_THAT(dt.offset_hours(8, 45), DateTime(2020, 4, 3, "Australia/Eucla"));
 }
 
@@ -212,7 +235,7 @@ TEST(DateTime, Subtraction) {
     EXPECT_THAT(dt.subtract_time(24, 10, 1), DateTime(2020, 10, 8, 15, 19, 59, "local"));
 }
 
-TEST(DateTime, Modifers) {
+TEST(DateTime, Modifiers) {
     DateTime dt(2020, 4, 3, 15, 0, 0, "local");
     const auto keep_time = true;
 
@@ -243,12 +266,12 @@ TEST(DateTime, Modifers) {
     EXPECT_THAT(dt.end_of("hour"), DateTime(2020, 4, 3, 15, 59, 59, "local"));
     EXPECT_THAT(dt.end_of("minute"), DateTime(2020, 4, 3, 15, 0, 59, "local"));
 
-    EXPECT_THAT(dt.timezone("Asia/Tokyo").in_timezone("US/Eastern"),
-                DateTime(2020, 4, 3, 2, 0, 0, "US/Eastern"));
+    EXPECT_THAT(dt.timezone("Asia/Tokyo").in_timezone("America/New_York"),
+                DateTime(2020, 4, 3, 2, 0, 0, "America/New_York"));
     EXPECT_THAT(dt.timezone("Asia/Tokyo").in_offset(-14400),
-                DateTime(2020, 4, 3, 2, 0, 0, "US/Eastern"));
+                DateTime(2020, 4, 3, 2, 0, 0, "America/New_York"));
     EXPECT_THAT(dt.timezone("Asia/Tokyo").in_offset_hours(-4),
-                DateTime(2020, 4, 3, 2, 0, 0, "US/Eastern"));
+                DateTime(2020, 4, 3, 2, 0, 0, "America/New_York"));
     EXPECT_THAT(dt.timezone("Asia/Tokyo").in_offset_hours(8, 45),
                 DateTime(2020, 4, 3, 14, 45, 0, "Australia/Eucla"));
 }

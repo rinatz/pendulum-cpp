@@ -126,4 +126,21 @@ TEST(Parser, UnsupportedFormat4) {
     EXPECT_THAT(dt, DateTime::epoch());
 }
 
+TEST(Parser, InvalidDateTime) {
+    EXPECT_THROW(parse("2023-02-30"), PendulumException);
+    EXPECT_THROW(parse("2023-13-01"), PendulumException);
+    EXPECT_THROW(parse("2023-01-01T25:00:00"), PendulumException);
+    EXPECT_THROW(parse("2023-01-01T00:61:00"), PendulumException);
+    EXPECT_THROW(parse("2023-01-01T00:00:61"), PendulumException);
+}
+
+TEST(Parser, InvalidDateTimeWithFormat) {
+    EXPECT_THROW(from_format("2023-02-30", "%Y-%m-%d"), PendulumException);
+    EXPECT_THROW(from_format("2023-13-01", "%Y-%m-%d"), PendulumException);
+    EXPECT_THROW(from_format("2023-01-01 25:00:00", "%Y-%m-%d %H:%M:%S"), PendulumException);
+    EXPECT_THROW(from_format("2023-01-01 00:61:00", "%Y-%m-%d %H:%M:%S"), PendulumException);
+    EXPECT_THROW(from_format("2023-01-01 00:00:61", "%Y-%m-%d %H:%M:%S"), PendulumException);
+    EXPECT_THROW(from_format("not-a-date", "%Y-%m-%d"), PendulumException);
+}
+
 }  // namespace pendulum

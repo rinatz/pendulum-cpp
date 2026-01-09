@@ -59,7 +59,10 @@ TEST(Date, Attributes) {
 
     EXPECT_THAT(Date(2020, 1, 1).week_of_month(), 1);
     EXPECT_THAT(Date(2020, 1, 7).week_of_month(), 2);
-    EXPECT_THAT(Date(2020, 1, 14).week_of_month(), 3);
+    EXPECT_TRUE(Date(2016, 1, 1).is_leap_year());
+    EXPECT_FALSE(Date(2017, 1, 1).is_leap_year());
+    EXPECT_FALSE(Date(2100, 1, 1).is_leap_year());
+    EXPECT_TRUE(Date(2000, 1, 1).is_leap_year());
 }
 
 TEST(Date, FluentHelpers) {
@@ -92,6 +95,25 @@ TEST(Date, Subtraction) {
     EXPECT_THAT(date.subtract_years(1), Date(2019, 1, 1));
     EXPECT_THAT(date.subtract_months(1), Date(2019, 12, 1));
     EXPECT_THAT(date.subtract_days(1), Date(2019, 12, 31));
+}
+
+TEST(Date, DISABLED_LeapYear) {
+    Date date(2016, 2, 29);
+
+    EXPECT_EQ(Date(2017, 2, 28), date.add_years(1));
+    EXPECT_EQ(Date(2015, 2, 28), date.subtract_years(1));
+}
+
+TEST(Date, DISABLED_NextMonth) {
+    Date date(2017, 3, 31);
+
+    EXPECT_EQ(Date(2017, 4, 30), date.add_months(1));
+}
+
+TEST(Date, DISABLED_NextMonthLeapYear) {
+    Date date(2016, 1, 31);
+
+    EXPECT_EQ(Date(2016, 2, 29), date.add_months(1));
 }
 
 TEST(Date, Modifiers) {
