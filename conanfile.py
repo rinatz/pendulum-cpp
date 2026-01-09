@@ -1,28 +1,43 @@
-from conans import ConanFile
+from conan import ConanFile
+from conan.tools.cmake import CMake, cmake_layout
+from conan.tools.files import load
 
 
 class PendulumConan(ConanFile):
     name = "pendulum"
+
     license = "MIT"
     author = "IDA Kenichiro"
     url = "https://github.com/rinatz/pendulum-cpp"
     description = "Pendulum C++ is a simple wrapper around cctz inspired by Pendulum that is beautiful Python library."
-    topics = "datetime",
+    topics = ("datetime",)
+
     settings = "os", "compiler", "build_type", "arch"
-    generators = "cmake"
+    generators = "CMakeToolchain", "CMakeDeps"
 
-    requires = (
-        "cctz/2.3",
+    exports_sources = (
+        "pendulum/*",
+        "test/*",
+        "CMakeLists.txt",
+        "version.h.in",
+        "VERSION",
     )
 
-    build_requires = (
-        "gtest/1.10.0",
-    )
+    def set_version(self):
+        self.version = load(self, "VERSION").strip()
 
-    def imports(self):
-        self.copy("*.h", src="include", dst="include")
-        self.copy("*.a", src="lib", dst="lib")
+    def requirements(self):
+        self.requires("cctz/2.3")  # type: ignore[reportOptionalCall]
+        self.requires("gtest/1.10.0", test=True)  # type: ignore[reportOptionalCall]
+
+    def layout(self):
+        cmake_layout(self)
+
+    def build(self):
+        cmake = CMake(self)
+        cmake.configure()
+        cmake.build()
 
     def package(self):
-        self.copy("*.h", src="pendulum", dst="include/pendulum")
-        self.copy("*.hpp", src="pendulum", dst="include/pendulum")
+        cmake = CMake(self)
+        cmake.install()

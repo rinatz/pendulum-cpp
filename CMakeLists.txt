@@ -1,5 +1,4 @@
-cmake_minimum_required(VERSION 3.0)
-enable_testing()
+cmake_minimum_required(VERSION 3.15)
 
 #
 # Project settings
@@ -10,14 +9,15 @@ file(READ VERSION PROJECT_VERSION)
 configure_file(version.h.in ${PROJECT_SOURCE_DIR}/pendulum/version.h)
 
 #
-# Conan settings
+# Dependencies
 #
-include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-conan_basic_setup()
+find_package(cctz REQUIRED)
+find_package(GTest REQUIRED)
 
 #
 # Test settings
 #
+enable_testing()
 set(TEST_EXECUTABLE_NAME ${PROJECT_NAME}_test)
 
 file(GLOB_RECURSE TEST_SOURCES ${PROJECT_SOURCE_DIR}/test/*.cpp)
@@ -36,12 +36,6 @@ target_include_directories(
     ${CMAKE_SOURCE_DIR}
 )
 
-target_compile_definitions(
-    ${TEST_EXECUTABLE_NAME}
-    PUBLIC
-    -D_GLIBCXX_USE_CXX11_ABI=0
-)
-
 target_compile_options(
     ${TEST_EXECUTABLE_NAME}
     PUBLIC
@@ -53,7 +47,8 @@ target_compile_options(
 
 target_link_libraries(
     ${TEST_EXECUTABLE_NAME}
-    ${CONAN_LIBS}
+    cctz::cctz
+    gtest::gtest
     dl
     pthread
 )
