@@ -52,3 +52,8 @@ target_link_libraries(
     dl
     pthread
 )
+
+#
+# Install settings
+#
+install(DIRECTORY ${PROJECT_SOURCE_DIR}/pendulum DESTINATION include)
