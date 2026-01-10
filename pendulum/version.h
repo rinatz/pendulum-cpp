@@ -1,6 +1,6 @@
 // MIT License
 //
-// Copyright (c) 2022 IDA Kenichiro
+// Copyright (c) 2026 IDA Kenichiro
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,6 @@
 #ifndef PENDULUM_VERSION_H_
 #define PENDULUM_VERSION_H_
 
-#define PENDULUM_VERSION "1.0.2"
+#define PENDULUM_VERSION "1.0.3"
 
 #endif  // PENDULUM_VERSION_H_
