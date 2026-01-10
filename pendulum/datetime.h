@@ -205,9 +205,9 @@ class DateTime {
     DateTime add_seconds(int ss) const { return add_time(0, 0, ss); }
 
     DateTime add_date(int y, int m, int d) const {
-        const auto& cs =
-                cctz::civil_second(year() + y, month() + m, day() + d, hour(), minute(), second());
-
+        Date new_date = date().add(y, m, d);
+        const auto cs = cctz::civil_second(new_date.year(), new_date.month(), new_date.day(),
+                                           hour(), minute(), second());
         return DateTime(cs, tz_);
     }
 

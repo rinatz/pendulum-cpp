@@ -97,20 +97,20 @@ TEST(Date, Subtraction) {
     EXPECT_THAT(date.subtract_days(1), Date(2019, 12, 31));
 }
 
-TEST(Date, DISABLED_LeapYear) {
+TEST(Date, LeapYear) {
     Date date(2016, 2, 29);
 
     EXPECT_EQ(Date(2017, 2, 28), date.add_years(1));
     EXPECT_EQ(Date(2015, 2, 28), date.subtract_years(1));
 }
 
-TEST(Date, DISABLED_NextMonth) {
+TEST(Date, NextMonth) {
     Date date(2017, 3, 31);
 
     EXPECT_EQ(Date(2017, 4, 30), date.add_months(1));
 }
 
-TEST(Date, DISABLED_NextMonthLeapYear) {
+TEST(Date, NextMonthLeapYear) {
     Date date(2016, 1, 31);
 
     EXPECT_EQ(Date(2016, 2, 29), date.add_months(1));

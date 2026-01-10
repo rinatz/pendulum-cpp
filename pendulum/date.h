@@ -68,7 +68,19 @@ class Date {
     int week_of_month() const { return week_of_year() - day(1).week_of_year() + 1; }
     int week_of_year() const { return std::stoi(format("%V")); }
 
-    bool is_leap_year() const { return on(year(), 2, 29).month() == 2; }
+    bool is_leap_year() const {
+        return (year() % 4 == 0 && year() % 100 != 0) || year() % 400 == 0;
+    }
+
+    int days_in_month() const {
+        if (month() == 2) {
+            return is_leap_year() ? 29 : 28;
+        }
+        if (month() == 4 || month() == 6 || month() == 9 || month() == 11) {
+            return 30;
+        }
+        return 31;
+    }
 
     //
     // Fluent helpers
@@ -99,7 +111,31 @@ class Date {
     Date add_years(int y) const { return add(y, 0, 0); }
     Date add_months(int m) const { return add(0, m, 0); }
     Date add_days(int d) const { return add(0, 0, d); }
-    Date add(int y, int m, int d) const { return Date(year() + y, month() + m, day() + d); }
+
+    Date add(int y, int m, int d) const {
+        int new_year = year() + y;
+        int new_month = month() + m;
+
+        // Adjust month and year
+        if (new_month > 12) {
+            new_year += (new_month - 1) / 12;
+            new_month = (new_month - 1) % 12 + 1;
+        } else if (new_month < 1) {
+            new_year += (new_month - 12) / 12;
+            if ((new_month - 12) % 12 != 0) {
+                new_month = (new_month - 12) % 12 + 12;
+            } else {
+                new_month = 12;
+            }
+        }
+
+        // Clamp day for month addition/subtraction
+        const int days_in_new_month = Date(new_year, new_month, 1).days_in_month();
+        const int clamped_day = std::min(day(), days_in_new_month);
+
+        // Add the day delta to the clamped day, let cctz handle the normalization
+        return Date(cctz::civil_day(new_year, new_month, clamped_day + d));
+    }
 
     Date subtract_years(int y) const { return add_years(-y); }
     Date subtract_months(int m) const { return add_months(-m); }
