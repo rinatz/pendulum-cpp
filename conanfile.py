@@ -12,6 +12,7 @@ class PendulumConan(ConanFile):
     description = "Pendulum C++ is a simple wrapper around cctz inspired by Pendulum that is beautiful Python library."
     topics = ("datetime",)
 
+    package_type = "header-library"
     settings = "os", "compiler", "build_type", "arch"
     generators = "CMakeToolchain", "CMakeDeps"
 
@@ -41,3 +42,10 @@ class PendulumConan(ConanFile):
     def package(self):
         cmake = CMake(self)
         cmake.install()
+
+    def package_id(self):
+        self.info.settings.clear()  # type: ignore[reportOptionalMemberAccess]
+
+    def package_info(self):
+        self.cpp_info.bindirs = []
+        self.cpp_info.libdirs = []
