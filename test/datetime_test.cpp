@@ -130,6 +130,12 @@ TEST(DateTime, Timezone) {
     EXPECT_EQ("Asia/Tokyo", dt.timezone_name());
 }
 
+TEST(DateTime, LocalTimezone) {
+    DateTime dt(2020, 4, 3, 15, 0, 0, "local");
+
+    EXPECT_EQ("local", dt.timezone_name());
+}
+
 TEST(DateTime, Localtime) {
     time_t timestamp = std::time(nullptr);
     const auto* want = std::localtime(&timestamp);

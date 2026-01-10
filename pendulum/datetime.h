@@ -90,7 +90,15 @@ class DateTime {
     bool is_local() const { return tz_ == cctz::local_time_zone(); }
     bool is_utc() const { return tz_ == cctz::utc_time_zone(); }
 
-    std::string timezone_name() const { return tz_.name(); }
+    std::string timezone_name() const {
+        const auto& name = tz_.name();
+
+        if (name == "/etc/localtime") {
+            return "local";
+        }
+
+        return name;
+    }
 
     int offset() const { return tz_.lookup(cctz::convert(cs_, tz_)).offset; }
 
