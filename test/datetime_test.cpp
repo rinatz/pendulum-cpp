@@ -44,10 +44,6 @@ TEST(DateTime, Instantiation1) {
     EXPECT_THAT(dt, DateTime::epoch());
 }
 
-TEST(DateTime, InvalidTimezone) {
-    EXPECT_THROW(DateTime(2020, 4, 3, "invalid"), PendulumException);
-}
-
 TEST(DateTime, Instantiation2) {
     DateTime dt(2020, 4, 3, "Asia/Tokyo");
 
@@ -83,6 +79,18 @@ TEST(DateTime, Instantiation4) {
     EXPECT_THAT(dt.second(), 0);
     EXPECT_THAT(dt.timezone_name(), "Asia/Tokyo");
 }
+
+TEST(DateTime, InvalidDateTime) {
+    EXPECT_THROW(DateTime(2020, 2, 30, "UTC"), InvalidDateTime);
+    EXPECT_THROW(DateTime(2020, 13, 1, "UTC"), InvalidDateTime);
+    EXPECT_THROW(DateTime(2020, 0, 1, "UTC"), InvalidDateTime);
+    EXPECT_THROW(DateTime(2020, 1, 0, "UTC"), InvalidDateTime);
+    EXPECT_THROW(DateTime(2020, 1, 1, 25, 0, 0, "UTC"), InvalidDateTime);
+    EXPECT_THROW(DateTime(2020, 1, 1, 0, 60, 0, "UTC"), InvalidDateTime);
+    EXPECT_THROW(DateTime(2020, 1, 1, 0, 0, 60, "UTC"), InvalidDateTime);
+}
+
+TEST(DateTime, InvalidTimezone) { EXPECT_THROW(DateTime(2020, 4, 3, "invalid"), InvalidTimezone); }
 
 TEST(DateTime, Attributes) {
     DateTime dt(2020, 4, 3, 15, 30, 10, "America/New_York");

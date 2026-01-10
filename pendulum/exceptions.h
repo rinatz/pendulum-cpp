@@ -46,6 +46,19 @@ class PendulumException : public std::exception {
     std::string error_;
 };
 
+class InvalidDateTime : public PendulumException {
+   public:
+    InvalidDateTime() = default;
+    explicit InvalidDateTime(const std::string& error) : PendulumException(error) {}
+    InvalidDateTime(const InvalidDateTime&) = default;
+    InvalidDateTime(InvalidDateTime&&) = default;
+
+    virtual ~InvalidDateTime() = default;
+
+    InvalidDateTime& operator=(const InvalidDateTime&) = default;
+    InvalidDateTime& operator=(InvalidDateTime&&) = default;
+};
+
 class InvalidUnit : public PendulumException {
    public:
     InvalidUnit() = default;

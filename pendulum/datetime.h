@@ -56,8 +56,20 @@ class DateTime {
 
     DateTime(int y, int m, int d, const std::string& tz = "UTC") : DateTime(y, m, d, 0, 0, 0, tz) {}
 
-    DateTime(int y, int m, int d, int hh, int mm = 0, int ss = 0, const std::string& tz = "UTC")
-            : DateTime(cctz::civil_second(y, m, d, hh, mm, ss), internal::timezone(tz)) {}
+    DateTime(int y, int m, int d, int hh, int mm = 0, int ss = 0, const std::string& tz = "UTC") {
+        cctz::civil_second cs(y, m, d, hh, mm, ss);
+
+        if (cs.year() != y || cs.month() != m || cs.day() != d || cs.hour() != hh ||
+            cs.minute() != mm || cs.second() != ss) {
+            throw InvalidDateTime("Invalid datetime: " + std::to_string(y) + "-" +
+                                  std::to_string(m) + "-" + std::to_string(d) + " " +
+                                  std::to_string(hh) + ":" + std::to_string(mm) + ":" +
+                                  std::to_string(ss));
+        }
+
+        cs_ = cs;
+        tz_ = internal::timezone(tz);
+    }
 
     DateTime(const cctz::civil_second& cs, const cctz::time_zone& tz) : cs_(cs), tz_(tz) {}
 

@@ -41,7 +41,18 @@ class Date {
     //
 
     Date() : ymd_(1970, 1, 1) {}
-    Date(int y, int m, int d) : ymd_(y, m, d) {}
+
+    Date(int y, int m, int d) {
+        cctz::civil_day ymd(y, m, d);
+
+        if (ymd.year() != y || ymd.month() != m || ymd.day() != d) {
+            throw InvalidDateTime("Invalid date: " + std::to_string(y) + "-" + std::to_string(m) +
+                                  "-" + std::to_string(d));
+        }
+
+        ymd_ = ymd;
+    }
+
     explicit Date(const cctz::civil_day& ymd) : ymd_(ymd) {}
     Date(const Date&) = default;
     Date(Date&&) = default;

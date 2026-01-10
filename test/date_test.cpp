@@ -45,6 +45,13 @@ TEST(Date, Instantiation2) {
     EXPECT_THAT(date.day(), 17);
 }
 
+TEST(Date, InvalidDate) {
+    EXPECT_THROW(Date(2020, 2, 30), InvalidDateTime);
+    EXPECT_THROW(Date(2020, 13, 1), InvalidDateTime);
+    EXPECT_THROW(Date(2020, 0, 1), InvalidDateTime);
+    EXPECT_THROW(Date(2020, 1, 0), InvalidDateTime);
+}
+
 TEST(Date, Attributes) {
     Date date(2020, 4, 17);
 
