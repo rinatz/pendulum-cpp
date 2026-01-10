@@ -10,6 +10,8 @@
 
 ## Usage
 
+Pendulum C++ is a header-only library, meaning you can use it by simply copying the `pendulum` directory into your project.
+
 ### Include
 
 ```cpp
