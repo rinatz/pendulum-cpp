@@ -218,5 +218,44 @@ pendulum::test(cpp98, [&]() {
 pendulum::now();        // 2020-04-04T23:30:52+09:00
 ```
 
+## How to develop
+
+### Project structure
+.
+├── build                       # Build directory
+│   ├── Debug
+│   │   └── pendulum_test       # Unit test executable (debug version)
+│   └── Release
+│       └── pendulum_test       # Unit test executable (release version)
+├── pendulum                    # Source directory
+├── test                        # Source directory for unit tests
+├── CMakeLists.txt
+├── CMakeUserPresets.json
+├── conanfile.py
+├── GEMINI.md
+├── LICENSE
+├── Makefile
+├── README.md
+├── VERSION
+└── version.h.in
+
+### Install dependencies
+
+```bash
+$ conan install . [-s build_type=Debug|Release] --build=missing
+```
+
+### Build executable of unit tests
+
+```bash
+$ conan build . [-s build_type=Debug|Release]
+```
+
+### Run unit tests
+
+```bash
+$ ./build/<Debug|Release>/pendulum_test
+```
+
 [Pendulum]:https://pendulum.eustace.io/
 [cctz]:https://github.com/google/cctz
