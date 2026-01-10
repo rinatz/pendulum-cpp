@@ -23,13 +23,13 @@
 #ifndef PENDULUM_INTERNAL_H_
 #define PENDULUM_INTERNAL_H_
 
-#include "pendulum/internal/optional.hpp"
+#include <tl/optional.hpp>
 
 namespace pendulum {
 namespace internal {
 
-using nonstd::nullopt;
-using nonstd::optional;
+using tl::nullopt;
+using tl::optional;
 
 }  // namespace internal
 }  // namespace pendulum

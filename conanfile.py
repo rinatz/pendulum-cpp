@@ -29,6 +29,7 @@ class PendulumConan(ConanFile):
 
     def requirements(self):
         self.requires("cctz/2.3")  # type: ignore[reportOptionalCall]
+        self.requires("tl-optional/1.1.0")  # type: ignore[reportOptionalCall]
         self.requires("gtest/1.10.0", test=True)  # type: ignore[reportOptionalCall]
 
     def layout(self):

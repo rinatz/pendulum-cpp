@@ -12,6 +12,7 @@ configure_file(version.h.in ${PROJECT_SOURCE_DIR}/pendulum/version.h)
 # Dependencies
 #
 find_package(cctz REQUIRED)
+find_package(tl-optional REQUIRED)
 find_package(GTest REQUIRED)
 
 #
@@ -48,6 +49,7 @@ target_compile_options(
 target_link_libraries(
     ${TEST_EXECUTABLE_NAME}
     cctz::cctz
+    tl::optional
     gtest::gtest
     dl
     pthread
