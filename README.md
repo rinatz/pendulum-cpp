@@ -221,6 +221,8 @@ pendulum::now();        // 2020-04-04T23:30:52+09:00
 ## How to develop
 
 ### Project structure
+
+```
 .
 ├── build                       # Build directory
 │   ├── Debug
@@ -238,6 +240,7 @@ pendulum::now();        // 2020-04-04T23:30:52+09:00
 ├── README.md
 ├── VERSION
 └── version.h.in
+```
 
 ### Install dependencies
 
